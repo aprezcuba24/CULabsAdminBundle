@@ -1,0 +1,71 @@
+<div class="paginator">
+    {% if pager.currentPage == 1 %}
+          <a href="#" class="page-far-left"></a>
+    {% else %}
+        <a href="#" class="page-far-left" onclick="{{ jq_remote_function({
+          'update':   zona, 
+          'url':      url,
+          'method':   'GET',
+          'with':     "'page=1'",
+          'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
+          'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
+        }) }}"></a>
+     {% endif %}
+          
+     {% if pager.hasPreviousPage %}
+          <a class="page-left" href="#" onclick="{{ jq_remote_function({
+            'update':   zona, 
+            'url':      url,
+            'method':   'GET',
+            'with':     jq_sprintf("'page=%s'", pager.previousPage),
+            'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
+            'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
+          }) }}"></a>
+      {% else %}
+          <a href="#" class="page-left"></a>
+      {% endif %}
+          
+      <div class="page-info">{{ 'Page'|trans }}<strong> {{ pager.currentPage }}</strong> / {{ pager.nbPages }}</div>
+      
+      <select class="num_page" onchange="window.location='{{ url_changemaxperpage }}?cant=' + this.value">
+          {% if maxperpage is defined %}
+              {% for item in maxperpage_list %}
+              <option {% if pager.maxPerPage == item %} selected="selected" {% endif %}>{{ item }}</option>
+              {% endfor %}
+          {% else %}
+            <option {% if pager.maxPerPage == 10 %} selected="selected" {% endif %}>10</option>
+            <option {% if pager.maxPerPage == 20 %} selected="selected" {% endif %}>20</option>
+            <option {% if pager.maxPerPage == 50 %} selected="selected" {% endif %}>50</option>
+          {% endif %}
+      </select>
+      
+      {% if pager.hasNextPage %}
+          <a class="page-right" href="#" onclick="{{ jq_remote_function({
+            'update':   zona, 
+            'url':      url,
+            'method':   'GET',
+            'with':     jq_sprintf("'page=%s'", pager.nextPage),
+            'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
+            'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
+          }) }}"></a>
+      {% else %}
+          <a href="#" class="page-right"></a>
+      {% endif %}
+          
+      {% if pager.currentPage != pager.nbPages %}
+          <a class="page-far-right" href="#" onclick="{{ jq_remote_function({
+            'update':   zona, 
+            'url':      url,
+            'method':   'GET',
+            'with':     jq_sprintf("'page=%s'", pager.nbPages),
+            'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
+            'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
+          }) }}"></a>
+      {% else %}
+          <a href="#" class="page-far-right"></a>
+      {% endif %} 
+    
+      <div class="loader_paginator">	    
+        <span style="display: none" id="indicador_{{ zona }}" class="loader_cirular"></span>
+      </div>
+</div>

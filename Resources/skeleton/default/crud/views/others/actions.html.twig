@@ -1,0 +1,14 @@
+
+                    <ul>
+                    {%- for action in record_actions %}                  
+                        <li>
+                        {%- if action == 'show' -%}
+                            <a class="ss_sprite ss_application" href="{{ "{{ path('"~ route_name_prefix ~"_"~ action ~"', { 'id': entity.id }) }}" }}">{{ '{{ \'%action%\'|trans }}'|replace({'%action%':action}) }}</a>
+                        {%- elseif action == 'edit' -%}
+                             <a class="ss_sprite ss_application_edit" href="{{ "{{ path('"~ route_name_prefix ~"_"~ action ~"', { 'id': entity.id }) }}" }}">{{ '{{ \'%action%\'|trans }}'|replace({'%action%':action}) }}</a>
+                        {%- elseif action == 'delete' -%}
+                            <a class="ss_sprite ss_application_delete" href="#" onclick="confirmarUrl('{{ '{{ \'Realmente desea borrar\'|trans }}' }}', '{{ "{{ path('"~ route_name_prefix ~"_delete', { 'id': entity.id }) }}" }}')" class="btn danger">{{ '{{ \'Delete\'|trans }}' }}</a>                                      
+                        {%- endif -%}
+                        </li>
+                    {% endfor -%}
+                    </ul>

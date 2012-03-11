@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
+    <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{% block title %}Admin Aplication{% endblock %}</title>
+        {% block stylesheets %}
+        <link href="{{ asset('css/jquery/smoothness/jquery-ui-1.8.12.custom.css') }}" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="{{ asset('bundles/culabsadmin/css/main.css') }}" type="text/css" media="screen" title="default" />
+	<link rel="stylesheet" href="{{ asset('bundles/culabsadmin/css/bootstrap.min.css') }}" type="text/css" media="screen" title="default" />
+	<link rel="stylesheet" href="{{ asset('bundles/culabsadmin/css/drop-down-menu/default.css') }}" type="text/css" media="screen" />
+	<link rel="stylesheet" href="{{ asset('bundles/culabsadmin/css/drop-down-menu/dropdown.css') }}" type="text/css" media="screen" />
+	<link rel="stylesheet" href="{{ asset('bundles/culabsadmin/css/drop-down-menu/default.advanced.css') }}" type="text/css" media="screen" />
+	<link rel="stylesheet" href="{{ asset('bundles/culabsadmin/css/montoya/sprite.css') }}" type="text/css" media="screen" />
+        {% endblock %}
+        <script type="text/javascript" src="{{ asset('/js/jquery/jquery-1.5.1.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/jquery/jquery-ui-1.8.12.custom.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/jquery/ui/jquery.effects.core.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/jquery/ui/jquery.effects.blind.js') }}"></script>
+        <script src="{{ asset('/js/jquery/i18n/jquery.ui.datepicker-es.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/jquery/jquery.form.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/jquery/plugins/jquery-ui-timepicker-addon.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/jquery/custom_jquery.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/bundles/culabsadmin/js/admin.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/bundles/culabsadmin/js/twitter/bootstrap-alerts.js') }}"></script>
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        <div class="topbar">
+            <div class="topbar-inner">
+                <div class="container-fluid">
+                    <a class="brand" href="{{ path('admin_panel') }}">{{ 'Admin'|trans }}</a>
+                    <div class="menu">
+                        {% block menu_top %}{% endblock %}
+                        <div class="clear"></div>
+                    </div>
+                    <p class="pull-right">
+                        {% block profile_status %}
+                            Logged in as <a href="#">username</a>
+                        {% endblock %}                        
+                    </p>
+                </div>
+            </div>
+        </div>        
+        <div class="header">
+            <h1 class="title">{% block tituloSeccion %}{% endblock %}</h1>
+            {% block flashes %}
+                {% include "CULabsAdminBundle:Layout:flashes.html.twig" %}
+            {% endblock %}
+            <div class="clear"></div>
+        </div>        
+        <div class="container-fluid">            
+            <div class="clear">
+		{% block contenido %}{% endblock %}
+	    </div>
+            <footer>
+                {% block footer_page %}<p>© CULabs Alejandro Pérez Cuba aprezcuba24@gmail.com</p>{% endblock %}
+            </footer>
+        </div>
+        {% block alert_script %}
+            <script type="text/javascript">
+                $(".alert-message").alert()
+            </script>
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,41 @@
+{{ '{% extends \'::backend_base.html.twig\' %}' }}
+
+{{ '{% block tituloSeccion %}' }}
+{{ '{{ \' %entity_name% list\'|trans}}'|replace({'%entity_name%':entity}) }}
+{{ '{% endblock %}' }}
+
+{{ '{% block contenido %}' }}
+<div id="{{ entity }}_list">
+    <div class="filter_panel ui-widget-content ui-corner-all">
+        <div class="toggle_filter" id="{{ entity }}_toggle_filter">
+            {{ '{% form_theme filter \'CULabsAdminBundle:Form:fields.html.twig\' %}' }}
+            <form action="{{ "{{ path('"~ route_name_prefix ~"_filter') }}" }}" method="post">
+                <div class="form">
+                    <div>
+                        {{ '{{  form_rest(filter) }}' }}
+                        <div class="clear"></div>
+                    </div>
+                    <input class="btn primary" type="submit" name="action_filter" value="{{ '{{ \'Filter\'|trans }}' }}"/>
+                    <input class="btn" type="submit" name="action_reset" value="{{ '{{ \'Reset\'|trans }}' }}" />
+                </div>
+            </form>
+        </div>
+        <div class="actions_list">
+            <span class="btn success toggle_label filtro" id="{{ entity }}_toggle_action">{{ '{{ \'Show/Hide Filter\'|trans }}' }}</span>
+            <a href="{{ "{{ path('"~ route_name_prefix ~"_new') }}" }}" class="btn info">{{ '{{ \'New\'|trans }}' }}</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="ajax_{{ entity }}">
+        {{ '{% include \'%bundle_name%:%entity_name%:list.html.twig\' with { 
+                \'pager\': pager,
+                \'sort\' : sort,
+            } %}'|replace({'%entity_name%':entity, '%bundle_name%':bundle }) }}
+    </div>
+</div>
+<script type="text/javascript">
+    $( "#{{ entity }}_toggle_action" ).click(function() {
+        $( "#{{ entity }}_toggle_filter" ).toggle( 'blind', {}, 500 );
+    });
+</script>
+{{ '{% endblock %}' }}

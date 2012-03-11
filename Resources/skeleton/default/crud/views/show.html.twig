@@ -1,0 +1,35 @@
+{{ '{% extends \'::backend_base.html.twig\' %}' }}
+
+{{ '{% block tituloSeccion %}' }}{{ '{{ \'Detail %entity_name%\' }}'|replace({'%entity_name%':entity}) }}{{ '{% endblock %}' }}
+
+{{ '{% block contenido %}' }}
+<div class="row span16" style="margin: 0 auto">
+    {% set hide_edit, hide_delete = false, false -%}
+    <div class="actions_list">
+        <a href="{{ "{{ path('"~ route_name_prefix ~"') }}" }}" class="btn info">{{ '{{ \'List\'|trans }}' }}</a>
+        <a href="{{ "{{ path('"~ route_name_prefix ~"_new') }}" }}" class="btn info">{{ '{{ \'New\'|trans }}' }}</a>
+        <a href="{{ "{{ path('"~ route_name_prefix ~"_edit', { 'id': entity.id }) }}" }}" class="btn info">{{ '{{ \'Edit\'|trans }}' }}</a>
+        <a href="#" onclick="confirmarUrl('{{ '{{ \'Realmente desea borrar\'|trans }}' }}', '{{ "{{ path('"~ route_name_prefix ~"_delete', { 'id': entity.id }) }}" }}')" class="btn danger">{{ '{{ \'Delete\'|trans }}' }}</a>
+    </div>
+    <div class="clear"></div>
+    <div class="show_record">
+        {%- for field, metadata in fields %}        
+        <div class="clearfix">
+            <span class="label_field">{{ '{{ \'%field%\'|trans }}'|replace({'%field%':field|capitalize}) }}</span>
+            <div class="input">
+                {%- if metadata.type in ['date', 'datetime'] %}
+
+                <span class="data_field">{{ '{{ entity.'~ field|replace({'_': ''}) ~'|date(\'Y-m-d H:i:s\') }}' }}</span>
+
+                {%- else %}
+
+                <span class="data_field">{{ '{{ entity.'~ field|replace({'_': ''}) ~' }}' }}</span>
+
+                {%- endif %}
+
+            </div>
+        </div>
+        {%- endfor %}
+    </div>
+</div>
+{{ '{% endblock %}' }}

@@ -1,0 +1,21 @@
+{% set nivel = nivel is defined? nivel: 0 %}
+{% if nivel == 0 %}
+    {% set class_attribute = 'dropdown dropdown-horizontal' %}
+{% else %}
+    {% set class_attribute = 'nivel-' ~ nivel %}
+{% endif %}
+{% set attributes = item.attributes %}
+{% if attributes.class is defined %}
+    {% set attributes = attributes|merge({'class':attributes.class ~ class_attribute}) %}
+{% else %}
+    {% set attributes = attributes|merge({'class':class_attribute}) %}
+{% endif %}
+<ul {{ menu.attributes(attributes)|raw }}>
+    {% for child in item.children %}
+        {% include 'CULabsAdminBundle:Menu:item.html.twig' with {
+            'item':  child, 
+            'menu':  menu,
+            'nivel': nivel + 1,
+        } %}
+    {% endfor %}
+</ul>

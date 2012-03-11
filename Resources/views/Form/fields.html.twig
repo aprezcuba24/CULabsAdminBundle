@@ -1,0 +1,9 @@
+{% block field_row %}
+<div class="clearfix">
+    {{ form_label(form) }}
+    <div class="input">
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+    </div>
+</div>
+{% endblock field_row %}

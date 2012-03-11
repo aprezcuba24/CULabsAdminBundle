@@ -1,0 +1,16 @@
+{% if item.shouldBeRendered %}
+    <li {{ menu.attributes(menu.getItemAttributes(item))|raw }}>
+        {% if item.shouldBeRenderedAsLink %}
+        <a href="{{ item.uri }}" {{ menu.attributes(item.linkAttributes)|raw }}>{{ item.label }}</a>
+        {% else %}
+        <span {{ menu.attributes(item.labelAttributes)|raw }}>{{ item.label }}</span>
+        {% endif %}
+        {% if item.hasChildren %}
+            {% include 'CULabsAdminBundle:Menu:menu.html.twig' with {
+                'item':  item, 
+                'menu':  menu,
+                'nivel': nivel
+            } %}
+        {% endif %}
+    </li>
+{% endif %}

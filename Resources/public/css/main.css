@@ -1,0 +1,128 @@
+.clear {
+    clear: both;
+}
+.menu {
+    padding-top: 3px;
+    float: left;
+}
+body .topbar .topbar-inner {
+    height: 36px;
+}
+.header {
+    background: url(../images/layout/content_repeat.jpg) repeat-x;
+    padding-left: 20px;
+    margin-top: 34px;
+    padding-top: 5px;
+}
+.header h1.title {
+    font-size: 2em;
+    float: left;
+}
+.header .flash-message {
+    position: relative;
+    top: 10px;
+    width: 50%;
+    margin: 0 auto;
+}
+.loader_cirular {
+    background: url(../images/loader.gif) no-repeat;
+    width: 15px;
+    height: 15px;
+}
+.filter_panel {
+    padding: 5px 5px 0 5px; 
+    margin-bottom: 5px;
+}
+.filter_panel .actions_list a {
+    float: right;
+}
+.filter_panel .form .clearfix {
+    float: left;
+    margin-right: 10px;
+}
+.filter_panel .form .clearfix label {
+    padding: 0;
+    width: 65px;
+    text-align: left;
+}
+.filter_panel .form .clearfix .input {
+    margin: 0;
+}
+/*Row actions*/
+table.list td.opciones {
+    width: 20%;
+}
+table.list td.opciones ul {
+    list-style: none;
+}
+table.list td.opciones ul li {
+    float: left;
+    margin-right: 5px;
+}
+table.list td.opciones ul li a {
+    color: black;
+    text-decoration: none;
+    padding-left: 20px;  
+    font-size: 8.5pt;
+    padding-bottom: 0;
+}
+.actions_list {
+    margin-bottom: 5px;
+}
+/*Pagindor*/
+.table_footer .paginator {
+    float: right;
+}
+.table_footer .paginator select {
+    width: 60px;
+}
+.table_footer .paginator .page-far-left	{
+    background: url(../images/table/paging_far_left.gif) no-repeat;
+    display: block;
+    float: left;
+    height: 24px;
+    margin: 0 4px 0 0;
+    width: 24px;
+}
+.table_footer .paginator .page-left {
+    background: url(../images/table/paging_far_left.gif) no-repeat;
+    display: block;
+    float: left;
+    height: 24px;
+    width: 24px;
+}
+.table_footer .paginator .page-far-right {
+    background: url(../images/table/paging_far_right.gif) no-repeat;
+    display: block;
+    float: left;
+    height: 24px;
+    margin: 0 4px 0 4px;
+    width: 24px;
+}
+.table_footer .paginator .page-right {
+    background: url(../images/table/paging_far_right.gif) no-repeat;
+    display: block;
+    float: left;
+    height: 24px;
+    width: 24px;
+}
+.table_footer .paginator .page-info {
+    float: left;
+    line-height: 16px;
+    padding: 3px 12px 0 12px;
+}
+.table_footer .paginator .num_page {
+    float: left;
+    margin-right: 12px;
+}
+.table_footer .paginator .loader_paginator {
+    float: left;
+    width: 15px;
+    position: relative;
+    top: 3px;
+}
+.table_footer .paginator .loader_cirular { 
+    width: 15px;
+    height: 15px;
+    display: block;
+}
