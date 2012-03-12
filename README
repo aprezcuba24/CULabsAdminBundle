@@ -8,6 +8,8 @@ Este bundle depende de los bundles:
 LexikFormFilterBundle: https://github.com/lexik/LexikFormFilterBundle
 CULabsjQueryBundle: https://github.com:aprezcuba24/CULabsjQueryBundle
 MenuBundle: https://github.com/knplabs/MenuBundle
+pagerfanta: http://github.com/whiteoctober/Pagerfanta
+PagerfantaBundle: http://github.com/whiteoctober/WhiteOctoberPagerfantaBundle
 
 Instalación
 -----------
