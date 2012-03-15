@@ -2,19 +2,19 @@
     {{ '{% if sort.field is defined and sort.field == field %}' }}
         <a href="#" onclick="{{ '{{ jq_remote_function({
             \'update\':   \'ajax_%entity_name%\', 
-            \'url\':      path(\'admin_contact_short\', {\'field\':field, \'order\':sort.next}),
+            \'url\':      path(\'%route_name_prefix%_short\', {\'field\':field, \'order\':sort.next}),
             \'method\':   \'GET\',
             \'complete\': "jQuery(\'#indicador_table_%entity_name%\').hide();",
             \'loading\':  "jQuery(\'#indicador_table_%entity_name%\').show();",
-        }) }}'|replace({'%entity_name%': entity}) }}" class="sort-{{ '{{ sort.order }}' }} ss_sprite {{ '{% if sort.order == \'ASC\'%}ss_bullet_arrow_up{% else %}ss_bullet_arrow_down{% endif %}' }}  ">{{ '{{ label }}' }}</a>               
+        }) }}'|replace({'%entity_name%': entity, '%route_name_prefix%':route_name_prefix}) }}" class="sort-{{ '{{ sort.order }}' }} ss_sprite {{ '{% if sort.order == \'ASC\'%}ss_bullet_arrow_up{% else %}ss_bullet_arrow_down{% endif %}' }}  ">{{ '{{ label }}' }}</a>               
     {{ '{% else %}' }}
         <a href="#" onclick="{{ '{{ jq_remote_function({
             \'update\':   \'ajax_%entity_name%\', 
-            \'url\':      path(\'admin_contact_short\', {\'field\':field, \'order\':\'ASC\'}),
+            \'url\':      path(\'%route_name_prefix%_short\', {\'field\':field, \'order\':\'ASC\'}),
             \'method\':   \'GET\',
             \'complete\': "jQuery(\'#indicador_table_%entity_name%\').hide();",
             \'loading\':  "jQuery(\'#indicador_table_%entity_name%\').show();",
-        }) }}'|replace({'%entity_name%': entity}) }}">{{ '{{ label }}' }}</a>
+        }) }}'|replace({'%entity_name%': entity, '%route_name_prefix%':route_name_prefix}) }}">{{ '{{ label }}' }}</a>
     {{ '{% endif %}' }} 
 {{ '{% endmacro %}' }}
 {{ '{% if pager.nbPages %}' }}

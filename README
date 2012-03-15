@@ -15,7 +15,7 @@ Instalación
 -----------
 Actualiza el fichero deps.
 
-    [LexikFormFilterBundle]
+    [CULabsAdminBundle]
         git=https://github.com:aprezcuba24/CULabsAdminBundle.git
         target=/bundles/CULabs/AdminBundle
 
