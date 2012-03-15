@@ -10,7 +10,6 @@
     public function newAction()
     {
         $entity = new {{ entity_class }}();
-        $form   = $this->createForm(new {{ entity_class }}Type(), $entity);        
         $request = $this->getRequest();
         $form    = $this->createForm(new {{ entity_class }}Type(), $entity);
         if ($request->getMethod() == 'POST') {

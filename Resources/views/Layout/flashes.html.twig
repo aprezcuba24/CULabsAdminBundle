@@ -1,15 +1,18 @@
 <div class="flash-message">
     {% if app.session.hasFlash('notice') %}
-    <div class="alert-message success">
+    <div class="flash alert-message success">
       <a class="close" href="#">×</a>
       <p>{{ app.session.flash('notice') }}</p>
     </div>
     {% endif %}
 
     {% if app.session.hasFlash('error') %}
-    <div class="alert-message error">
+    <div class="flash alert-message error">
       <a class="close" href="#">×</a>
       <p>{{ app.session.flash('error') }}</p>
     </div>
     {% endif %}
+    <script type="text/javascript">
+        $(".flash.alert-message").alert();
+    </script>
 </div>

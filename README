@@ -15,7 +15,7 @@ Instalación
 -----------
 Actualiza el fichero deps.
 
-    [LexikFormFilterBundle]
+    [CULabsAdminBundle]
         git=https://github.com:aprezcuba24/CULabsAdminBundle.git
         target=/bundles/CULabs/AdminBundle
 
@@ -41,7 +41,7 @@ Modo de Uso
 -----------
 Lo primero es crear un clase que gestione el menú de la aplicación.
         
-    namespace Mangenta\MainBundle\Menu;
+    namespace Acme\MainBundle\Menu;
 
     use Knplabs\Bundle\MenuBundle\Menu;
     use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -95,10 +95,10 @@ Luego crear la plantilla base para todas las páginas. Se debe incluir las libre
         <link rel="stylesheet" href="{{ asset('css/jquery/smoothness/jquery-ui-1.8.12.custom.css') }}" type="text/css" />
     {% endblock %}
 
-    {% block javascript_src %}
-        {{ parent() }}
+    {% block javascript_src %}        
         <script type="text/javascript" src="{{ asset('/js/jquery/jquery-1.5.1.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('/js/jquery/jquery-ui-1.8.12.custom.min.js') }}"></script>
+        {{ parent() }}
     {% endblock %}
 
 
