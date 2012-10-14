@@ -18,8 +18,8 @@
     },
     "autoload": {
         "psr-0": {
-            "CULabs\\jQueryBundle": ""
+            "CULabs\\AdminBundle": ""
         }
     },
-    "target-dir": "CULabs/jQueryBundle"
+    "target-dir": "CULabs/AdminBundle"
 }
