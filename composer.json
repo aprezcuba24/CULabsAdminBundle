@@ -1,8 +1,8 @@
 {
     "name": "culabs/admin-bundle",
     "type": "symfony-bundle",
-    "description": "Easy integration of jquery into symfony2",
-    "keywords": ["ajax", "form"],
+    "description": "Easy admin generator for symfony2",
+    "keywords": ["admin", "generator"],
     "license": "MIT",
     "version": "master",
     "authors": [
