@@ -1,5 +1,5 @@
 {
-    "name": "culabs/jquery-bundle",
+    "name": "culabs/admin-bundle",
     "type": "symfony-bundle",
     "description": "Easy integration of jquery into symfony2",
     "keywords": ["ajax", "form"],
