@@ -1,15 +1,14 @@
 <?php
+
 namespace {{ namespace }}\Controller{{ entity_namespace ? '\\' ~ entity_namespace : '' }};
-{% if 'index' in actions %}
-use CULabs\jQueryBundle\lib\Controller;
-use Pagerfanta\Pagerfanta;
-use Pagerfanta\Adapter\DoctrineORMAdapter;
-{%- endif %}
+
+use CULabs\AdminBundle\Controller\CRUDController;
 
 {% if 'annotation' == format -%}
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 {%- endif %}
 
 use {{ namespace }}\Entity\{{ entity }};
@@ -18,7 +17,7 @@ use {{ namespace }}\Form\{{ entity }}Type;
 {% endif %}
 {%- if 'index' in actions %}
 use {{ namespace }}\Filter\{{ entity }}FilterType;
-{%- endif %}
+{% endif %}
 
 /**
  * {{ entity }} controller.
@@ -27,7 +26,7 @@ use {{ namespace }}\Filter\{{ entity }}FilterType;
  * @Route("/{{ route_prefix }}")
 {% endif %}
  */
-class {{ entity_class }}Controller extends Controller
+class {{ entity_class }}Controller extends CRUDController
 {
 
     {%- if 'index' in actions %}

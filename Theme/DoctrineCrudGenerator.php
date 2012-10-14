@@ -97,6 +97,10 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator
         if (in_array('edit', $this->actions)) {
             $this->generateEditView($dir);
         }
+        
+        if (in_array('edit', $this->actions) || in_array('new', $this->actions)) {
+            $this->generateFormView($dir);
+        }
 
         $this->generateTestClass();
         $this->generateConfiguration();
@@ -269,6 +273,7 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator
             'route_name_prefix' => $this->routeNamePrefix,
             'entity'            => $this->entity,
             'actions'           => $this->actions,
+            'bundle'            => $this->bundle->getName(),
         ));
     }
 
@@ -280,6 +285,22 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator
     protected function generateEditView($dir)
     {
         $this->renderFile($this->skeletonDir, 'views/edit.html.twig', $dir.'/edit.html.twig', array(
+            'dir'               => $this->skeletonDir,
+            'route_prefix'      => $this->routePrefix,
+            'route_name_prefix' => $this->routeNamePrefix,
+            'entity'            => $this->entity,
+            'actions'           => $this->actions,
+            'bundle'            => $this->bundle->getName(),
+        ));
+    }
+    /**
+     * Generates the form.html.twig template in the final bundle.
+     *
+     * @param string $dir The path to the folder that hosts templates in the bundle
+     */
+    protected function generateFormView($dir)
+    {
+        $this->renderFile($this->skeletonDir, 'views/form.html.twig', $dir.'/form.html.twig', array(
             'dir'               => $this->skeletonDir,
             'route_prefix'      => $this->routePrefix,
             'route_name_prefix' => $this->routeNamePrefix,

@@ -5,6 +5,7 @@
 {% if 'annotation' == format %}
      * @Route("/", name="{{ route_name_prefix }}")
      * @Template()
+     * @Secure(roles="ROLE_{{ entity|upper }}_LIST")
 {% endif %}
      */
     public function indexAction()
@@ -39,15 +40,14 @@
 {% if 'annotation' == format %}
      * @Route("/filter", name="{{ route_name_prefix }}_filter")
      * @Method("post")
-{% endif %}     
+{%- endif %}     
      */
     public function filterAction()
     {
-        {% if 'annotation' != format %}
+        {%- if 'annotation' != format %}
         if ($this->getRequest()->getMethod() == 'POST')
             throw $this->createNotFoundException();
-        {% endif %}
-        
+        {% endif %}        
         if ($this->getRequest()->request->get('action_reset')) {
             $this->setFilters(array());
             return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
@@ -64,3 +64,4 @@
             'pager'  => $this->getPager(),
         ));
     }
+    

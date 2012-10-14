@@ -5,12 +5,12 @@
 {% if 'annotation' == format %}
      * @Route("/{id}/edit", name="{{ route_name_prefix }}_edit")
      * @Template()
+     * @Secure(roles="ROLE_{{ entity|upper }}_EDIT")
 {% endif %}
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        $entity = $em->getRepository('{{ bundle }}:{{ entity }}')->find($id);
+        $entity = $this->getRepository('{{ bundle }}:{{ entity }}')->find($id);
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find {{ entity }} entity.');
         }
@@ -19,10 +19,10 @@
         if ($request->getMethod() == 'POST') {
             $form->bindRequest($request);
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getEntityManager();
+                $em = $this->getEntityManager();
                 $em->persist($entity);
                 $em->flush();
-                $request->getSession()->setFlash('notice', 'The entity {{ entity }} is saved.');
+                $this->setFlash('notice', 'The entity {{ entity }} is saved.');
                 return $this->redirect($this->generateUrl('{{ route_name_prefix }}_show', array('id' => $entity->getId())));
             }
         } 

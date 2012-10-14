@@ -5,12 +5,12 @@
 {% if 'annotation' == format %}
      * @Route("/{id}/show", name="{{ route_name_prefix }}_show")
      * @Template()
+     * @Secure(roles="ROLE_{{ entity|upper }}_SHOW")
 {% endif %}
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        $entity = $em->getRepository('{{ bundle }}:{{ entity }}')->find($id);
+        $entity = $this->getRepository('{{ bundle }}:{{ entity }}')->find($id);
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find {{ entity }} entity.');
         }

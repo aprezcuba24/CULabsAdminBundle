@@ -1,0 +1,25 @@
+{
+    "name": "culabs/jquery-bundle",
+    "type": "symfony-bundle",
+    "description": "Easy integration of jquery into symfony2",
+    "keywords": ["ajax", "form"],
+    "license": "MIT",
+    "version": "master",
+    "authors": [
+        {
+            "name": "Alejandro Pérez Cuba",
+            "email": "aprezcuba24@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/symfony": "2.1.*",
+        "culabs/jquery-bundle": "dev-master",
+        "knplabs/knp-paginator-bundle": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "CULabs\\jQueryBundle": ""
+        }
+    },
+    "target-dir": "CULabs/jQueryBundle"
+}

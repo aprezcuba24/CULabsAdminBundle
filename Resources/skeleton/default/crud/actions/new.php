@@ -5,6 +5,7 @@
 {% if 'annotation' == format %}
      * @Route("/new", name="{{ route_name_prefix }}_new")
      * @Template()
+     * @Secure(roles="ROLE_{{ entity|upper }}_NEW")
 {% endif %}
      */
     public function newAction()
@@ -12,14 +13,13 @@
         $entity = new {{ entity_class }}();
         $form   = $this->createForm(new {{ entity_class }}Type(), $entity);        
         $request = $this->getRequest();
-        $form    = $this->createForm(new {{ entity_class }}Type(), $entity);
         if ($request->getMethod() == 'POST') {
             $form->bindRequest($request);
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getEntityManager();
+                $em = $this->getEntityManager();
                 $em->persist($entity);
                 $em->flush();
-                $request->getSession()->setFlash('notice', 'The entity {{ entity }} is saved.');
+                $this->setFlash('notice', 'The entity {{ entity }} is saved.');
                 return $this->redirect($this->generateUrl('{{ route_name_prefix }}_show', array('id' => $entity->getId())));
             }
         }

@@ -1,0 +1,13 @@
+{% if pager.nbPages %}
+    <form action="{{ path('admin_contact_batch') }}" method="post">
+        <table class="list bordered-table zebra-striped" cellspacing="0">
+            {% block header_table %}{% endblock %}
+            {% block body_table %}{% endblock %}
+        </table>
+        <div class="table_footer">
+            {% block footer_table %}{% endblock %}
+        </div>
+    </form>
+{% else %}
+    <span class="list-therenotrecord">{{ 'there is not record'|trans }}</span>
+{% endif %}

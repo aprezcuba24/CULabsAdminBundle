@@ -1,0 +1,24 @@
+{% extends '::backend_base.html.twig' %}
+
+{% block content %}
+    <div id="{% block list_id %}list_id{% endblock %}">
+        {% block filter %}
+        <div class="filter_panel ui-widget-content ui-corner-all">
+            <div class="toggle_filter" id="toggle_filter">
+                {% block filter_form %}{% endblock %}
+            </div>
+            <div class="actions_list">
+                <span class="btn success toggle_label filtro" id="toggle_action">{{ 'Show/Hide Filter'|trans }}</span>
+                {% block actions %}{% endblock %}
+            </div>
+        </div>
+        <script type="text/javascript">
+            $( "#toggle_action" ).click(function() {
+                $( "#toggle_filter" ).toggle( 'blind', {}, 500 );
+            });
+        </script>
+        {% endblock %}
+        <div class="clear"></div>
+        {% block list %}{% endblock %}
+    </div>    
+{% endblock %}

@@ -27,7 +27,7 @@ class ThemeDoctrineCrudCollection implements ThemeDoctrineCrudCollectionInterfac
 
     public function getTheme($name)
     {
-        if (!isset ($name))
+        if (!isset ($this->themes_name[$name]))
             throw new InvalidArgumentException('Theme name not exist');
         
         $theme_service = $this->container->get($this->themes_name[$name]);

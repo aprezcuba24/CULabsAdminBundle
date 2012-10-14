@@ -1,0 +1,9 @@
+{{ '{% form_theme form \'CULabsAdminBundle:Form:fields.html.twig\' %}' }}
+<form id="form_new" action="#" method="post" {{ '{{ form_enctype(form) }}' }}>
+    <div class="form">
+        {{ "{{ form_widget(form) }}" }}
+        <div class="actions_form">	
+            <input class="btn primary" value="{{ '{{ \'Save\'|trans }}' }}" type="submit"/>
+        </div>
+    </div>
+</form>

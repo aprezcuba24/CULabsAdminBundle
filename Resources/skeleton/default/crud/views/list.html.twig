@@ -1,88 +1,88 @@
-{{ '{% macro sort_field(label, field, sort) %}' }}
-    {{ '{% if sort.field is defined and sort.field == field %}' }}
-        <a href="#" onclick="{{ '{{ jq_remote_function({
-            \'update\':   \'ajax_%entity_name%\', 
-            \'url\':      path(\'admin_contact_short\', {\'field\':field, \'order\':sort.next}),
-            \'method\':   \'GET\',
-            \'complete\': "jQuery(\'#indicador_table_%entity_name%\').hide();",
-            \'loading\':  "jQuery(\'#indicador_table_%entity_name%\').show();",
-        }) }}'|replace({'%entity_name%': entity}) }}" class="sort-{{ '{{ sort.order }}' }} ss_sprite {{ '{% if sort.order == \'ASC\'%}ss_bullet_arrow_up{% else %}ss_bullet_arrow_down{% endif %}' }}  ">{{ '{{ label }}' }}</a>               
-    {{ '{% else %}' }}
-        <a href="#" onclick="{{ '{{ jq_remote_function({
-            \'update\':   \'ajax_%entity_name%\', 
-            \'url\':      path(\'admin_contact_short\', {\'field\':field, \'order\':\'ASC\'}),
-            \'method\':   \'GET\',
-            \'complete\': "jQuery(\'#indicador_table_%entity_name%\').hide();",
-            \'loading\':  "jQuery(\'#indicador_table_%entity_name%\').show();",
-        }) }}'|replace({'%entity_name%': entity}) }}">{{ '{{ label }}' }}</a>
-    {{ '{% endif %}' }} 
-{{ '{% endmacro %}' }}
-{{ '{% if pager.nbPages %}' }}
-    <form action="{{ "{{ path('"~ route_name_prefix ~"_batch') }}" }}" method="post">
-        <table class="list bordered-table zebra-striped" cellspacing="0">
-            <tr>
-                <th class="checkall"><input type="checkbox" onchange="admin_list_checkall(this, '#{{ entity }}_list table.list .check input')"/></th>
+{{ '{% extends \'CULabsAdminBundle:Crud:list.html.twig\' %}' }}
+
+{{ '{% block header_table %}' }}
+{{ '{% import \'CULabsAdminBundle:Crud:macros.html.twig\' as macros %}' }}
+<tr>
+    <th class="checkall"><input type="checkbox" onchange="admin_list_checkall(this, '#{{ entity }}_list table.list .check input')"/></th>
+
+    {%- for field, metadata in fields -%}
+        {%- if field == 'id' or field == 'name' %}
+
+    <th>{{ '{{ macros.sort_field(\'%field_label%\'|trans, \'%field%\', sort, \'%update%\', \'%route_name_prefix%_sort\', \'indicator_table_%entity_name%\') }}'|replace({'%field_label%':field|capitalize, '%field%':field, '%update%':'ajax_'~entity, '%route_name_prefix%':route_name_prefix, '%entity_name%':entity}) }}</th>
+        {%- else %}
+
+    <th>{{ '{{ \'%field_label%\'|trans }}'|replace({'%field_label%':field|capitalize}) }}</th>
+        {%- endif %}
+    {% endfor %}
+
+    <th>{{- '{{ \'Options\'|trans }}' -}}</th>
+</tr>
+{{ '{% endblock %}' }}
+
+{{ '{% block body_table %}' }}
+    {{'{% for entity in pager %}'}}
+    <tr id="row_{{ '{{ loop.index }}' }}" onclick="admin_list_checkrow('#' + this.id + ' .check input')">
+        <td class="check"><input type="checkbox" value="{{ '{{ entity.id }}' }}" name="ids[]"/></td>
+        {%- for field, metadata in fields %}
+            {%- if loop.first and ('show' in actions) %}
+
+        <td><a href="{{ "{{ path('"~ route_name_prefix ~"_show', { 'id': entity.id }) }}" }}">{{ '{{ entity.'~ field|replace({'_': ''}) ~' }}' }}</a></td>
+
+            {%- elseif metadata.type in ['date', 'datetime'] %}
+
+        <td>{{ '{% if entity.'~ field|replace({'_': ''}) ~' %}{{ entity.'~ field|replace({'_': ''}) ~'|date(\'Y-m-d H:i:s\') }}{% endif%}' }}</td>
+
+            {%- else %}
+
+        <td>{{ '{{ entity.'~ field|replace({'_': ''}) ~' }}' }}</td>
+
+            {%- endif %}
+
+            {%- if loop.last %}
+
+        <td class="opciones">
+            <ul>
+            {%- for action in record_actions %}                  
+                <li>
+                    {% if action == 'show' -%}
+                    {{ '{% if is_granted(\'ROLE_%entity_name%_SHOW\') %}'|replace({'%entity_name%':entity|upper}) }}
+                    <a class="ss_sprite ss_application" href="{{ "{{ path('"~ route_name_prefix ~"_"~ action ~"', { 'id': entity.id }) }}" }}">{{ '{{ \'%action%\'|trans }}'|replace({'%action%':action}) }}</a>
+                    {{ '{% endif %}' }}
+                {% elseif action == 'edit' -%}
+                    {{ '{% if is_granted(\'ROLE_%entity_name%_EDIT\') %}'|replace({'%entity_name%':entity|upper}) }}
+                    <a class="ss_sprite ss_application_edit" href="{{ "{{ path('"~ route_name_prefix ~"_"~ action ~"', { 'id': entity.id }) }}" }}">{{ '{{ \'%action%\'|trans }}'|replace({'%action%':action}) }}</a>
+                    {{ '{% endif %}' }}
+                {% elseif action == 'delete' -%}
+                    {{ '{% if is_granted(\'ROLE_%entity_name%_DELETE\') %}'|replace({'%entity_name%':entity|upper}) }}
+                    <a class="ss_sprite ss_application_delete" href="#" onclick="confirmarUrl('{{ '{{ \'Realmente desea borrar\'|trans }}' }}', '{{ "{{ path('"~ route_name_prefix ~"_delete', { 'id': entity.id }) }}" }}')" class="btn danger">{{ '{{ \'Delete\'|trans }}' }}</a>                                      
+                    {{ '{% endif %}' }}                    
+                {% endif -%}
+                </li>
+            {%- endfor %}
                 
-                {%- for field, metadata in fields -%}
-                    {%- if field == 'id' or field == 'name' %}
+            </ul>
+        </td>
+            {%- endif -%}
+        {% endfor %}
 
-                <th>{{ '{{ _self.sort_field(\'%field_label%\'|trans, \'%field%\', sort) }}'|replace({'%field_label%':field|capitalize, '%field%':field}) }}</th>
-                    {%- else %}
-
-                <th>{{ '{{ \'%field_label%\'|trans }}'|replace({'%field_label%':field|capitalize}) }}</th>
-                    {%- endif %}
-                {% endfor %}
-
-                <th>{{- '{{ \'Options\'|trans }}' -}}</th>
-            </tr>
-            {{'{% for entity in pager %}'}}
-            <tr id="row_{{ '{{ loop.index }}' }}" onclick="admin_list_checkrow('#' + this.id + ' .check input')">
-                <td class="check"><input type="checkbox" value="{{ '{{ entity.id }}' }}" name="ids[]"/></td>
-                {%- for field, metadata in fields %}
-                    {%- if loop.first and ('show' in actions) %}
-
-                <td><a href="{{ "{{ path('"~ route_name_prefix ~"_show', { 'id': entity.id }) }}" }}">{{ '{{ entity.'~ field|replace({'_': ''}) ~' }}' }}</a></td>
-
-                    {%- elseif metadata.type in ['date', 'datetime'] %}
-
-                <td>{{ '{% if entity.'~ field|replace({'_': ''}) ~' %}{{ entity.'~ field|replace({'_': ''}) ~'|date(\'Y-m-d H:i:s\') }}{% endif%}' }}</td>
-
-                    {%- else %}
-
-                <td>{{ '{{ entity.'~ field|replace({'_': ''}) ~' }}' }}</td>
-
-                    {%- endif %}
-
-                    {%- if loop.last %}
-
-                <td class="opciones">
-                   {%- include "views/others/actions.html.twig" %}
-                        
-                </td>
-                    {%- endif -%}
-                {% endfor %}
-                
-            </tr>
-            {{ '{% endfor %}' }}
-        </table>
-        <div class="table_footer">
-            <select name="batch_action" class="batch_actions">
-                <option value="">{{ '{{\'Select a action\'|trans}}' }}</option>
-                <option value="delete">{{ '{{\'Delete\'|trans}}' }}</option>
-            </select>
-            <input class="btn primary" value="{{ '{{\'Send\'|trans}}' }}" type="submit"/>
-            <span class="indicador_table">
-                <img style="display: none" id="{{ 'indicador_table_%entity_name%'|replace({'%entity_name%': entity}) }}" src="{{ '{{ asset(\'bundles/culabsadmin/images/loader.gif\') }}' }}"/>
-            </span>
-            {{ '{% include \'CULabsAdminBundle:Crud:pager.html.twig\' with { 
-                \'pager\':                pager,
-                \'zona\':                 \'ajax_%entity_name%\',
-                \'url\':                  path(\'%route_name_prefix%\'),
-                \'url_changemaxperpage\': path(\'%route_name_prefix%_changemaxperpage\'),
-                \'maxperpage_list\':      [10,20,30,50, 100],
-            } %}'|replace({'%entity_name%': entity, '%route_name_prefix%':route_name_prefix }) }}
-        </div>
-    </form>
-{{ '{% else %}' }}
-    <span class="list-therenotrecord">{{ '{{ \'there is not record\'|trans }}' }}</span>
-{{ '{% endif %}'}}
+    </tr>
+    {{ '{% endfor %}' }}
+{{ '{% endblock %}' }}
+ 
+{{ '{% block footer_table %}' }}
+    <select name="batch_action" class="batch_actions">
+        <option value="">{{ '{{\'Select a action\'|trans}}' }}</option>
+        <option value="delete">{{ '{{\'Delete\'|trans}}' }}</option>
+    </select>
+    <input class="btn primary" value="{{ '{{\'Send\'|trans}}' }}" type="submit"/>
+    <span class="indicador_table">
+        <img style="display: none" id="{{ 'indicator_table_%entity_name%'|replace({'%entity_name%': entity}) }}" src="{{ '{{ asset(\'bundles/culabsadmin/images/loader.gif\') }}' }}"/>
+    </span>
+    {{ '{% include \'CULabsAdminBundle:Crud:pager.html.twig\' with { 
+        \'pager\':                pager,
+        \'zona\':                 \'ajax_%entity_name%\',
+        \'url\':                  path(\'%route_name_prefix%\'),
+        \'url_changemaxperpage\': path(\'%route_name_prefix%_changemaxperpage\'),
+        \'maxperpage_list\':      [10,20,30,50, 100],
+    } %}'|replace({'%entity_name%': entity, '%route_name_prefix%':route_name_prefix }) }}
+{{ '{% endblock %}' }}

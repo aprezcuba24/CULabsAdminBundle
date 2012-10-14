@@ -1,22 +1,13 @@
-{{ '{% extends \'::backend_base.html.twig\' %}' }}
+{{ '{% extends \'CULabsAdminBundle:Crud:view.html.twig\' %}' }}
 
-{{ '{% block tituloSeccion %}' }}
-{{ '{{ \'New %entity_name%\' }}'|replace({'%entity_name%':entity}) }}
+{{ '{% block title_session %}' }}{{ '{{ \'New %entity_name%\'|trans }}'|replace({'%entity_name%':entity}) }}{{ '{% endblock %}' }}
+
+{{ '{% block actions %}' }}
+    <a href="{{ "{{ path('"~ route_name_prefix ~"') }}" }}" class="btn info">{{ '{{ \'List\'|trans }}' }}</a>
 {{ '{% endblock %}' }}
-
-{{ '{% block contenido %}' }}
-<div class="row span16" style="margin: 0 auto">
-    <div class="actions_list">
-        <a href="{{ "{{ path('"~ route_name_prefix ~"') }}" }}" class="btn info">{{ '{{ \'List\'|trans }}' }}</a>
-    </div>
-    {{ '{% form_theme form \'CULabsAdminBundle:Form:fields.html.twig\' %}' }}
-    <form id="form_new" action="#" method="post" {{ '{{ form_enctype(form) }}' }}>
-        <div class="form">
-            {{ "{{ form_widget(form) }}" }}
-            <div class="actions_form">	
-                <input class="btn primary" value="{{ '{{ \'Save\'|trans }}' }}" type="submit"/>
-            </div>
-        </div>
-    </form>
-</div>
+    
+{{ '{% block view_body %}' }}
+    {{ '{% include \'%bundle_name%:%entity_name%:form.html.twig\' with { 
+        \'form\': form,
+    } %}'|replace({'%entity_name%':entity, '%bundle_name%':bundle }) }}
 {{ '{% endblock %}' }}
