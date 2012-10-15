@@ -1,5 +1,5 @@
-{% if pager.nbPages %}
-    <form action="{{ path('admin_contact_batch') }}" method="post">
+{% if pager|length %}
+    <form action="{% block route_batch %}{% endblock %}" method="post">
         <table class="list bordered-table zebra-striped" cellspacing="0">
             {% block header_table %}{% endblock %}
             {% block body_table %}{% endblock %}

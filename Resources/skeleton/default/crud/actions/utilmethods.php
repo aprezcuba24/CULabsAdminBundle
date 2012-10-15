@@ -39,9 +39,9 @@
         if ($sort) {
             $qb->add('orderBy', sprintf('{{ entity }}.%s %s', $sort['field'], $sort['order']));
         }
-        $this->get('lexik_form_filter.query_builder')->buildQuery($filter_form, $qb);        
+        $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filter_form, $qb);
         $pager = $this->get('knp_paginator')->paginate(
-            $qb->getQuery()->getDQL(),
+            $qb->getQuery(),
             $this->getPage(),
             $this->getMaxPerPage()
         );        

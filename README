@@ -7,99 +7,47 @@ Este bundle es con el objetivo de crear el módulo de administración, fundament
 Este bundle depende de los bundles: 
 LexikFormFilterBundle: https://github.com/lexik/LexikFormFilterBundle
 CULabsjQueryBundle: https://github.com:aprezcuba24/CULabsjQueryBundle
-MenuBundle: https://github.com/knplabs/MenuBundle
+KnpPaginatorBundle: http://github.com/KnpLabs/KnpPaginatorBundle
 
 Instalación
 -----------
-Actualiza el fichero deps.
+Actualiza el composer.json:
 
-    [LexikFormFilterBundle]
-        git=https://github.com:aprezcuba24/CULabsAdminBundle.git
-        target=/bundles/CULabs/AdminBundle
+        ```json
+           {
+               "require": {
+                   "culabs/admin-bundle": "dev-master"
+               }
+           }
+        ```
 
-Registrar el namespace en el autoloader
-
-    // app/autoload.php
-     $loader->registerNamespaces(array(
-        // ...
-        'CULabs'           => __DIR__.'/../vendor/bundles',
-        // ...
-    ));
-
-Registrar el bundle en el kernel
+Registrar los bundles en el kernel
 
     // in AppKernel::registerBundles()
     $bundles = array(
         // ...
         new CULabs\AdminBundle\CULabsAdminBundle(),
+        new CULabs\jQueryBundle\CULabsjQueryBundle(),
+        new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+        new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),
         // ...
     );
 
 Modo de Uso
 -----------
-Lo primero es crear un clase que gestione el menú de la aplicación.
-        
-    namespace Mangenta\MainBundle\Menu;
 
-    use Knplabs\Bundle\MenuBundle\Menu;
-    use Symfony\Component\DependencyInjection\ContainerInterface;
-    use Knplabs\Bundle\MenuBundle\MenuItem;
-
-    class AdminMenu extends Menu
-    {
-        public function __construct(ContainerInterface $container)
-        {
-            parent::__construct();
-
-            $router = $container->get('router');
-
-            $this->setCurrentUri($container->get('request')->getRequestUri());
-
-            $item = new MenuItem('Contact', $router->generate('admin_contact'));
-            $item->addChild('New', $router->generate('admin_contact_new'));
-            $this->addChild($item);
-
-            //......
-        }
-    }
-
-Luego publicarlo como servicio
-
-    <parameters>
-        <parameter key="menu.admin.class">Acme\MainBundle\Menu\AdminMenu</parameter>
-    </parameters>
-
-    <services>
-        <service id="admin.menu" class="%menu.admin.class%">
-            <tag name="menu" alias="admin_menu" />
-            <argument type="service" id="service_container" />
-        </service>
-    </services>
-
-Luego crear la plantilla base para todas las páginas. Se debe incluir las librerías de jQuery y tener como nombre "backend_base.html.twig"
+Primero crear la plantilla base para todas las páginas. Se debe incluir las librerías de jQuery y tener como nombre "backend_base.html.twig"
 
     {% extends 'CULabsAdminBundle:Layout:base.html.twig' %}
 
-    {% block title %}Magenta Admin{% endblock %}
-
-    {% block home_url %}{{ path('admin_panel') }}{% endblock %}
-
-    {% block menu_top %}
-        {{ menu('admin_menu', null, null, 'CULabsAdminBundle:Menu:menu.html.twig') }}
-    {% endblock %}
-
-    {% block stylesheets %}
-        {{ parent() }}
-        <link rel="stylesheet" href="{{ asset('css/jquery/smoothness/jquery-ui-1.8.12.custom.css') }}" type="text/css" />
-    {% endblock %}
-
+    {% block title %}CULabs Test{% endblock %}
+    
     {% block javascript_src %}
+        <script type="text/javascript" src="{{ asset('/js/jquery-1.7.1.js') }}"></script>
         {{ parent() }}
-        <script type="text/javascript" src="{{ asset('/js/jquery/jquery-1.5.1.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('/js/jquery/jquery-ui-1.8.12.custom.min.js') }}"></script>
     {% endblock %}
 
-
+Vea la plantilla "CULabsAdminBundle:Layout:base.html.twig" para que modifique todos las plantillas que desee.
 
 Ejectue php app/console help culabs:doctrine:crud para que vea la forma de crear un módulo.
 

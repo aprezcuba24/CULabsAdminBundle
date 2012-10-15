@@ -1,5 +1,7 @@
 {{ '{% extends \'CULabsAdminBundle:Crud:list.html.twig\' %}' }}
 
+{{ '{% block route_batch %}' }}{{ route_name_prefix }}_batch{{ '{% endblock %}' }}
+
 {{ '{% block header_table %}' }}
 {{ '{% import \'CULabsAdminBundle:Crud:macros.html.twig\' as macros %}' }}
 <tr>
