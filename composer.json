@@ -14,7 +14,8 @@
     "require": {
         "symfony/symfony": "2.1.*",
         "culabs/jquery-bundle": "dev-master",
-        "knplabs/knp-paginator-bundle": "dev-master"
+        "knplabs/knp-paginator-bundle": "dev-master",
+        "lexik/form-filter-bundle": "dev-master"
     },
     "autoload": {
         "psr-0": {

@@ -12,7 +12,7 @@
 namespace CULabs\AdminBundle\Theme;
 
 use Sensio\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator as BaseDoctrineCrudGenerator;
-use Symfony\Component\HttpKernel\Util\Filesystem;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 
@@ -23,15 +23,15 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
  */
 class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator
 {
-    private $filesystem;
-    private $skeletonDir;
-    private $routePrefix;
-    private $routeNamePrefix;
-    private $bundle;
-    private $entity;
-    private $metadata;
-    private $format;
-    private $actions;
+    protected $filesystem;
+    protected $skeletonDir;
+    protected $routePrefix;
+    protected $routeNamePrefix;
+    protected $bundle;
+    protected $entity;
+    protected $metadata;
+    protected $format;
+    protected $actions;
 
     /**
      * Constructor.
