@@ -51,10 +51,4 @@ Vea la plantilla "CULabsAdminBundle:Layout:base.html.twig" para que modifique to
 
 Ejectue php app/console help culabs:doctrine:crud para que vea la forma de crear un módulo.
 
-
-
-
-
-
-
-
+Al ejecutar el comando "culabs:doctrine:crud" se genera el formulario para los filtros, el siguiente paso es configurar los widget correctos para cada campo según la documentación de "lexik/form-filter-bundle".

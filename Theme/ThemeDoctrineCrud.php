@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Sensio\Bundle\GeneratorBundle\Generator\DoctrineFormGenerator;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use CULabs\AdminBundle\Generator\DoctrineFiterGenerator;
 
 class ThemeDoctrineCrud implements ThemeDoctrineCrudInterface, ContainerAwareInterface
 {
@@ -22,6 +23,7 @@ class ThemeDoctrineCrud implements ThemeDoctrineCrudInterface, ContainerAwareInt
     protected $container;
     protected $theme_name;
     protected $formGenerator;
+    protected $filterFormGenerator;
 
     public function __construct(ContainerInterface $container, $theme_name)
     {
@@ -55,6 +57,19 @@ class ThemeDoctrineCrud implements ThemeDoctrineCrudInterface, ContainerAwareInt
         }
 
         return $this->formGenerator;
+    }
+    public function getFilterFormGenerator()
+    {   
+        if (null === $this->filterFormGenerator) {
+            
+            $dir_path = $this->skeletonPath().'filter';        
+            if (!file_exists($dir_path))
+                throw new InvalidArgumentException(sprintf('%s is no directory', $dir_path));
+            
+            $this->filterFormGenerator = new DoctrineFiterGenerator($this->getContainer()->get('filesystem'), $dir_path);
+        }
+
+        return $this->filterFormGenerator;
     }
     
     protected function skeletonPath()

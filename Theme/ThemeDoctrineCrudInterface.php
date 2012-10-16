@@ -15,4 +15,5 @@ interface ThemeDoctrineCrudInterface
 {
     public function getGenerator();
     public function getFormGenerator();
+    public function getFilterFormGenerator();
 }
