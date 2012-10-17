@@ -1,9 +1,9 @@
 {% set pager_data = pager.paginationData %}
-<div class="paginator">
+<div class="pagination">
     {% if pager_data.current == pager_data.first %}
-          <a href="#" class="page-far-left"></a>
+        <a href="#" class="icon-fast-backward"></a>
     {% else %}
-        <a href="#" class="page-far-left" onclick="{{ jq_remote_function({
+        <a href="#" class="icon-fast-backward" onclick="{{ jq_remote_function({
           'update':   zona, 
           'url':      url,
           'method':   'GET',
@@ -11,62 +11,64 @@
           'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
           'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
         }) }}"></a>
-     {% endif %}
-          
-     {% if pager_data.previous is defined %}
-          <a class="page-left" href="#" onclick="{{ jq_remote_function({
-            'update':   zona, 
-            'url':      url,
-            'method':   'GET',
-            'with':     jq_sprintf("'page=%s'", pager_data.previous),
-            'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
-            'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
-          }) }}"></a>
-      {% else %}
-          <a href="#" class="page-left"></a>
-      {% endif %}
-          
-      <div class="page-info">{{ 'Page'|trans }}<strong> {{ pager_data.current }}</strong> / {{ pager_data.pageCount }}</div>
-      
-      <select class="num_page" onchange="window.location='{{ url_changemaxperpage }}?cant=' + this.value">
-          {% if maxperpage is defined %}
-              {% for item in maxperpage_list %}
-              <option {% if pager_data.numItemsPerPage == item %} selected="selected" {% endif %}>{{ item }}</option>
-              {% endfor %}
-          {% else %}
+    {% endif %}
+        
+    {% if pager_data.previous is defined %}
+        <a class="icon-step-backward" href="#" onclick="{{ jq_remote_function({
+          'update':   zona, 
+          'url':      url,
+          'method':   'GET',
+          'with':     jq_sprintf("'page=%s'", pager_data.previous),
+          'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
+          'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
+        }) }}"></a>
+    {% else %}
+        <a href="#" class="icon-step-backward"></a>
+    {% endif %}
+        
+    <div class="pager-indicator">
+        <span class="page">{{ pager_data.current }}</span> / <span class="cant">{{ pager_data.pageCount }}</span>
+    </div>
+        
+    <select class="span1" onchange="window.location='{{ url_changemaxperpage }}?cant=' + this.value">
+        {% if maxperpage is defined %}
+            {% for item in maxperpage_list %}
+            <option {% if pager_data.numItemsPerPage == item %} selected="selected" {% endif %}>{{ item }}</option>
+            {% endfor %}
+        {% else %}
             <option {% if pager_data.numItemsPerPage == 10 %} selected="selected" {% endif %}>10</option>
             <option {% if pager_data.numItemsPerPage == 20 %} selected="selected" {% endif %}>20</option>
             <option {% if pager_data.numItemsPerPage == 50 %} selected="selected" {% endif %}>50</option>
-          {% endif %}
-      </select>
-      
-      {% if pager_data.next is defined %}
-          <a class="page-right" href="#" onclick="{{ jq_remote_function({
-            'update':   zona, 
-            'url':      url,
-            'method':   'GET',
-            'with':     jq_sprintf("'page=%s'", pager_data.next),
-            'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
-            'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
-          }) }}"></a>
-      {% else %}
-          <a href="#" class="page-right"></a>
-      {% endif %}
-          
-      {% if pager_data.current != pager_data.pageCount %}
-          <a class="page-far-right" href="#" onclick="{{ jq_remote_function({
-            'update':   zona, 
-            'url':      url,
-            'method':   'GET',
-            'with':     jq_sprintf("'page=%s'", pager|length),
-            'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
-            'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
-          }) }}"></a>
-      {% else %}
-          <a href="#" class="page-far-right"></a>
-      {% endif %} 
-    
-      <div class="loader_paginator">	    
-        <span style="display: none" id="indicador_{{ zona }}" class="loader_cirular"></span>
-      </div>
+        {% endif %}
+    </select>
+        
+    {% if pager_data.next is defined %}
+        <a class="icon-step-forward" href="#" onclick="{{ jq_remote_function({
+          'update':   zona, 
+           'url':      url,
+           'method':   'GET',
+           'with':     jq_sprintf("'page=%s'", pager_data.next),
+           'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
+           'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
+        }) }}"></a>
+    {% else %}
+        <a href="#" class="icon-step-forward"></a>
+    {% endif %}
+        
+    {% if pager_data.current != pager_data.pageCount %}
+        <a class="icon-fast-forward" href="#" onclick="{{ jq_remote_function({
+          'update':   zona, 
+          'url':      url,
+          'method':   'GET',
+          'with':     jq_sprintf("'page=%s'", pager_data.pageCount),
+          'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
+          'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
+        }) }}"></a>
+    {% else %}
+        <a href="#" class="icon-fast-forward"></a>
+    {% endif %}
+     
+    <div class="loader">
+        <img style="display: none;" src="{{ asset('bundles/culabsadmin/images/loader.gif') }}" id="indicador_{{ zona }}"/>
+    </div>
 </div>

@@ -1,11 +1,8 @@
 {% extends '::backend_base.html.twig' %}
 
 {% block content %}
-<div class="row span16" style="margin: 0 auto">
-    <div class="actions_list">
-        {% block actions %}{% endblock %}
-    </div>
-    <div class="clear"></div>
-    {% block view_body %}{% endblock %}
+<div class="table-header">
+    {% block actions %}{% endblock %}
 </div>
+{% block view_body %}{% endblock %}
 {% endblock %}

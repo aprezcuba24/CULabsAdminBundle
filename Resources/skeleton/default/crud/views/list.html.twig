@@ -5,7 +5,7 @@
 {{ '{% block header_table %}' }}
 {{ '{% import \'CULabsAdminBundle:Crud:macros.html.twig\' as macros %}' }}
 <tr>
-    <th class="checkall"><input type="checkbox" onchange="admin_list_checkall(this, '#{{ entity }}_list table.list .check input')"/></th>
+    <th class="checkall batch"><input type="checkbox" onchange="admin_list_checkall(this, '#{{ entity }}_list .check input')"/></th>
 
     {%- for field, metadata in fields -%}
         {%- if field == 'id' or field == 'name' %}
@@ -42,21 +42,27 @@
 
             {%- if loop.last %}
 
-        <td class="opciones">
+        <td class="opcions span4">
             <ul>
             {%- for action in record_actions %}                  
                 <li>
                     {% if action == 'show' -%}
                     {{ '{% if is_granted(\'ROLE_%entity_name%_SHOW\') %}'|replace({'%entity_name%':entity|upper}) }}
-                    <a class="ss_sprite ss_application" href="{{ "{{ path('"~ route_name_prefix ~"_"~ action ~"', { 'id': entity.id }) }}" }}">{{ '{{ \'%action%\'|trans }}'|replace({'%action%':action}) }}</a>
+                    <a class="btn btn-icon btn-info btn-small" href="{{ "{{ path('"~ route_name_prefix ~"_"~ action ~"', { 'id': entity.id }) }}" }}">
+                        <i class="icon-eye-open"></i>{{ '{{ \'%action%\'|trans }}'|replace({'%action%':action}) }}
+                    </a>
                     {{ '{% endif %}' }}
                 {% elseif action == 'edit' -%}
                     {{ '{% if is_granted(\'ROLE_%entity_name%_EDIT\') %}'|replace({'%entity_name%':entity|upper}) }}
-                    <a class="ss_sprite ss_application_edit" href="{{ "{{ path('"~ route_name_prefix ~"_"~ action ~"', { 'id': entity.id }) }}" }}">{{ '{{ \'%action%\'|trans }}'|replace({'%action%':action}) }}</a>
+                    <a class="btn btn-icon btn-info btn-small" href="{{ "{{ path('"~ route_name_prefix ~"_"~ action ~"', { 'id': entity.id }) }}" }}">
+                        <i class="icon-pencil"></i>{{ '{{ \'%action%\'|trans }}'|replace({'%action%':action}) }}
+                    </a>
                     {{ '{% endif %}' }}
                 {% elseif action == 'delete' -%}
                     {{ '{% if is_granted(\'ROLE_%entity_name%_DELETE\') %}'|replace({'%entity_name%':entity|upper}) }}
-                    <a class="ss_sprite ss_application_delete" href="#" onclick="confirmarUrl('{{ '{{ \'Realmente desea borrar\'|trans }}' }}', '{{ "{{ path('"~ route_name_prefix ~"_delete', { 'id': entity.id }) }}" }}')" class="btn danger">{{ '{{ \'Delete\'|trans }}' }}</a>                                      
+                    <a class="btn btn-icon btn-danger btn-small" href="#" onclick="confirmarUrl('{{ '{{ \'Realmente desea borrar\'|trans }}' }}', '{{ "{{ path('"~ route_name_prefix ~"_delete', { 'id': entity.id }) }}" }}')">
+                        <i class="icon-remove"></i>{{ '{{ \'Delete\'|trans }}' }}
+                    </a>                                      
                     {{ '{% endif %}' }}                    
                 {% endif -%}
                 </li>
@@ -72,14 +78,16 @@
 {{ '{% endblock %}' }}
  
 {{ '{% block footer_table %}' }}
-    <select name="batch_action" class="batch_actions">
-        <option value="">{{ '{{\'Select a action\'|trans}}' }}</option>
-        <option value="delete">{{ '{{\'Delete\'|trans}}' }}</option>
-    </select>
-    <input class="btn primary" value="{{ '{{\'Send\'|trans}}' }}" type="submit"/>
-    <span class="indicador_table">
-        <img style="display: none" id="{{ 'indicator_table_%entity_name%'|replace({'%entity_name%': entity}) }}" src="{{ '{{ asset(\'bundles/culabsadmin/images/loader.gif\') }}' }}"/>
-    </span>
+    <div class="batch">
+        <select name="batch_action" class="batch_actions">
+            <option value="">{{ '{{\'Select a action\'|trans}}' }}</option>
+            <option value="delete">{{ '{{\'Delete\'|trans}}' }}</option>
+        </select>
+        <input type="submit" class="btn btn-primary" value="{{ '{{\'Ok\'|trans}}' }}"/>
+        <div class="loader">
+            <img style="display: none" id="{{ 'indicator_table_%entity_name%'|replace({'%entity_name%': entity}) }}" src="{{ '{{ asset(\'bundles/culabsadmin/images/loader.gif\') }}' }}"/>
+        </div>
+    </div>
     {{ '{% include \'CULabsAdminBundle:Crud:pager.html.twig\' with { 
         \'pager\':                pager,
         \'zona\':                 \'ajax_%entity_name%\',

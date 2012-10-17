@@ -4,50 +4,58 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>{% block title %}Admin Aplication{% endblock %}</title>
         {% block stylesheets %}        
-	<link rel="stylesheet" href="{{ asset('bundles/culabsadmin/css/main.css') }}" type="text/css" media="screen" title="default" />
-	<link rel="stylesheet" href="{{ asset('bundles/culabsadmin/css/bootstrap.min.css') }}" type="text/css" media="screen" title="default" />
-	<link rel="stylesheet" href="{{ asset('bundles/culabsadmin/css/drop-down-menu/default.css') }}" type="text/css" media="screen" />
-	<link rel="stylesheet" href="{{ asset('bundles/culabsadmin/css/drop-down-menu/dropdown.css') }}" type="text/css" media="screen" />
-	<link rel="stylesheet" href="{{ asset('bundles/culabsadmin/css/drop-down-menu/default.advanced.css') }}" type="text/css" media="screen" />
-	<link rel="stylesheet" href="{{ asset('bundles/culabsadmin/css/montoya/sprite.css') }}" type="text/css" media="screen" />
+	<link rel="stylesheet" href="{{ asset('bundles/culabsadmin/css/backend.css') }}" type="text/css" media="screen" title="default" />
+	<link rel="stylesheet/less" href="{{ asset('bootstrap/less/bootstrap.less') }}" type="text/css" media="screen" title="default" />
+        <script type="text/javascript" src="{{ asset('/bundles/culabsadmin/js/less.min.js') }}"></script>
+        <style>
+        body {
+            padding-top: 50px; /* 60px to make the container go all the way to the bottom of the topbar */
+        }
+        </style>
+        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
         {% endblock %}
         {% block javascript_src %}
-        <script type="text/javascript" src="{{ asset('/bundles/culabsadmin/js/admin.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('/bundles/culabsadmin/js/twitter/bootstrap-alerts.js') }}"></script>
+        <script src="{{ asset('/js/jquery-1.7.1.js') }}"></script>
+        <script src="{{ asset('/js/jquery-ui-1.8.12.custom.min.js') }}"></script>
+        <script src="{{ asset('/bootstrap/js/bootstrap-dropdown.js') }}"></script>
+        <script src="{{ asset('/bootstrap/js/bootstrap-alert.js') }}"></script>
+        <script src="{{ asset('/bundles/culabsadmin/js/admin.js') }}"></script>
         {% endblock %}
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body id="{% block body_custom_id %}{% endblock %}">
-        <div class="topbar">
-            <div class="topbar-inner">
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
                 <div class="container-fluid">
-                    <a class="brand" href="{% block home_url %}#{% endblock %}">{{ 'Admin'|trans }}</a>
-                    <div class="menu">
-                        {% block menu_top %}{% endblock %}
-                        <div class="clear"></div>
-                    </div>
-                    <p class="pull-right">
-                        {% block profile_status %}
-                            Logged in as <a href="#">username</a>
-                        {% endblock %}                        
-                    </p>
+                    <a class="brand" href="#">{% block title_app %}{{ 'Admin'|trans }}{% endblock %}</a>
+                    {% block menu_top %}{% endblock %}
+                    {% block profile_status %}
+                        <ul class="nav pull-right">
+                            <li><a>{% block user_name('Usuario...') %}</a></li>
+                            <li class="divider-vertical"></li>
+                            <li><a href="{% block url_logout('Logout') %}">Salir</a></li>
+                        </ul>
+                    {% endblock %}                
                 </div>
             </div>
-        </div>        
-        <div class="header">
-            <h1 class="title">{% block title_session %}{% endblock %}</h1>
-            {% block flashes %}
-                {% include "CULabsAdminBundle:Layout:flashes.html.twig" %}
-            {% endblock %}
-            <div class="clear"></div>
-        </div>        
-        <div class="container-fluid">            
-            <div class="clear">
-		{% block content %}{% endblock %}
-	    </div>
-            <footer>
-                {% block footer_page %}<p>© CULabs Alejandro Pérez Cuba aprezcuba24@gmail.com</p>{% endblock %}
-            </footer>
+        </div> 
+        <div class="container-fluid">
+            <div class="page-title">                
+                <h1>{% block title_page('Title...') %}</h1>
+                <div class="flash">                
+                    {% block flashes %}
+                        {% include "CULabsAdminBundle:Layout:flashes.html.twig" %}
+                    {% endblock %}
+                </div>
+            </div>
+            <div style="clear: both"></div>
+            {% block content %}{% endblock %}
+        </div>
+        <div class="navbar-inner navbar-fixed-bottom" style="padding-top: 10px;">
+            <span class="label label-info"> © CULabs Alejandro Pérez Cuba aprezcuba24@gmail.com</span>
         </div>
     </body>
 </html>

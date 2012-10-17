@@ -6,7 +6,9 @@
             'method':   'GET',
             'complete': "jQuery('#%s').hide();"|format(indicator),
             'loading':  "jQuery('#%s').show();"|format(indicator),
-        }) }}" class="sort-{{ sort.order }} ss_sprite {% if sort.order == 'ASC'%}ss_bullet_arrow_up{% else %}ss_bullet_arrow_down{% endif %}  ">{{ label }}</a>               
+        }) }}">
+            {{ label }}<i class="{% if sort.order == 'ASC'%}icon-chevron-down{% else %}icon-chevron-up{% endif %}"></i>
+        </a>               
     {% else %}
         <a href="#" onclick="{{ jq_remote_function({
             'update':   update, 

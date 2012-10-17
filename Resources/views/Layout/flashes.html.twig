@@ -1,15 +1,13 @@
-<div class="flash-message">
-    {% if app.session.hasFlash('notice') %}
-    <div class="alert-message success">
-      <a class="close" href="#">×</a>
-      <p>{{ app.session.flash('notice') }}</p>
-    </div>
-    {% endif %}
-
-    {% if app.session.hasFlash('error') %}
-    <div class="alert-message error">
-      <a class="close" href="#">×</a>
-      <p>{{ app.session.flash('error') }}</p>
-    </div>
-    {% endif %}
+{% if app.session.hasFlash('notice') %}
+<div class="alert in">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <strong>{{ 'Notice:'|trans }}</strong> {{ app.session.flash('notice') }}
 </div>
+{% endif %}
+
+{% if app.session.hasFlash('error') %}
+<div class="alert in alert-error">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <strong>{{ 'Error:'|trans }}</strong> {{ app.session.flash('error') }}
+</div>
+{% endif %}

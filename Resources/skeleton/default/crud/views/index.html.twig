@@ -1,6 +1,6 @@
 {{ '{% extends \'CULabsAdminBundle:Crud:index.html.twig\' %}' }}
 
-{{ '{% block title_session %}' }}{{ '{{ \'%entity_name% list\'|trans}}'|replace({'%entity_name%':entity}) }}{{ '{% endblock %}' }}
+{{ '{% block title_page %}' }}{{ '{{ \'%entity_name% list\'|trans}}'|replace({'%entity_name%':entity}) }}{{ '{% endblock %}' }}
 
 {{ '{% block list_id %}' }}{{ entity }}_list{{ '{% endblock %}' }}
 
@@ -10,18 +10,24 @@
         <div>
             {{ '{% form_theme filter \'CULabsAdminBundle:Form:fields.html.twig\' %}' }}
             {{ '{{  form_rest(filter) }}' }}
-            <div class="clear"></div>
+            <div style="clear: both"></div>
         </div>
-        <input class="btn primary" type="submit" name="action_filter" value="{{ '{{ \'Filter\'|trans }}' }}"/>
+        <input class="btn btn-primary" type="submit" name="action_filter" value="{{ '{{ \'Filter\'|trans }}' }}"/>
         <input class="btn" type="submit" name="action_reset" value="{{ '{{ \'Reset\'|trans }}' }}" />
     </div>
 </form>
 {{ '{% endblock %}' }}
 
 {{ '{% block actions %}' }}
-    {{ '{% if is_granted(\'ROLE_%entity_name%_NEW\') %}'|replace({'%entity_name%':entity|upper}) }}
-    <a href="{{ "{{ path('"~ route_name_prefix ~"_new') }}" }}" class="btn info">{{ '{{ \'New\'|trans }}' }}</a>
-    {{ '{% endif %}' }}
+    <ul class="actions">
+        {{ '{% if is_granted(\'ROLE_%entity_name%_NEW\') %}'|replace({'%entity_name%':entity|upper}) }}
+        <li>
+            <a href="{{ "{{ path('"~ route_name_prefix ~"_new') }}" }}" class="btn btn-icon btn-primary">     
+              <i class="icon-plus"></i>{{ '{{ \'New\'|trans }}' }}  
+            </a>
+        </li>
+        {{ '{% endif %}' }}
+    </ul>
 {{ '{% endblock %}' }}
 
 {{ '{% block list %}' }}

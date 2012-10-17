@@ -1,13 +1,17 @@
 {% if pager|length %}
     <form action="{% block route_batch %}{% endblock %}" method="post">
-        <table class="list bordered-table zebra-striped" cellspacing="0">
-            {% block header_table %}{% endblock %}
-            {% block body_table %}{% endblock %}
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                {% block header_table %}{% endblock %}
+            </thead>
+            <tbody>
+                {% block body_table %}{% endblock %}
+            </tbody>
         </table>
-        <div class="table_footer">
+        <div class="table-footer">
             {% block footer_table %}{% endblock %}
         </div>
     </form>
 {% else %}
-    <span class="list-therenotrecord">{{ 'there is not record'|trans }}</span>
+    <h3>{{ 'there is not record'|trans }}</h3>
 {% endif %}

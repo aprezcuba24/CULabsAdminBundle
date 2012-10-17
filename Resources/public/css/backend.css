@@ -1,0 +1,75 @@
+/*General*/
+.btn-icon i {
+    margin-left: -5px;
+    margin-right: 5px;
+}
+/*Fin General*/
+
+.table td.opcions li {
+    list-style: none;
+    float: left;
+    margin-right: 10px;
+}
+.table th.batch {
+    width: 10px;
+}
+
+.table-header .actions {
+    float: right;
+}
+.table-header .actions li {
+    list-style: none;
+    float: left;
+    margin-left: 5px;
+}
+
+.table-footer .batch {
+    float: left;
+}
+.table-footer .batch .loader {
+    display: inline;    
+}
+.table-footer .batch .loader img {
+    margin-top: -10px;
+}
+.table-footer .batch .btn {
+    margin-top: -15px;
+}
+.table-footer .pagination {
+    float: right;
+    margin-top: 5px;
+}
+.table-footer .pagination > * {
+    float: left;
+    margin-right: 10px;
+}
+.table-footer .pagination .pager-indicator {
+    font-weight: bold;
+    color: #DA4F49;
+}
+.table-footer .pagination .loader {
+    width: 20px;
+    margin-top: -3px;
+}
+.table-footer select {
+    margin-top: -7px;
+}
+
+.filter_panel {
+    margin-bottom: 10px;
+}
+.filter_panel .control-group {
+    float: left;
+    margin-right: 10px;
+}
+
+/*Flash*/
+.page-title > * {
+    float: left;
+}
+.page-title .flash {
+    margin-left: 20px;
+    padding-top: 10px;
+    margin-bottom: -20px;
+}
+/*Fin Flash*/
