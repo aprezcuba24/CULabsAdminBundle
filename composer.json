@@ -15,30 +15,8 @@
         "symfony/symfony": "2.1.*",
         "culabs/jquery-bundle": "dev-master",
         "knplabs/knp-paginator-bundle": "dev-master",
-        "lexik/form-filter-bundle": "dev-master",
-        "twitter/bootstrap": "2.0.*"
+        "lexik/form-filter-bundle": "dev-master"
     },
-    "repositories": [
-                   {
-                       "type": "package",
-                       "package": {
-                           "version": "2.0.*",
-                           "name": "twitter/bootstrap",
-                           "config": {
-                                "vendor-dir": "vendor/culabs/admin-bundle/CULabs/AdminBundle/Resources/public"
-                            },
-                           "source": {
-                               "url": "https://github.com/twitter/bootstrap.git",
-                               "type": "git",
-                               "reference": "master"
-                           },
-                           "dist": {
-                               "url": "https://github.com/twitter/bootstrap/zipball/master",
-                               "type": "zip"
-                           }
-                       }
-                   }
-               ],
     "autoload": {
         "psr-0": {
             "CULabs\\AdminBundle": ""
