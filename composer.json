@@ -22,7 +22,7 @@
                    {
                        "type": "package",
                        "package": {
-                           "version": "master",
+                           "version": "2.0.*",
                            "name": "twitter/bootstrap",
                            "config": {
                                 "vendor-dir": "vendor/culabs/admin-bundle/CULabs/AdminBundle/Resources/public"
