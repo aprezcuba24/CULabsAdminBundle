@@ -16,7 +16,7 @@
         "culabs/jquery-bundle": "dev-master",
         "knplabs/knp-paginator-bundle": "dev-master",
         "lexik/form-filter-bundle": "dev-master",
-        "twitter/bootstrap": "master"
+        "twitter/bootstrap": "2.0.*"
     },
     "repositories": [
                    {
