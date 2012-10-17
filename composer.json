@@ -24,6 +24,9 @@
                        "package": {
                            "version": "master",
                            "name": "twitter/bootstrap",
+                           "config": {
+                                "vendor-dir": "vendor/culabs/admin-bundle/CULabs/AdminBundle/Resources/public"
+                            },
                            "source": {
                                "url": "https://github.com/twitter/bootstrap.git",
                                "type": "git",
