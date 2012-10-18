@@ -57,6 +57,35 @@ Registrar los bundles en el kernel
 Modo de Uso
 -----------
 
+Configurar el menu:
+    parameters:
+        menu.backend:
+            items:
+              nivel_1:
+                items:
+                nivel_2_A:
+                    route: route1
+                    roles: [ROLE_USER, ROLE_ADMIN]
+                nivel_2_B:
+                    route: route2
+                nivel_2_C:
+                    items:
+                    nivel_3:
+                        route: route3
+
+    services:
+        puig_global.menu_builder:
+            class:     CULabs\AdminBundle\Menu\MenuConfigBuilder
+            arguments: ["@knp_menu.factory", "@router", "@event_dispatcher", "@security.context"]
+        puig_global.menu.backend:
+            class: Knp\Menu\MenuItem
+            factory_service: puig_global.menu_builder
+            factory_method: getMenu
+            arguments: ["@request", "%menu.backend%"]
+            scope: request
+            tags:
+                - { name: knp_menu.menu, alias: main }
+
 Primero crear la plantilla base para todas las páginas. Se debe incluir las librerías de jQuery y tener como nombre "backend_base.html.twig"
 
     {% extends 'CULabsAdminBundle:Layout:base.html.twig' %}
@@ -65,8 +94,17 @@ Primero crear la plantilla base para todas las páginas. Se debe incluir las lib
     
     {% block javascript_src %}
         <script type="text/javascript" src="{{ asset('/js/jquery-1.7.1.js') }}"></script>
+        <script src="{{ asset('/js/jquery-ui-1.8.12.custom.min.js') }}"></script>
         {{ parent() }}
     {% endblock %}
+
+    {% block menu_top %}
+    {{ knp_menu_render('main', {
+        'template':'CULabsAdminBundle:Layout:twitter_menu.html.twig',
+    }) }}
+    {% endblock %}
+
+    {% block user_name(app.user) %}
 
 Vea la plantilla "CULabsAdminBundle:Layout:base.html.twig" para que modifique todos las plantillas que desee.
 

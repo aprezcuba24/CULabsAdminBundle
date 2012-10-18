@@ -18,8 +18,6 @@
         <![endif]-->
         {% endblock %}
         {% block javascript_src %}
-        <script src="{{ asset('/js/jquery-1.7.1.js') }}"></script>
-        <script src="{{ asset('/js/jquery-ui-1.8.12.custom.min.js') }}"></script>
         <script src="{{ asset('/bootstrap/js/bootstrap-dropdown.js') }}"></script>
         <script src="{{ asset('/bootstrap/js/bootstrap-alert.js') }}"></script>
         <script src="{{ asset('/bundles/culabsadmin/js/admin.js') }}"></script>
@@ -36,7 +34,7 @@
                         <ul class="nav pull-right">
                             <li><a>{% block user_name('Usuario...') %}</a></li>
                             <li class="divider-vertical"></li>
-                            <li><a href="{% block url_logout('Logout') %}">Salir</a></li>
+                            <li><a href="{% block url_logout %}/logout{% endblock %}">{{ 'Logout'|trans }}</a></li>
                         </ul>
                     {% endblock %}                
                 </div>
