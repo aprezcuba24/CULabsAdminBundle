@@ -1,6 +1,6 @@
 {{ '{% extends \'CULabsAdminBundle:Crud:list.html.twig\' %}' }}
 
-{{ '{% block route_batch %}' }}{{ route_name_prefix }}_batch{{ '{% endblock %}' }}
+{{ '{% block route_batch %}' }}{{ '{{ path(\'%prefix%_batch\') }}'|replace({'%prefix%':route_name_prefix}) }}{{ '{% endblock %}' }}
 
 {{ '{% block header_table %}' }}
 {{ '{% import \'CULabsAdminBundle:Crud:macros.html.twig\' as macros %}' }}
@@ -61,7 +61,7 @@
                 {% elseif action == 'delete' -%}
                     {{ '{% if is_granted(\'ROLE_%entity_name%_DELETE\') %}'|replace({'%entity_name%':entity|upper}) }}
                     <a class="btn btn-icon btn-danger btn-small" href="#" onclick="confirmarUrl('{{ '{{ \'Realmente desea borrar\'|trans }}' }}', '{{ "{{ path('"~ route_name_prefix ~"_delete', { 'id': entity.id }) }}" }}')">
-                        <i class="icon-remove"></i>{{ '{{ \'Delete\'|trans }}' }}
+                        <i class="icon-remove"></i>{{ '{{ \'delete\'|trans }}' }}
                     </a>                                      
                     {{ '{% endif %}' }}                    
                 {% endif -%}
@@ -79,11 +79,13 @@
  
 {{ '{% block footer_table %}' }}
     <div class="batch">
+        {{ '{% if is_granted(\'ROLE_%entity_name%_DELETE\') %}'|replace({'%entity_name%':entity|upper}) }}
         <select name="batch_action" class="batch_actions">
             <option value="">{{ '{{\'Select a action\'|trans}}' }}</option>
             <option value="delete">{{ '{{\'Delete\'|trans}}' }}</option>
         </select>
         <input type="submit" class="btn btn-primary" value="{{ '{{\'Ok\'|trans}}' }}"/>
+        {{ '{% endif %}' }}
         <div class="loader">
             <img style="display: none" id="{{ 'indicator_table_%entity_name%'|replace({'%entity_name%': entity}) }}" src="{{ '{{ asset(\'bundles/culabsadmin/images/loader.gif\') }}' }}"/>
         </div>
