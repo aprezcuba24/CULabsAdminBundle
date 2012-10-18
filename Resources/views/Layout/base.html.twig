@@ -53,7 +53,9 @@
             {% block content %}{% endblock %}
         </div>
         <div class="navbar-inner navbar-fixed-bottom" style="padding-top: 10px;">
-            <span class="label label-info"> © CULabs Alejandro Pérez Cuba aprezcuba24@gmail.com</span>
+            {% block footer_content %}
+                <span class="label label-info"> © CULabs Alejandro Pérez Cuba aprezcuba24@gmail.com</span>
+            {% endblock %}
         </div>
     </body>
 </html>
