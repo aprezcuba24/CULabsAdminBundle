@@ -5,13 +5,11 @@
         $client = static::createClient();
 
         // Create a new entry in the database
-        $crawler = $client->request('GET', '/{{ route_prefix }}/');
+        $crawler = $client->request('GET', '/{{ route_prefix }}/new');
         $this->assertTrue(200 === $client->getResponse()->getStatusCode());
-        $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
-
         // Fill in the form and submit it
-        $form = $crawler->selectButton('Create')->form(array(
-            '{{ entity_class|lower }}[field_name]'  => 'Test',
+        $form = $crawler->selectButton('Save')->form(array(
+            '{{ form_type_name }}[name]'  => 'Test',
             // ... other fields to fill
         ));
 
@@ -24,8 +22,8 @@
         // Edit the entity
         $crawler = $client->click($crawler->selectLink('Edit')->link());
 
-        $form = $crawler->selectButton('Edit')->form(array(
-            '{{ entity_class|lower }}[field_name]'  => 'Foo',
+        $form = $crawler->selectButton('Save')->form(array(
+            '{{ form_type_name }}[name]'  => 'Foo',
             // ... other fields to fill
         ));
 
@@ -33,10 +31,11 @@
         $crawler = $client->followRedirect();
 
         // Check the element contains an attribute with value equals "Foo"
-        $this->assertTrue($crawler->filter('[value="Foo"]')->count() > 0);
+        $this->assertTrue($crawler->filter('td:contains("Foo")')->count() > 0);
 
         // Delete the entity
-        $client->submit($crawler->selectButton('Delete')->form());
+        $entity = $client->getContainer()->get('doctrine')->getEntityManager()->getRepository('{{ bundle }}:{{ entity }}')->findOneByName('Foo');
+        $crawler = $client->request('GET', sprintf('/{{ route_prefix }}/%s/delete', $entity->getId()));
         $crawler = $client->followRedirect();
 
         // Check the entity has been delete on the list

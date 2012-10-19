@@ -201,6 +201,9 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator
 
         $dir    = $this->bundle->getPath() .'/Tests/Controller';
         $target = $dir .'/'. str_replace('\\', '/', $entityNamespace).'/'. $entityClass .'ControllerTest.php';
+        
+        $formClassName = $entityClass.'Type';
+        $form_type_name = strtolower(str_replace('\\', '_', $this->bundle->getNamespace()).($parts ? '_' : '').implode('_', $parts).'_'.$formClassName);
 
         $this->renderFile($this->skeletonDir, 'tests/test.php', $target, array(
             'route_prefix'      => $this->routePrefix,
@@ -211,6 +214,8 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator
             'entity_namespace'  => $entityNamespace,
             'actions'           => $this->actions,
             'dir'               => $this->skeletonDir,
+            'form_type_name'    => $form_type_name,
+            'bundle'            => $this->bundle->getName(),
         ));
     }
 
