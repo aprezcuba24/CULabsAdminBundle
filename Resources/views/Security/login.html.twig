@@ -5,6 +5,7 @@
         <title>{% block title %}Admin Aplication{% endblock %}</title>
         {% block stylesheets %}        
 	<link rel="stylesheet" href="{{ asset('bundles/culabsadmin/css/backend.css') }}" type="text/css" media="screen" title="default" />
+	<link rel="stylesheet" href="{{ asset('bundles/culabsadmin/css/login.css') }}" type="text/css" media="screen" title="default" />
 	<link rel="stylesheet/less" href="{{ asset('bootstrap/less/bootstrap.less') }}" type="text/css" media="screen" title="default" />
         <script type="text/javascript" src="{{ asset('/bundles/culabsadmin/js/less.min.js') }}"></script>
         <style>
@@ -18,9 +19,6 @@
         <![endif]-->
         {% endblock %}
         {% block javascript_src %}
-        <script src="{{ asset('/bootstrap/js/bootstrap-dropdown.js') }}"></script>
-        <script src="{{ asset('/bootstrap/js/bootstrap-alert.js') }}"></script>
-        <script src="{{ asset('/bundles/culabsadmin/js/admin.js') }}"></script>
         {% endblock %}
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
     </head>
@@ -29,28 +27,39 @@
             <div class="navbar-inner">
                 <div class="container-fluid">
                     <a class="brand" href="#">{% block title_app %}{{ 'Admin'|trans }}{% endblock %}</a>
-                    {% block menu_top %}{% endblock %}
-                    {% block profile_status %}
-                        <ul class="nav pull-right">
-                            <li><a style="font-weight: bold">{% block user_name('Usuario...') %}</a></li>
-                            <li class="divider-vertical"></li>
-                            <li><a href="{% block url_logout %}/logout{% endblock %}">{{ 'Logout'|trans }}</a></li>
-                        </ul>
-                    {% endblock %}                
                 </div>
             </div>
         </div> 
         <div class="container-fluid">
-            <div class="page-title">                
-                <h1>{% block title_page('Title...') %}</h1>
-                <div class="flash">                
-                    {% block flashes %}
-                        {% include "CULabsAdminBundle:Layout:flashes.html.twig" %}
-                    {% endblock %}
-                </div>
-            </div>
-            <div style="clear: both"></div>
-            {% block content %}{% endblock %}
+            {% block content %}
+                <div class="thumbnail container-login {% if error %}error{% endif %}">      
+                    
+                    {% if error %}
+                    <div class="alert alert-error">
+                        {{ error|trans({}, 'FOSUserBundle') }}
+                    </div>
+                    {% endif %}
+                    
+                    <form action="{{ path("fos_user_security_check") }}" method="post">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                        
+                        <legend>{% block title_page('Login'|trans) %}</legend>
+
+                        <label for="username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
+                        <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+
+                        <label for="password">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
+                        <input type="password" id="password" name="_password" required="required" />
+
+                        <label class="checkbox" for="remember_me">
+                            <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                            {{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}
+                        </label>
+
+                        <input type="submit" class="btn btn-primary" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
+                    </form>
+                </div> 
+            {% endblock %}
         </div>
         <div class="navbar-inner navbar-fixed-bottom" style="padding-top: 10px;">
             {% block footer_content %}

@@ -73,3 +73,14 @@
     margin-bottom: -20px;
 }
 /*Fin Flash*/
+
+.form-admin.thumbnail {
+    padding-bottom: 0;
+    padding-top: 20px;
+}
+.form-admin.thumbnail form {
+    margin: 0;
+}
+.form-admin.thumbnail .form-actions {    
+    margin-bottom: 4px;
+}
