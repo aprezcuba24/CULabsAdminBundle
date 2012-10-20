@@ -6,7 +6,7 @@
 
         // Create a new entry in the database
         $crawler = $client->request('GET', '/{{ route_prefix }}/new');
-        $this->assertTrue(200 === $client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
         // Fill in the form and submit it
         $form = $crawler->selectButton('Save')->form(array(
             '{{ form_type_name }}[name]'  => 'Test',

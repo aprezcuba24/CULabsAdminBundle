@@ -28,7 +28,7 @@
         <div class="navbar navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container-fluid">
-                    <a class="brand" href="#">{% block title_app %}{{ 'Admin'|trans }}{% endblock %}</a>
+                    <a class="brand" href="{% block title_app_url('#') %}">{% block title_app %}{{ 'Admin'|trans }}{% endblock %}</a>
                     {% block menu_top %}{% endblock %}
                     {% block profile_status %}
                         <ul class="nav pull-right">
