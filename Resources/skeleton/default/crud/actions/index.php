@@ -30,6 +30,7 @@
         return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}:index.html.twig', array(
             'pager'  => $pager,
             'filter' => $filter_form->createView(),
+            'sort'   => $this->getSort(),
         ));
 {% endif %}
     }
@@ -62,6 +63,7 @@
         return $this->render('{{ bundle }}:{{ entity }}:index.html.twig', array(
             'filter' => $filter_form->createView(),
             'pager'  => $this->getPager(),
+            'sort'   => $this->getSort(),
         ));
     }
     
