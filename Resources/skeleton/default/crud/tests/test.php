@@ -4,7 +4,7 @@ namespace {{ namespace }}\Tests\Controller{{ entity_namespace ? '\\' ~ entity_na
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class {{ entity_class }}ControllerTest extends WebTestCase
+class {{ entity_class }}CRUDControllerTest extends WebTestCase
 {
     /*
 

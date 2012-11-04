@@ -14,7 +14,7 @@
         $this->setPage($page);
         $pager = $this->getPager();
         if ($this->get('request')->isXmlHttpRequest()) {
-            return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}:list.html.twig', array(
+            return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}CRUD:list.html.twig', array(
                 'pager' => $pager,
                 'sort'  => $this->getSort(),
             ));
@@ -27,7 +27,7 @@
             'sort'   => $this->getSort(),
         );
 {% else %}
-        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}:index.html.twig', array(
+        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}CRUD:index.html.twig', array(
             'pager'  => $pager,
             'filter' => $filter_form->createView(),
             'sort'   => $this->getSort(),

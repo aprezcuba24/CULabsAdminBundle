@@ -78,7 +78,7 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator
 
         $this->generateControllerClass();
 
-        $dir = sprintf('%s/Resources/views/%s', $this->bundle->getPath(), str_replace('\\', '/', $this->entity));
+        $dir = sprintf('%s/Resources/views/%sCRUD', $this->bundle->getPath(), str_replace('\\', '/', $this->entity));
 
         if (!file_exists($dir)) {
             $this->filesystem->mkdir($dir, 0777);
@@ -165,7 +165,7 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator
         $entityNamespace = implode('\\', $parts);
 
         $target = sprintf(
-            '%s/Controller/%s/%sController.php',
+            '%s/Controller/%s/%sCRUDController.php',
             $dir,
             str_replace('\\', '/', $entityNamespace),
             $entityClass
@@ -200,7 +200,7 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator
         $entityNamespace = implode('\\', $parts);
 
         $dir    = $this->bundle->getPath() .'/Tests/Controller';
-        $target = $dir .'/'. str_replace('\\', '/', $entityNamespace).'/'. $entityClass .'ControllerTest.php';
+        $target = $dir .'/'. str_replace('\\', '/', $entityNamespace).'/'. $entityClass .'CRUDControllerTest.php';
         
         $formClassName = $entityClass.'Type';
         $form_type_name = strtolower(str_replace('\\', '_', $this->bundle->getNamespace()).($parts ? '_' : '').implode('_', $parts).'_'.$formClassName);

@@ -34,7 +34,7 @@
 {{ '{% endblock %}' }}
     
 {{ '{% block view_body %}' }}
-    {{ '{% include \'%bundle_name%:%entity_name%:form.html.twig\' with { 
+    {{ '{% include \'%bundle_name%:%entity_name%CRUD:form.html.twig\' with { 
         \'form\': form,
     } %}'|replace({'%entity_name%':entity, '%bundle_name%':bundle }) }}
 {{ '{% endblock %}' }}

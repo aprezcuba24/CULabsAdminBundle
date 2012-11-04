@@ -32,7 +32,7 @@
 
 {{ '{% block list %}' }}
 <div id="ajax_{{ entity }}">
-    {{ '{% include \'%bundle_name%:%entity_name%:list.html.twig\' with { 
+    {{ '{% include \'%bundle_name%:%entity_name%CRUD:list.html.twig\' with { 
         \'pager\': pager,
         \'sort\' : sort,
     } %}'|replace({'%entity_name%':entity, '%bundle_name%':bundle }) }}

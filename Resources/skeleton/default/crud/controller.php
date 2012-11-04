@@ -25,7 +25,7 @@ use {{ namespace }}\Filter\{{ entity }}FilterType;
  * @Route("/{{ route_prefix }}")
 {% endif %}
  */
-class {{ entity_class }}Controller extends CRUDController
+class {{ entity_class }}CRUDController extends CRUDController
 {
 
     {%- if 'index' in actions %}

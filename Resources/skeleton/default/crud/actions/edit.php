@@ -32,7 +32,7 @@
             'form'   => $form->createView(),
         );
 {% else %}
-        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}:edit.html.twig', array(
+        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}CRUD:edit.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
