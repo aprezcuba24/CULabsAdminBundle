@@ -1,8 +1,11 @@
-{% macro sort_field(label, field, sort, update, route, indicator) %}
+{% macro sort_field(label, field, sort, update, route, indicator, param) %}
+    {% if not param %}
+    {% set param = {} %}
+    {% endif %}
     {% if sort.field is defined and sort.field == field %}
         <a href="#" onclick="{{ jq_remote_function({
             'update':   update, 
-            'url':      path(route, {'field':field, 'order':sort.next}),
+            'url':      path(route, param|merge({'field':field, 'order':sort.next})),
             'method':   'GET',
             'complete': "jQuery('#%s').hide();"|format(indicator),
             'loading':  "jQuery('#%s').show();"|format(indicator),
@@ -12,7 +15,7 @@
     {% else %}
         <a href="#" onclick="{{ jq_remote_function({
             'update':   update, 
-            'url':      path(route, {'field':field, 'order':'ASC'}),
+            'url':      path(route, param|merge({'field':field, 'order':'ASC'})),
             'method':   'GET',
             'complete': "jQuery('#%s').hide();"|format(indicator),
             'loading':  "jQuery('#%s').show();"|format(indicator),
