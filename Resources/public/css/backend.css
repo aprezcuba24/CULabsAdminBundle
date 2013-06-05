@@ -1,4 +1,10 @@
 /*General*/
+@media (min-width: 1200px) {
+    body {
+            padding-top: 50px;
+            padding-bottom: 100px;
+        }
+}
 .btn-icon i {
     margin-left: -5px;
     margin-right: 5px;
@@ -84,3 +90,9 @@
 .form-admin.thumbnail .form-actions {    
     margin-bottom: 4px;
 }
+
+/*menu_top*/
+.menu_top a i {
+    margin-right: 5px;
+}
+/*fin menu_top*/

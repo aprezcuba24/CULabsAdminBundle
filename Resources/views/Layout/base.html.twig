@@ -5,13 +5,13 @@
         <title>{% block title %}Admin Aplication{% endblock %}</title>
         {% block stylesheets %}        
 	<link rel="stylesheet" href="{{ asset('bundles/culabsadmin/css/backend.css') }}" type="text/css" media="screen" title="default" />
-	<link rel="stylesheet/less" href="{{ asset('bootstrap/less/bootstrap.less') }}" type="text/css" media="screen" title="default" />
-        <script type="text/javascript" src="{{ asset('/bundles/culabsadmin/js/less.min.js') }}"></script>
+	<link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.css') }}" type="text/css" media="screen" title="default" />
+	<link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-responsive.css') }}" type="text/css" media="screen" title="default" />
         <style>
-        body {
+        /*body {
             padding-top: 50px;
             padding-bottom: 100px;
-        }
+        }*/
         </style>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -20,27 +20,43 @@
         {% endblock %}
         {% block javascript_src %}
         <script src="{{ asset('/bootstrap/js/bootstrap-dropdown.js') }}"></script>
+        <script src="{{ asset('/bootstrap/js/bootstrap-collapse.js') }}"></script>
         <script src="{{ asset('/bootstrap/js/bootstrap-alert.js') }}"></script>
         <script src="{{ asset('/bundles/culabsadmin/js/admin.js') }}"></script>
         {% endblock %}
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body id="{% block body_custom_id %}{% endblock %}">
-        <div class="navbar navbar-fixed-top">
+        <div class="menu_top navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container-fluid">
+                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
                     <a class="brand" href="{% block title_app_url('#') %}">{% block title_app %}{{ 'Admin'|trans }}{% endblock %}</a>
-                    {% block menu_top %}{% endblock %}
-                    {% block profile_status %}
+                    <div class="nav-collapse collapse">
+                        {% block menu_top %}{% endblock %}
+                        {% block profile_status %}
                         <ul class="nav pull-right">
-                            <li><a style="font-weight: bold">{% block user_name('Usuario...') %}</a></li>
+                            <li>
+                                <a href="#">
+                                    <i class="icon-user icon-white"></i>{% block user_name('Usuario...') %}
+                                </a>
+                            </li>
                             <li class="divider-vertical"></li>
-                            <li><a href="{% block url_logout %}/logout{% endblock %}">{{ 'Logout'|trans }}</a></li>
+                            <li>
+                                <a href="{% block url_logout %}{{ path('fos_user_security_logout') }}{% endblock %}">
+                                    <i class="icon-off icon-white"></i>{{ 'Logout'|trans }}
+                                </a>
+                            </li>
                         </ul>
-                    {% endblock %}                
+                        {% endblock %}
+                    </div><!--/.nav-collapse -->
                 </div>
             </div>
-        </div> 
+        </div>
         <div class="container-fluid">
             <div class="page-title">                
                 <h1>{% block title_page('Title...') %}</h1>
