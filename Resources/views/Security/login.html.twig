@@ -1,70 +1,35 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
-    <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>{% block title %}Admin Aplication{% endblock %}</title>
-        {% block stylesheets %}        
-	<link rel="stylesheet" href="{{ asset('bundles/culabsadmin/css/backend.css') }}" type="text/css" media="screen" title="default" />
-	<link rel="stylesheet" href="{{ asset('bundles/culabsadmin/css/login.css') }}" type="text/css" media="screen" title="default" />
-	<link rel="stylesheet/less" href="{{ asset('bootstrap/less/bootstrap.less') }}" type="text/css" media="screen" title="default" />
-        <script type="text/javascript" src="{{ asset('/bundles/culabsadmin/js/less.min.js') }}"></script>
-        <style>
-        body {
-            padding-top: 50px; /* 60px to make the container go all the way to the bottom of the topbar */
-        }
-        </style>
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
-        {% endblock %}
-        {% block javascript_src %}
-        {% endblock %}
-        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body id="{% block body_custom_id %}{% endblock %}">
-        <div class="navbar navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container-fluid">
-                    <a class="brand" href="#">{% block title_app %}{{ 'Admin'|trans }}{% endblock %}</a>
-                </div>
-            </div>
-        </div> 
-        <div class="container-fluid">
-            {% block content %}
-                <div class="thumbnail container-login {% if error %}error{% endif %}">      
-                    
-                    {% if error %}
-                    <div class="alert alert-error">
-                        {{ error|trans({}, 'FOSUserBundle') }}
-                    </div>
-                    {% endif %}
-                    
-                    <form action="{{ path("fos_user_security_check") }}" method="post">
-                        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-                        
-                        <legend>{% block title_page('Login'|trans) %}</legend>
-
-                        <label for="username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
-                        <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
-
-                        <label for="password">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
-                        <input type="password" id="password" name="_password" required="required" />
-
-                        <label class="checkbox" for="remember_me">
-                            <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-                            {{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}
-                        </label>
-
-                        <input type="submit" class="btn btn-primary" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
-                    </form>
-                </div> 
-            {% endblock %}
-        </div>
-        <div class="navbar-inner navbar-fixed-bottom" style="padding-top: 10px;">
-            {% block footer_content %}
-                <span class="label label-info"> © CULabs Alejandro Pérez Cuba aprezcuba24@gmail.com</span>
-            {% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Admin Aplication{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Le styles -->
+    <link rel="stylesheet" href="{{ asset('bundles/culabsadmin/css/login.css') }}" type="text/css" media="screen" title="default" />
+    <link rel="stylesheet" href="{{ asset('/bootstrap/css/bootstrap.css') }}" type="text/css" media="screen" title="default" />
+    <link rel="stylesheet" href="{{ asset('/bootstrap/css/bootstrap-responsive.css') }}" type="text/css" media="screen" title="default" />
+    <style type="text/css">
+        
+    </style>
+</head>
+    <body>
+        <div class="container">
+            <form class="form-signin" action="{{ path('fos_user_security_check') }}" method="post">
+                {% if error %}
+                    <div class="error label label-important">{{ error|trans({}, 'FOSUserBundle') }}</div>
+                {% endif %}
+                <h2 class="form-signin-heading">{{ 'Login'|trans }}</h2>
+                <input type="text" class="input-block-level" name="_username" value="{{ last_username }}" placeholder="Usuario">
+                <input type="password" name="_password" class="input-block-level" placeholder="Password">
+                <label class="checkbox" for="remember_me">
+                    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                    {{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}
+                </label>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                <button class="btn btn-large btn-primary" type="submit">{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}</button>
+            </form>
         </div>
     </body>
 </html>
