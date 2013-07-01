@@ -128,6 +128,11 @@
     margin-bottom: 4px;
 }
 
+.footer {
+    text-align: center;
+    font-weight: bold;
+}
+
 /*menu_top*/
 .menu_top a i {
     margin-right: 5px;
