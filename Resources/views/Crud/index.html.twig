@@ -7,14 +7,25 @@
             <div class="toggle_filter" id="toggle_filter">
                 {% block filter_form %}{% endblock %}
             </div>            
-            <div class="actions_list">
-                <span class="btn btn-success toggle_label filtro" id="toggle_action">{{ 'Show/Hide Filter'|trans }}</span>
-                {% block actions %}{% endblock %}
-            </div>
+            <a class="show-hidde-filter" id="toggle_show-hidde-filter" title="{{ 'Show/Hide Filter'|trans }}">
+                <i class="icon-chevron-up icon-white"></i>
+            </a>
+        </div>
+        <div class="actions_list">
+            {% block actions %}{% endblock %}
+            <div class="clearfix"></div>
+        </div>
         </div>
         <script type="text/javascript">
-            $( "#toggle_action" ).click(function() {
+           $( "#toggle_show-hidde-filter" ).click(function() {
                 $( "#toggle_filter" ).toggle( 'blind', {}, 500 );
+                if ($('#toggle_show-hidde-filter i').hasClass('icon-chevron-up')) {
+                    $('#toggle_show-hidde-filter i').removeClass('icon-chevron-up');
+                    $('#toggle_show-hidde-filter i').addClass('icon-chevron-down');
+                } else {
+                    $('#toggle_show-hidde-filter i').removeClass('icon-chevron-down');
+                    $('#toggle_show-hidde-filter i').addClass('icon-chevron-up');
+                }
             });
         </script>
         {% endblock %}

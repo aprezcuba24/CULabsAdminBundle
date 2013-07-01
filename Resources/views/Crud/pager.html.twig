@@ -30,7 +30,7 @@
         <span class="page">{{ pager_data.current }}</span> / <span class="cant">{{ pager_data.pageCount }}</span>
     </div>
         
-    <select class="span1" onchange="window.location='{{ url_changemaxperpage }}?cant=' + this.value">
+    <select onchange="window.location='{{ url_changemaxperpage }}?cant=' + this.value">
         {% if maxperpage is defined %}
             {% for item in maxperpage_list %}
             <option {% if pager_data.numItemsPerPage == item %} selected="selected" {% endif %}>{{ item }}</option>

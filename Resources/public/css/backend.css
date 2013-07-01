@@ -19,18 +19,48 @@
 .table th.batch {
     width: 10px;
 }
-
-.table-header .actions {
-    float: right;
+.table-header .toggle_filter {
+    padding: 3px;
 }
-.table-header .actions li {
+.table-header form {
+    margin: 0;
+    margin-bottom: 5px;
+}
+.show-hidde-filter {
+    background-color: #0088CC;
+    margin: 0;
+    width: 100%;
+    display: block;
+    border-radius: 0 0 4px 4px;
+    text-align: center;
+    cursor: pointer;
+}
+@media (min-width: 320px) { 
+    .actions_list .actions li {
+        margin-bottom: 5px;
+    }
+}
+.actions_list .actions {
+    float: right;
+    margin: 0;
+    margin-bottom: 5px;
+}
+.actions_list .actions li {
     list-style: none;
     float: left;
     margin-left: 5px;
 }
+.table-header.thumbnail.filter_panel {
+    padding: 0;
+    margin-bottom: 5px;
+}
 
 .table-footer .batch {
     float: left;
+}
+.table-footer .batch select {
+    float: left;
+    margin-right: 3px;
 }
 .table-footer .batch .loader {
     display: inline;    
@@ -39,7 +69,13 @@
     margin-top: -10px;
 }
 .table-footer .batch .btn {
-    margin-top: -15px;
+    margin-top: -6px;
+    float: left;
+}
+@media (max-width: 320px) { 
+    .table-footer .batch {
+        text-align: center;
+    }
 }
 .table-footer .pagination {
     float: right;
@@ -57,16 +93,17 @@
     width: 20px;
     margin-top: -3px;
 }
+.table-footer .pagination select {
+    width: 71px;
+}
 .table-footer select {
     margin-top: -7px;
 }
-
-.filter_panel {
-    margin-bottom: 10px;
-}
-.filter_panel .control-group {
-    float: left;
-    margin-right: 10px;
+@media (min-width: 320px) {    
+    .filter_panel .control-group {
+        float: left;
+        margin-right: 10px;
+    }
 }
 
 /*Flash*/
