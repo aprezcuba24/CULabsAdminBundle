@@ -6,13 +6,13 @@
     <ul class="actions">
         <li>
             <a href="{{ "{{ path('"~ route_name_prefix ~"') }}" }}" class="btn btn-icon btn-info">     
-              <i class="icon-list"></i>{{ '{{ \'List\'|trans }}' }} 
+              <i class="icon-list icon-white"></i>{{ '{{ \'List\'|trans }}' }} 
             </a>
         </li>
         {{ '{% if is_granted(\'ROLE_%entity_name%_NEW\') %}'|replace({'%entity_name%':entity|upper}) }}
         <li>
-            <a href="{{ "{{ path('"~ route_name_prefix ~"_new') }}" }}" class="btn btn-icon btn-info">     
-              <i class="icon-plus"></i>{{ '{{ \'New\'|trans }}' }} 
+            <a href="{{ "{{ path('"~ route_name_prefix ~"_new') }}" }}" class="btn btn-icon btn-primary">     
+              <i class="icon-plus-sign icon-white"></i>{{ '{{ \'New\'|trans }}' }} 
             </a>
         </li>
         {{ '{% endif %}' }}
@@ -25,8 +25,8 @@
         {{ '{% endif %}' }}
         {{ '{% if is_granted(\'ROLE_%entity_name%_DELETE\') %}'|replace({'%entity_name%':entity|upper}) }}
         <li>
-            <a href="#" onclick="confirmarUrl('{{ '{{ \'Realmente desea borrar\'|trans }}' }}', '{{ "{{ path('"~ route_name_prefix ~"_delete', { 'id': entity.id }) }}" }}')" class="btn btn-icon btn-info">     
-              <i class="icon-remove"></i>{{ '{{ \'Delete\'|trans }}' }} 
+            <a href="#" onclick="confirmarUrl('{{ '{{ \'Realmente desea borrar\'|trans }}' }}', '{{ "{{ path('"~ route_name_prefix ~"_delete', { 'id': entity.id }) }}" }}')" class="btn btn-icon btn-danger">     
+              <i class="icon-remove icon-white"></i>{{ '{{ \'Delete\'|trans }}' }} 
             </a>
         </li>
         {{ '{% endif %}' }}

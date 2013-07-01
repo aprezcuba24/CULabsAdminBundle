@@ -36,16 +36,16 @@
     cursor: pointer;
 }
 @media (min-width: 320px) { 
-    .actions_list .actions li {
+    .actions_list .actions li, .view_header .actions li {
         margin-bottom: 5px;
     }
 }
-.actions_list .actions {
+.actions_list .actions, .view_header .actions {
     float: right;
     margin: 0;
     margin-bottom: 5px;
 }
-.actions_list .actions li {
+.actions_list .actions li, .view_header .actions li {
     list-style: none;
     float: left;
     margin-left: 5px;
