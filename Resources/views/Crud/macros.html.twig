@@ -3,22 +3,38 @@
     {% set param = {} %}
     {% endif %}
     {% if sort.field is defined and sort.field == field %}
-        <a href="#" onclick="{{ jq_remote_function({
-            'update':   update, 
-            'url':      path(route, param|merge({'field':field, 'order':sort.next})),
-            'method':   'GET',
-            'complete': "jQuery('#%s').hide();"|format(indicator),
-            'loading':  "jQuery('#%s').show();"|format(indicator),
-        }) }}">
+        <a href="#" id="{{ update~field }}">
             {{ label }}<i class="{% if sort.order == 'ASC'%}icon-chevron-down{% else %}icon-chevron-up{% endif %}"></i>
-        </a>               
+        </a> 
+        <script type="text/javascript">
+            $().ready(function () {
+                $('#{{ update~field }}').click(function(e) {
+                    e.preventDefault();
+                    {{ jq_remote_function({
+                        'update':   update, 
+                        'url':      path(route, param|merge({'field':field, 'order':sort.next})),
+                        'method':   'GET',
+                        'complete': "jQuery('#%s').hide();"|format(indicator),
+                        'loading':  "jQuery('#%s').show();"|format(indicator),
+                    }) }}
+                });
+            });
+        </script>
     {% else %}
-        <a href="#" onclick="{{ jq_remote_function({
-            'update':   update, 
-            'url':      path(route, param|merge({'field':field, 'order':'ASC'})),
-            'method':   'GET',
-            'complete': "jQuery('#%s').hide();"|format(indicator),
-            'loading':  "jQuery('#%s').show();"|format(indicator),
-        }) }}">{{ label }}</a>
+        <a href="#" onclick="">{{ label }}</a>
+        <script type="text/javascript">
+            $().ready(function () {
+                $('#{{ update~field }}').click(function(e) {
+                    e.preventDefault();
+                    {{ jq_remote_function({
+                        'update':   update, 
+                        'url':      path(route, param|merge({'field':field, 'order':'ASC'})),
+                        'method':   'GET',
+                        'complete': "jQuery('#%s').hide();"|format(indicator),
+                        'loading':  "jQuery('#%s').show();"|format(indicator),
+                    }) }}
+                });
+            });
+        </script>
     {% endif %} 
 {% endmacro %}

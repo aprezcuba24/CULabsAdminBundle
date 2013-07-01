@@ -54,7 +54,7 @@
                     {{ '{% endif %}' }}
                 {% elseif action == 'edit' -%}
                     {{ '{% if is_granted(\'ROLE_%entity_name%_EDIT\') %}'|replace({'%entity_name%':entity|upper}) }}
-                    <a class="btn btn-info btn-small" title="{{ '{{ \'%action%\'|trans }}'|replace({'%action%':action}) }}" href="{{ "{{ path('"~ route_name_prefix ~"_"~ action ~"', { 'id': entity.id }) }}" }}">
+                    <a class="btn btn-primary btn-small" title="{{ '{{ \'%action%\'|trans }}'|replace({'%action%':action}) }}" href="{{ "{{ path('"~ route_name_prefix ~"_"~ action ~"', { 'id': entity.id }) }}" }}">
                         <i class="icon-pencil icon-white"></i>
                     </a>
                     {{ '{% endif %}' }}

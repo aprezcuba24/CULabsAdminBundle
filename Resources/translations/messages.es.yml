@@ -18,5 +18,6 @@ there is not record: No existen registros
 ## Fin Admin Crud
 
 ## Menu
-label_menu_Clientes: Clientes
+label_menu_List: Listado
+label_menu_New: Nuevo
 ## Fin Menu
