@@ -1,29 +1,59 @@
 {% set pager_data = pager.paginationData %}
 <div class="pagination">
     {% if pager_data.current == pager_data.first %}
-        <a href="#" class="icon-fast-backward"></a>
+        <a href="#" class="icon-fast-backward" id="icon-fast-backward_{{ zona }}"></a>
+        <script type="text/javascript">
+            $().ready(function () {
+                $('#icon-fast-backward_{{ zona }}').click(function(e) {
+                    e.preventDefault();
+                });
+            });
+        </script>
     {% else %}
-        <a href="#" class="icon-fast-backward" onclick="{{ jq_remote_function({
-          'update':   zona, 
-          'url':      url,
-          'method':   'GET',
-          'with':     "'page=1'",
-          'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
-          'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
-        }) }}"></a>
+        <a href="#" class="icon-fast-backward" id="icon-fast-backward_{{ zona }}"></a>
+        <script type="text/javascript">
+            $().ready(function () {
+                $('#icon-fast-backward_{{ zona }}').click(function(e) {
+                    e.preventDefault();
+                    {{ jq_remote_function({
+                        'update':   zona, 
+                        'url':      url,
+                        'method':   'GET',
+                        'with':     "'page=1'",
+                        'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
+                        'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
+                    }) }}
+                });
+            });
+        </script>
     {% endif %}
         
     {% if pager_data.previous is defined %}
-        <a class="icon-step-backward" href="#" onclick="{{ jq_remote_function({
-          'update':   zona, 
-          'url':      url,
-          'method':   'GET',
-          'with':     jq_sprintf("'page=%s'", pager_data.previous),
-          'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
-          'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
-        }) }}"></a>
+        <a class="icon-step-backward" href="#" id="icon-step-backward_{{ zona }}"></a>
+        <script type="text/javascript">
+            $().ready(function () {
+                $('#icon-step-backward_{{ zona }}').click(function(e) {
+                    e.preventDefault();
+                    {{ jq_remote_function({
+                        'update':   zona, 
+                        'url':      url,
+                        'method':   'GET',
+                        'with':     jq_sprintf("'page=%s'", pager_data.previous),
+                        'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
+                        'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
+                    }) }}
+                });
+            });
+        </script>
     {% else %}
-        <a href="#" class="icon-step-backward"></a>
+        <a href="#" class="icon-step-backward" id="icon-step-backward_{{ zona }}"></a>
+        <script type="text/javascript">
+            $().ready(function () {
+                $('#icon-step-backward_{{ zona }}').click(function(e) {
+                    e.preventDefault();
+                });
+            });
+        </script>
     {% endif %}
         
     <div class="pager-indicator">
@@ -43,29 +73,59 @@
     </select>
         
     {% if pager_data.next is defined %}
-        <a class="icon-step-forward" href="#" onclick="{{ jq_remote_function({
-          'update':   zona, 
-           'url':      url,
-           'method':   'GET',
-           'with':     jq_sprintf("'page=%s'", pager_data.next),
-           'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
-           'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
-        }) }}"></a>
+        <a class="icon-step-forward" href="#" id="icon-step-forward_{{ zona }}"></a>
+        <script type="text/javascript">
+            $().ready(function () {
+                $('#icon-step-forward_{{ zona }}').click(function(e) {
+                    e.preventDefault();
+                    {{ jq_remote_function({
+                        'update':   zona, 
+                         'url':      url,
+                         'method':   'GET',
+                         'with':     jq_sprintf("'page=%s'", pager_data.next),
+                         'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
+                         'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
+                    }) }}
+                });
+            });
+        </script>
     {% else %}
-        <a href="#" class="icon-step-forward"></a>
+        <a href="#" class="icon-step-forward" id="icon-step-forward_{{ zona }}"></a>
+        <script type="text/javascript">
+            $().ready(function () {
+                $('#icon-step-forward_{{ zona }}').click(function(e) {
+                    e.preventDefault();
+                });
+            });
+        </script>
     {% endif %}
         
     {% if pager_data.current != pager_data.pageCount %}
-        <a class="icon-fast-forward" href="#" onclick="{{ jq_remote_function({
-          'update':   zona, 
-          'url':      url,
-          'method':   'GET',
-          'with':     jq_sprintf("'page=%s'", pager_data.pageCount),
-          'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
-          'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
-        }) }}"></a>
+        <a class="icon-fast-forward" href="#" id="icon-fast-forward_{{ zona }}"></a>
+        <script type="text/javascript">
+            $().ready(function () {
+                $('#icon-fast-forward_{{ zona }}').click(function(e) {
+                    e.preventDefault();
+                    {{ jq_remote_function({
+                        'update':   zona, 
+                        'url':      url,
+                        'method':   'GET',
+                        'with':     jq_sprintf("'page=%s'", pager_data.pageCount),
+                        'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
+                        'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
+                    }) }}
+                });
+            });
+        </script>
     {% else %}
-        <a href="#" class="icon-fast-forward"></a>
+        <a href="#" class="icon-fast-forward" id="icon-fast-forward_{{ zona }}"></a>
+        <script type="text/javascript">
+            $().ready(function () {
+                $('#icon-fast-forward_{{ zona }}').click(function(e) {
+                    e.preventDefault();
+                });
+            });
+        </script>
     {% endif %}
      
     <div class="loader">
