@@ -4,6 +4,7 @@ namespace {{ namespace }}\Form{{ entity_namespace ? '\\' ~ entity_namespace : ''
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class {{ form_class }} extends AbstractType
 {
@@ -17,6 +18,13 @@ class {{ form_class }} extends AbstractType
         {%- endfor %}
 
         ;
+    }
+    
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => '{{ namespace }}\Entity{{ entity_namespace ? '\\' ~ entity_namespace : '' }}\{{ entity_class }}'
+        ));
     }
 
     public function getName()
