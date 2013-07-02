@@ -15,6 +15,12 @@ Options: Opciones
 Save: Salvar
 Cancel: Cancelar
 there is not record: No existen registros
+Notice: Noticia
+Select a action: Selecciona una acción
+Select a record: Seleccione un registro
+The records are deleted.: Los registros fueron borrados
+The entity is deleted.: El registro fue borrado.
+The entity is saved.: El registro fue borrado.
 ## Fin Admin Crud
 
 ## Menu

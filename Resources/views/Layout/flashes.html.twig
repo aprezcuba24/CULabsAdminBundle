@@ -1,13 +1,13 @@
 {% if app.session.hasFlash('notice') %}
 <div class="alert in">
     <button type="button" class="close" data-dismiss="alert">×</button>
-    <strong>{{ 'Notice:'|trans }}</strong> {{ app.session.flash('notice') }}
+    <strong>{{ 'Notice'|trans }}:</strong> {{ app.session.flash('notice')|trans }}
 </div>
 {% endif %}
 
 {% if app.session.hasFlash('error') %}
 <div class="alert in alert-error">
     <button type="button" class="close" data-dismiss="alert">×</button>
-    <strong>{{ 'Error:'|trans }}</strong> {{ app.session.flash('error') }}
+    <strong>{{ 'Error'|trans }}:</strong> {{ app.session.flash('error')|trans }}
 </div>
 {% endif %}

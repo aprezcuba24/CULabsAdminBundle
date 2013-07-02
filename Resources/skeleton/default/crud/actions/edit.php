@@ -22,7 +22,7 @@
                 $em = $this->getEntityManager();
                 $em->persist($entity);
                 $em->flush();
-                $this->setFlash('notice', 'The entity {{ entity }} is saved.');
+                $this->setFlash('notice', 'The entity is saved.');
                 return $this->redirect($this->generateUrl('{{ route_name_prefix }}_show', array('id' => $entity->getId())));
             }
         } 

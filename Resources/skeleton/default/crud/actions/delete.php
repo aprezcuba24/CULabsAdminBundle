@@ -16,7 +16,7 @@
         $em = $this->getEntityManager();
         $em->remove($entity);
         $em->flush();
-        $this->setFlash('notice', 'The entity {{ entity }} is deleted.');
+        $this->setFlash('notice', 'The entity is deleted.');
         return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
     }
     
