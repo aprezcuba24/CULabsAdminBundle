@@ -28,10 +28,9 @@
 {% spaceless %}
     <div {{ block('widget_container_attributes') }}>
     {% for child in form %}
-        <div class="item_choice_widget_expanded">
-            {{ form_widget(child) }}
-            {{ form_label(child) }}
-        </div>
+            <ul class="item_choice_widget_expanded unstyled">
+                <li>{{ form_label(child) }} {{ form_widget(child) }}</li>
+            </ul>
     {% endfor %}
     </div>
 {% endspaceless %}
