@@ -5,11 +5,13 @@
 {% if 'annotation' == format %}
      * @Route("/{id}/edit", name="{{ route_name_prefix }}_edit")
      * @Template()
-     * @Secure(roles="ROLE_{{ entity|upper }}_EDIT")
 {% endif %}
      */
     public function editAction($id)
     {
+        if (false === $this->get('security.context')->isGranted('ROLE_{{ entity|upper }}_EDIT')) {
+            throw new AccessDeniedException();
+        }
         $entity = $this->getRepository('{{ bundle }}:{{ entity }}')->find($id);
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find {{ entity }} entity.');

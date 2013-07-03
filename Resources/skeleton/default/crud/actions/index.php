@@ -5,11 +5,13 @@
 {% if 'annotation' == format %}
      * @Route("", name="{{ route_name_prefix }}")
      * @Template()
-     * @Secure(roles="ROLE_{{ entity|upper }}_LIST")
 {% endif %}
      */
     public function indexAction()
     {        
+        if (false === $this->get('security.context')->isGranted('ROLE_{{ entity|upper }}_LIST')) {
+            throw new AccessDeniedException();
+        }
         $page = $this->get('request')->query->get('page', $this->getPage());
         $this->setPage($page);
         $pager = $this->getPager();

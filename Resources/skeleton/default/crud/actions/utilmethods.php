@@ -3,10 +3,12 @@
      * Change Max Per Page.
      *
      * @Route("/changemaxperpage", name="{{ route_name_prefix }}_changemaxperpage")
-     * @Secure(roles="ROLE_{{ entity|upper }}_LIST")
      */
     public function changeMaxPerPageAction()
     {
+        if (false === $this->get('security.context')->isGranted('ROLE_{{ entity|upper }}_LIST')) {
+            throw new AccessDeniedException();
+        }
         $this->setSession('maxperpage', $this->get('request')->query->get('cant'));
         $this->setPage(1);
         return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
@@ -16,10 +18,12 @@
      * Change Sort.
      *
      * @Route("/{field}/{order}/short", name="{{ route_name_prefix }}_sort")
-     * @Secure(roles="ROLE_{{ entity|upper }}_LIST")
      */
     public function sortAction($field, $order)
     {
+        if (false === $this->get('security.context')->isGranted('ROLE_{{ entity|upper }}_LIST')) {
+            throw new AccessDeniedException();
+        }
         $this->setPage(1);
         $this->setSort(array(
             'field' => $field,

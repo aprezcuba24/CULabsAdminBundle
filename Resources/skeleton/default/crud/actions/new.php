@@ -5,11 +5,13 @@
 {% if 'annotation' == format %}
      * @Route("/new", name="{{ route_name_prefix }}_new")
      * @Template()
-     * @Secure(roles="ROLE_{{ entity|upper }}_NEW")
 {% endif %}
      */
     public function newAction()
     {
+        if (false === $this->get('security.context')->isGranted('ROLE_{{ entity|upper }}_NEW')) {
+            throw new AccessDeniedException();
+        }
         $entity = new {{ entity_class }}();
         $form   = $this->createForm(new {{ entity_class }}Type(), $entity);        
         $request = $this->getRequest();

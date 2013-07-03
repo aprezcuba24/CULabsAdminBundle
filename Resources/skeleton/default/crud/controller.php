@@ -3,11 +3,11 @@
 namespace {{ namespace }}\Controller{{ entity_namespace ? '\\' ~ entity_namespace : '' }};
 
 use CULabs\AdminBundle\Controller\CRUDController;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 {% if 'annotation' == format -%}
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use JMS\SecurityExtraBundle\Annotation\Secure;
 {%- endif %}
 
 use {{ namespace }}\Entity\{{ entity }};
