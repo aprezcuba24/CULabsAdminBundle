@@ -34,7 +34,7 @@
         $this->assertTrue($crawler->filter('td:contains("Foo")')->count() > 0);
 
         // Delete the entity
-        $entity = $client->getContainer()->get('doctrine')->getEntityManager()->getRepository('{{ bundle }}:{{ entity }}')->findOneByName('Foo');
+        $entity = $client->getContainer()->get('doctrine')->getManager()->getRepository('{{ bundle }}:{{ entity }}')->findOneByName('Foo');
         $crawler = $client->request('GET', sprintf('/{{ route_prefix }}/%s/delete', $entity->getId()));
         $crawler = $client->followRedirect();
 

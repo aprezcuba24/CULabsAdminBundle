@@ -127,6 +127,9 @@
 .form-admin.thumbnail .form-actions {    
     margin-bottom: 4px;
 }
+.item_choice_widget_expanded label {
+    padding-right: 5px;
+}
 
 .footer {
     text-align: center;

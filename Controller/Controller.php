@@ -20,13 +20,16 @@ class Controller extends BaseController
     {
         return $this->getDoctrine()->getRepository($entityName, $entityManagerName);
     }
-    protected function getEntityManager($name = null)
+    protected function getManager($name = null)
     {
-        return $this->getDoctrine()->getEntityManager($name);
+        return $this->getDoctrine()->getManager($name);
     }
-    protected function setFlash($name, $value)
+    protected function addFlash($name, $value)
     {
-        $this->getRequest()->getSession()->setFlash($name, $value);
+        $this->get('session')->getFlashBag()->add(
+            $name,
+            $value
+        );
     }
     protected function sessionName($name)
     {

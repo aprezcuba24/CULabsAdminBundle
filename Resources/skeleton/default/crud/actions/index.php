@@ -56,7 +56,7 @@
             return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
         }        
         $filter_form = $this->get('form.factory')->create(new {{ entity_class }}FilterType());        
-        $filter_form->bindRequest($this->get('request'));        
+        $filter_form->bind($this->get('request'));        
         if ($filter_form->isValid()) {
             $this->setPage(1);
             $this->setFilters($filter_form->getData());

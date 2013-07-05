@@ -1,4 +1,4 @@
-{% block field_row %}
+{% block form_row %}
 <div class="control-group">
     {{ form_label(form) }}
     <div class="controls">
@@ -6,7 +6,7 @@
         {{ form_widget(form) }}
     </div>
 </div>
-{% endblock field_row %}
+{% endblock form_row %}
 
 {% block form_label %}
 {% spaceless %}
@@ -27,11 +27,11 @@
 {% block choice_widget_expanded %}
 {% spaceless %}
     <div {{ block('widget_container_attributes') }}>
-    {% for child in form %}
-            <ul class="item_choice_widget_expanded unstyled">
-                <li>{{ form_label(child) }} {{ form_widget(child) }}</li>
-            </ul>
-    {% endfor %}
+        {% for child in form %}
+        <ul class="item_choice_widget_expanded unstyled">
+            <li>{{ form_label(child) }} {{ form_widget(child) }}</li>
+        </ul>
+        {% endfor %}
     </div>
 {% endspaceless %}
 {% endblock choice_widget_expanded %}

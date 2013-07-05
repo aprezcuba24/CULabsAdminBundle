@@ -15,10 +15,10 @@
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find {{ entity }} entity.');
         }
-        $em = $this->getEntityManager();
+        $em = $this->getManager();
         $em->remove($entity);
         $em->flush();
-        $this->setFlash('notice', 'The entity is deleted.');
+        $this->addFlash('notice', 'The entity is deleted.');
         return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
     }
     

@@ -19,12 +19,12 @@
         $form = $this->createForm(new {{ entity_class }}Type(), $entity);
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
             if ($form->isValid()) {
-                $em = $this->getEntityManager();
+                $em = $this->getManager();
                 $em->persist($entity);
                 $em->flush();
-                $this->setFlash('notice', 'The entity is saved.');
+                $this->addFlash('notice', 'The entity is saved.');
                 return $this->redirect($this->generateUrl('{{ route_name_prefix }}_show', array('id' => $entity->getId())));
             }
         } 
