@@ -53,7 +53,8 @@ class ThemeDoctrineCrud implements ThemeDoctrineCrudInterface, ContainerAwareInt
             if (!file_exists($dir_path))
                 throw new InvalidArgumentException(sprintf('%s is no directory', $dir_path));
             
-            $this->formGenerator = new DoctrineFormGenerator($this->getContainer()->get('filesystem'), $dir_path);
+            $this->formGenerator = new DoctrineFormGenerator($this->getContainer()->get('filesystem'));
+            $this->formGenerator->setSkeletonDirs($this->skeletonPath());
         }
 
         return $this->formGenerator;
