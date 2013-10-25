@@ -1,16 +1,21 @@
 function admin_list_checkall(checkall, list)
 {
-    if (checkall.checked)
-        $(list + ":checkbox:not(:checked)").attr("checked", "checked");
-    else
-        $(list + ":checkbox:checked").removeAttr("checked");
-}
-function admin_list_checkrow(check)
-{
-    if ($(check).is(":checked"))
-        $(check).removeAttr("checked");
-    else
-        $(check).attr("checked","checked");
+    if (checkall.checked) {
+        $(list + '[type=checkbox]').each(function (i, obj) {
+
+            if (!$(obj).is(":checked")) {
+                $(obj).click();
+            }
+        });
+    } else {
+
+        $(list + '[type=checkbox]').each(function (i, obj) {
+
+            if ($(obj).is(":checked")) {
+                $(obj).click();
+            }
+        });
+    }
 }
 function redirect(url)
 {

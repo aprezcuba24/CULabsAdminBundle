@@ -23,7 +23,7 @@
 
 {{ '{% block body_table %}' }}
     {{'{% for entity in pager %}'}}
-    <tr id="row_{{ '{{ loop.index }}' }}" onclick="admin_list_checkrow('#' + this.id + ' .check input')">
+    <tr id="row_{{ '{{ loop.index }}' }}">
         <td class="check"><input type="checkbox" value="{{ '{{ entity.id }}' }}" name="ids[]"/></td>
         {%- for field, metadata in fields %}
             {%- if loop.first and ('show' in actions) %}

@@ -21,7 +21,7 @@
             });
         </script>
     {% else %}
-        <a href="#" onclick="">{{ label }}</a>
+        <a href="#" id="{{ update~field }}" onclick="">{{ label }}</a>
         <script type="text/javascript">
             $().ready(function () {
                 $('#{{ update~field }}').click(function(e) {
