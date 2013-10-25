@@ -16,6 +16,7 @@
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find {{ entity }} entity.');
         }
+
 {% if 'annotation' == format %}
         return array(
             'entity' => $entity,

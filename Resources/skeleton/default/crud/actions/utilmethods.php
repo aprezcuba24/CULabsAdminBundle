@@ -11,6 +11,7 @@
         }
         $this->setSession('maxperpage', $this->get('request')->query->get('cant'));
         $this->setPage(1);
+
         return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
     }
     
@@ -30,6 +31,7 @@
             'order' => $order,
             'next'  => $order == 'ASC'? 'DESC': 'ASC',
         ));
+
         return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
     }
     
@@ -48,7 +50,8 @@
             $qb->getQuery(),
             $this->getPage(),
             $this->getMaxPerPage()
-        );        
+        );
+
         return $pager;
     }
     
@@ -56,5 +59,6 @@
     {
         $filter_form = $this->get('form.factory')->create(new {{ entity }}FilterType());        
         $filter_form->bind($this->getFilters());
+
         return $filter_form;
     }

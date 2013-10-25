@@ -27,7 +27,8 @@
                 $this->addFlash('notice', 'The entity is saved.');
                 return $this->redirect($this->generateUrl('{{ route_name_prefix }}_show', array('id' => $entity->getId())));
             }
-        } 
+        }
+
 {% if 'annotation' == format %}
         return array(
             'entity' => $entity,

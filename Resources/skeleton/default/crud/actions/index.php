@@ -21,6 +21,7 @@
                 'sort'  => $this->getSort(),
             ));
         }
+
         $filter_form = $this->getFilterForm();
 {% if 'annotation' == format %}
         return array(
@@ -61,7 +62,8 @@
             $this->setPage(1);
             $this->setFilters($filter_form->getData());
             return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
-        }        
+        }
+
         return $this->render('{{ bundle }}:{{ entity }}:index.html.twig', array(
             'filter' => $filter_form->createView(),
             'pager'  => $this->getPager(),
