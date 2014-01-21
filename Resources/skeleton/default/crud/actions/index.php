@@ -21,8 +21,8 @@
                 'sort'  => $this->getSort(),
             ));
         }
-
         $filter_form = $this->getFilterForm();
+
 {% if 'annotation' == format %}
         return array(
             'pager'  => $pager,
@@ -54,6 +54,7 @@
         {% endif %}        
         if ($this->getRequest()->request->get('action_reset')) {
             $this->setFilters(array());
+
             return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
         }        
         $filter_form = $this->get('form.factory')->create(new {{ entity_class }}FilterType());        
@@ -61,6 +62,7 @@
         if ($filter_form->isValid()) {
             $this->setPage(1);
             $this->setFilters($filter_form->getData());
+
             return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
         }
 

@@ -15,6 +15,7 @@
         $method = $this->getRequest()->request->get('batch_action');
         if (!$method) {
             $this->addFlash('error', 'Select a action');
+
             return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
         }
         $method = $method.'Batch';
@@ -27,6 +28,7 @@
         
         if (!count($ids)) {
             $this->addFlash('error', 'Select a record');
+
             return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
         }
         

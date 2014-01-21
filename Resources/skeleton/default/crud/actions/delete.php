@@ -20,10 +20,10 @@
             $em->remove($entity);
             $em->flush();
             $this->addFlash('notice', 'The entity is deleted.');
-
-            return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
         } catch (\Exception $e) {
             $this->addFlash('error', 'The entity is not deleted.');
         }
+
+        return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
     }
     
