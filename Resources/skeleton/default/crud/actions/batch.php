@@ -4,14 +4,16 @@
      *
 {% if 'annotation' == format %}
      * @Route("/batch", name="{{ route_name_prefix }}_batch")
+     * @Secure(roles="ROLE_{{ entity|upper }}_DELETE")
 {% endif %}
      */
     public function batchAction()
     {
+{% if 'annotation' != format %}
         if (false === $this->get('security.context')->isGranted('ROLE_{{ entity|upper }}_DELETE')) {
             throw new AccessDeniedException();
         }
-
+{% endif %}
         $method = $this->getRequest()->request->get('batch_action');
         if (!$method) {
             $this->addFlash('error', 'Select a action');

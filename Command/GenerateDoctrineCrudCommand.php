@@ -26,14 +26,6 @@ class GenerateDoctrineCrudCommand extends BaseGenerateDoctrineCrudCommand
     
     protected function configure()
     {
-//        parent::configure();
-//
-//        $this
-//             ->addOption('theme', null, InputOption::VALUE_OPTIONAL, 'The Theme name', 'default')
-//             ->setName('doctrine:culabsgenerate:crud')
-//             ->setAliases(array('culabs:doctrine:crud'))
-//        ;
-
         $this
             ->setDefinition(array(
                 new InputOption('entity', '', InputOption::VALUE_REQUIRED, 'The entity class name to initialize (shortcut notation)'),

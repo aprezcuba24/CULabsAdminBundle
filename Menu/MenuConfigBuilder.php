@@ -6,6 +6,7 @@ use Knp\Menu\FactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 use Knp\Menu\MenuItem;
+use Knp\Menu\ItemInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use CULabs\AdminBundle\Event\MenuEvent;
 use Symfony\Component\Security\Core\SecurityContextInterface;
@@ -19,6 +20,9 @@ class MenuConfigBuilder
 
     /**
      * @param FactoryInterface $factory
+     * @param \Symfony\Component\Routing\RouterInterface $router
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $event_dispatcher
+     * @param \Symfony\Component\Security\Core\SecurityContextInterface $security_context
      */
     public function __construct(FactoryInterface $factory, RouterInterface $router, EventDispatcherInterface $event_dispatcher, SecurityContextInterface $security_context)
     {
@@ -27,11 +31,20 @@ class MenuConfigBuilder
         $this->event_dispatcher = $event_dispatcher;
         $this->security_context = $security_context;
     }
+
+    /**
+     * @param Request $request
+     * @param $menu_config
+     * @param array $options
+     * @return \Knp\Menu\ItemInterface
+     */
     public function getMenu(Request $request, $menu_config, array $options = array())
     {   
-        if (isset($menu_config['roles']) && !$this->security_context->isGranted($menu_config['roles']))
+        if (isset($menu_config['roles']) && !$this->security_context->isGranted($menu_config['roles'])) {
+
             return;
-        
+        }
+
         $menu = $this->factory->createItem('root');
         
         $label = isset($menu_config['label'])? $menu_config['label']: $this->buildLabel('root');
@@ -51,14 +64,18 @@ class MenuConfigBuilder
             $request_uri = $request_uri[0];
         }
         
-//        $menu->setCurrentUri($request_uri);
-        
         $this->event_dispatcher->dispatch(MenuEvent::CONFIGURE, new MenuEvent($this->factory, $menu));
         
         $this->doMenu($menu, $menu_config['items']);
+
         return $menu;
     }
-    protected function doMenu($menu, $menu_config)
+
+    /**
+     * @param ItemInterface $menu
+     * @param array $menu_config
+     */
+    protected function doMenu(ItemInterface $menu, Array $menu_config)
     {
         foreach ($menu_config as $key => $item) {
             
@@ -85,8 +102,13 @@ class MenuConfigBuilder
             }
         }
     }
+
+    /**
+     * @param string $key
+     * @return string
+     */
     protected function buildLabel($key)
     {
-        return 'label_menu_'.$key;
+        return 'menu.'.$key;
     }
 }

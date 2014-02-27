@@ -4,22 +4,24 @@
      *
 {% if 'annotation' == format %}
      * @Route("/{id}/edit", name="{{ route_name_prefix }}_edit")
+     * @Secure(roles="ROLE_{{ entity|upper }}_EDIT")
      * @Template()
 {% endif %}
      */
-    public function editAction($id)
+    public function editAction($id, Request $request)
     {
+{% if 'annotation' != format %}
         if (false === $this->get('security.context')->isGranted('ROLE_{{ entity|upper }}_EDIT')) {
             throw new AccessDeniedException();
         }
+{% endif %}
         $entity = $this->getRepository('{{ bundle }}:{{ entity }}')->find($id);
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find {{ entity }} entity.');
         }
         $form = $this->createForm(new {{ entity_class }}Type(), $entity);
-        $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
-            $form->bind($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $em = $this->getManager();
                 $em->persist($entity);

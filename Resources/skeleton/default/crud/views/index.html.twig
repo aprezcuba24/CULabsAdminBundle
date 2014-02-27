@@ -23,7 +23,7 @@
         {{ '{% if is_granted(\'ROLE_%entity_name%_NEW\') %}'|replace({'%entity_name%':entity|upper}) }}
         <li>
             <a href="{{ "{{ path('"~ route_name_prefix ~"_new') }}" }}" class="btn btn-icon btn-primary">     
-              <i class="icon-plus-sign icon-white"></i>{{ '{{ \'New\'|trans }}' }}  
+                <i class="icon-plus-sign icon-white"></i>{{ '{{ \'New\'|trans }}' }}
             </a>
         </li>
         {{ '{% endif %}' }}
