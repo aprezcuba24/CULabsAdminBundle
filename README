@@ -51,6 +51,9 @@ Registrar los bundles en el kernel
         new CULabs\jQueryBundle\CULabsjQueryBundle(),
         new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
         new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),
+        new JMS\AopBundle\JMSAopBundle(),
+        new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
+        new JMS\DiExtraBundle\JMSDiExtraBundle($this),
         // ...
     );
 
