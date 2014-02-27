@@ -15,7 +15,8 @@
         "culabs/jquery-bundle": "dev-master",
         "knplabs/knp-paginator-bundle": "dev-master",
         "lexik/form-filter-bundle": "dev-master",
-        "knplabs/knp-menu-bundle": "2.0.x-dev"
+        "knplabs/knp-menu-bundle": "2.0.x-dev",
+        "jms/security-extra-bundle": "1.5.*@dev"
     },
     "autoload": {
         "psr-0": {
