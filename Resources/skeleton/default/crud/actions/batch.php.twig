@@ -7,14 +7,14 @@
      * @Secure(roles="ROLE_{{ entity|upper }}_DELETE")
 {% endif %}
      */
-    public function batchAction()
+    public function batchAction(Request $request)
     {
 {% if 'annotation' != format %}
         if (false === $this->get('security.context')->isGranted('ROLE_{{ entity|upper }}_DELETE')) {
             throw new AccessDeniedException();
         }
 {% endif %}
-        $method = $this->getRequest()->request->get('batch_action');
+        $method = $request->get('batch_action');
         if (!$method) {
             $this->addFlash('error', 'Select a action');
 
@@ -26,7 +26,7 @@
             throw new \UnexpectedValueException('The bacth method not defined');
         }
         
-        $ids = $this->getRequest()->request->get('ids');
+        $ids = $request->get('ids');
         
         if (!count($ids)) {
             $this->addFlash('error', 'Select a record');

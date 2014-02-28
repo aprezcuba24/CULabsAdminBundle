@@ -10,13 +10,20 @@
             $().ready(function () {
                 $('#{{ update~field }}').click(function(e) {
                     e.preventDefault();
-                    {{ jq_remote_function({
-                        'update':   update, 
-                        'url':      path(route, param|merge({'field':field, 'order':sort.next})),
-                        'method':   'GET',
-                        'complete': "jQuery('#%s').hide();"|format(indicator),
-                        'loading':  "jQuery('#%s').show();"|format(indicator),
-                    }) }}
+                    jQuery.ajax({
+                        type:'GET',
+                        dataType:'html',
+                        success:function(data, textStatus){
+                            jQuery('#{{ update }}').html(data);
+                        },
+                        beforeSend:function(XMLHttpRequest){
+                            jQuery('#{{ indicator }}').show();
+                        },
+                        complete:function(XMLHttpRequest, textStatus){
+                            jQuery('#{{ indicator }}').hide();
+                        },
+                        url: "{{ path(route, param|merge({'field':field, 'order':sort.next})) }}"
+                    });
                 });
             });
         </script>
@@ -26,13 +33,20 @@
             $().ready(function () {
                 $('#{{ update~field }}').click(function(e) {
                     e.preventDefault();
-                    {{ jq_remote_function({
-                        'update':   update, 
-                        'url':      path(route, param|merge({'field':field, 'order':'ASC'})),
-                        'method':   'GET',
-                        'complete': "jQuery('#%s').hide();"|format(indicator),
-                        'loading':  "jQuery('#%s').show();"|format(indicator),
-                    }) }}
+                    jQuery.ajax({
+                        type:'GET',
+                        dataType:'html',
+                        success:function(data, textStatus){
+                            jQuery('#{{ update }}').html(data);
+                        },
+                        beforeSend:function(XMLHttpRequest){
+                            jQuery('#{{ indicator }}').show();
+                        },
+                        complete:function(XMLHttpRequest, textStatus){
+                            jQuery('#{{ indicator }}').hide();
+                        },
+                        url: "{{ path(route, param|merge({'field':field, 'order':'ASC'})) }}"
+                    });
                 });
             });
         </script>

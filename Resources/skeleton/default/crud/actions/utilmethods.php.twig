@@ -49,7 +49,7 @@
     {
         $filter_form = $this->getFilterForm();        
         $qb = $this->getRepository('{{ bundle }}:{{ entity }}')
-                   ->createQueryBuilder('{{ entity }}')
+            ->createQueryBuilder('{{ entity }}')
         ;
         $sort = $this->getSort();
         if ($sort) {

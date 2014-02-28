@@ -15,14 +15,21 @@
             $().ready(function () {
                 $('#icon-fast-backward_{{ zona }}').click(function(e) {
                     e.preventDefault();
-                    {{ jq_remote_function({
-                        'update':   zona, 
-                        'url':      url,
-                        'method':   'GET',
-                        'with':     "'page=1'",
-                        'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
-                        'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
-                    }) }}
+                    jQuery.ajax({
+                        type:'GET',
+                        dataType:'html',
+                        data:'page=1',
+                        success: function(data, textStatus){
+                            jQuery('#{{ zona }}').html(data);
+                        },
+                        beforeSend: function(XMLHttpRequest){
+                            jQuery('#indicador_{{ zona }}').show();
+                        },
+                        complete: function(XMLHttpRequest, textStatus){
+                            jQuery('#indicador_{{ zona }}').hide();
+                        },
+                        url:'{{ url }}'
+                    });
                 });
             });
         </script>
@@ -34,14 +41,21 @@
             $().ready(function () {
                 $('#icon-step-backward_{{ zona }}').click(function(e) {
                     e.preventDefault();
-                    {{ jq_remote_function({
-                        'update':   zona, 
-                        'url':      url,
-                        'method':   'GET',
-                        'with':     jq_sprintf("'page=%s'", pager_data.previous),
-                        'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
-                        'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
-                    }) }}
+                    jQuery.ajax({
+                        type:'GET',
+                        dataType:'html',
+                        data:'page={{ pager_data.previous }}',
+                        success:function(data, textStatus){
+                            jQuery('#{{ zona }}').html(data);
+                        },
+                        beforeSend:function(XMLHttpRequest){
+                            jQuery('#indicador_{{ zona }}').show();
+                        },
+                        complete:function(XMLHttpRequest, textStatus){
+                            jQuery('#indicador_{{ zona }}').hide();
+                        },
+                        url:'{{ url }}'
+                    });
                 });
             });
         </script>
@@ -78,14 +92,21 @@
             $().ready(function () {
                 $('#icon-step-forward_{{ zona }}').click(function(e) {
                     e.preventDefault();
-                    {{ jq_remote_function({
-                        'update':   zona, 
-                         'url':      url,
-                         'method':   'GET',
-                         'with':     jq_sprintf("'page=%s'", pager_data.next),
-                         'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
-                         'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
-                    }) }}
+                    jQuery.ajax({
+                        type:'GET',
+                        dataType:'html',
+                        data:'page={{ pager_data.next }}',
+                        success:function(data, textStatus){
+                            jQuery('#{{ zona }}').html(data);
+                        },
+                        beforeSend:function(XMLHttpRequest){
+                            jQuery('#indicador_{{ zona }}').show();
+                        },
+                        complete:function(XMLHttpRequest, textStatus){
+                            jQuery('#indicador_{{ zona }}').hide();
+                        },
+                        url:'{{ url }}'
+                    });
                 });
             });
         </script>
@@ -106,14 +127,21 @@
             $().ready(function () {
                 $('#icon-fast-forward_{{ zona }}').click(function(e) {
                     e.preventDefault();
-                    {{ jq_remote_function({
-                        'update':   zona, 
-                        'url':      url,
-                        'method':   'GET',
-                        'with':     jq_sprintf("'page=%s'", pager_data.pageCount),
-                        'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
-                        'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
-                    }) }}
+                    jQuery.ajax({
+                        type:'GET',
+                        dataType:'html',
+                        data:'page={{ pager_data.pageCount }}',
+                        success:function(data, textStatus){
+                            jQuery('#{{ zona }}').html(data);
+                        },
+                        beforeSend:function(XMLHttpRequest){
+                            jQuery('#indicador_{{ zona }}').show();
+                        },
+                        complete:function(XMLHttpRequest, textStatus){
+                            jQuery('#indicador_{{ zona }}').hide();
+                        },
+                        url:'{{ url }}'
+                    });
                 });
             });
         </script>

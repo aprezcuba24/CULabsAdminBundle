@@ -59,7 +59,7 @@
         if ($this->getRequest()->getMethod() == 'POST')
             throw $this->createNotFoundException();
         {% endif %}        
-        if ($this->getRequest()->request->get('action_reset')) {
+        if ($request->get('action_reset')) {
             $this->setFilters(array());
 
             return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
