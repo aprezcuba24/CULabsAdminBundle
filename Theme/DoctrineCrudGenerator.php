@@ -137,7 +137,7 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator
         }
 
         $target = sprintf(
-            '%s/Resources/config/routing/%s.%s', 
+            '%s/Resources/config/routing/%s.%s.twig',
             $this->bundle->getPath(),
             strtolower(str_replace('\\', '_', $this->entity)),
             $this->format
@@ -205,7 +205,7 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator
         $formClassName = $entityClass.'Type';
         $form_type_name = strtolower(str_replace('\\', '_', $this->bundle->getNamespace()).($parts ? '_' : '').implode('_', $parts).'_'.$formClassName);
 
-        $this->renderFile('tests/test.php', $target, array(
+        $this->renderFile('tests/test.php.twig', $target, array(
             'route_prefix'      => $this->routePrefix,
             'route_name_prefix' => $this->routeNamePrefix,
             'entity'            => $this->entity,

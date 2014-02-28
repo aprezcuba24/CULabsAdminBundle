@@ -33,33 +33,33 @@ class {{ entity_class }}CRUDController extends CRUDController
 {
 
     {%- if 'index' in actions %}
-        {%- include 'actions/index.php' %}
+        {%- include 'actions/index.php.twig' %}
     {%- endif %}
 
     {%- if 'show' in actions %}
-        {%- include 'actions/show.php' %}
+        {%- include 'actions/show.php.twig' %}
     {%- endif %}
 
     {%- if 'new' in actions %}
-        {%- include 'actions/new.php' %}
+        {%- include 'actions/new.php.twig' %}
     {%- endif %}
 
     {%- if 'edit' in actions %}
-        {%- include 'actions/edit.php' %}
+        {%- include 'actions/edit.php.twig' %}
     {%- endif %}
 
     {%- if 'delete' in actions %}
-        {%- include 'actions/delete.php' %}
+        {%- include 'actions/delete.php.twig' %}
     {%- endif %}
     
     {%- if 'batch' in actions %}
-        {%- include 'actions/batch.php' %}
+        {%- include 'actions/batch.php.twig' %}
     {%- endif %}
     
     {%- if 'batch' in actions and ('delete' in actions) %}
-        {%- include 'actions/deleteBatch.php' %}
+        {%- include 'actions/deleteBatch.php.twig' %}
     {%- endif %}
     
-    {%- include 'actions/utilmethods.php' %}
+    {%- include 'actions/utilmethods.php.twig' %}
     
 }
