@@ -50,18 +50,19 @@ Using the --with-write option allows to generate the new, edit and delete action
 Every generated file is based on a template. There are default templates but they can be overriden by placing custom templates in one of the following locations, by order of priority:
 
 <info>BUNDLE_PATH/Resources/CULabsAdminBundle/skeleton/crud
-APP_PATH/Resources/CULabsAdminBundle/skeleton/crud</info>
+APP_PATH/Resources/CULabsAdminBundle/skeleton/default/crud</info>
 
 And
 
-<info>__bundle_path__/Resources/CULabsAdminBundle/skeleton/form
-__project_root__/app/Resources/CULabsAdminBundle/skeleton/form</info>
+<info>__bundle_path__/Resources/CULabsAdminBundle/skeleton/default/form
+__project_root__/app/Resources/CULabsAdminBundle/skeleton/default/form</info>
 EOT
             )
             ->setName('doctrine:culabsgenerate:crud')
             ->setAliases(array('culabs:generate:crud'))
         ;
     }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $theme_colletion = $this->getContainer()->get('cu_labs_admin.theme.collection');
@@ -86,10 +87,12 @@ EOT
         
         return parent::execute($input, $output);
     }
+
     public function setFilterFormGenerator(DoctrineFiterGenerator $filterFormGenerator)
     {
         $this->filterFormGenerator = $filterFormGenerator;
     }
+
     private function generateFilterForm($bundle, $entity, $metadata)
     {
         try {
@@ -98,14 +101,16 @@ EOT
             // form already exists
         }
     }
+
     protected function getFilterFormGenerator()
     {
         if (null === $this->filterFormGenerator) {
-            $this->filterFormGenerator = new DoctrineFiterGenerator($this->getContainer()->get('filesystem'),  __DIR__.'/../Resources/skeleton/fiter');
+            $this->filterFormGenerator = new DoctrineFiterGenerator($this->getContainer()->get('filesystem'),  $this->getSkeletonPath('filter'));
         }
 
         return $this->filterFormGenerator;
     }
+
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         parent::interact($input, $output);
@@ -120,5 +125,18 @@ EOT
         ));
         $theme = $dialog->ask($output, $dialog->getQuestion('Select the theme', 'default'), 'default');
         $input->setOption('theme', $theme);
+    }
+
+    protected function getSkeletonPath($dir)
+    {
+        $bundle = $this->getContainer()->get('kernel')->getBundle('CULabsAdminBundle');
+        $dir_path = sprintf('%s/Resources/skeleton/default/%s', $bundle->getPath(), $dir);
+
+        if (!file_exists($dir_path)) {
+
+            throw new InvalidArgumentException(sprintf('%s is no directory', $dir_path));
+        }
+
+        return $dir_path;
     }
 }
