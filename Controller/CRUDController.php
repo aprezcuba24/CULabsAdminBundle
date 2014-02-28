@@ -18,12 +18,12 @@ class CRUDController extends BaseController
     protected function setFilters(array $filters)
     {
         $this->setSession('filters', $filters);
-    }    
-    public function getSort()
+    }
+    protected function getSort()
     {
         return $this->getSession('sort', array());
-    }    
-    public function setSort($sort)
+    }
+    protected function setSort($sort)
     {
         $this->setSession('sort', $sort);
     }    
