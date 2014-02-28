@@ -12,10 +12,15 @@
         }
     ],
     "require": {
-        "knplabs/knp-paginator-bundle": "dev-master",
-        "lexik/form-filter-bundle": "dev-master",
-        "knplabs/knp-menu-bundle": "2.0.x-dev",
-        "jms/security-extra-bundle": "dev-master"
+        "php": ">=5.3.3",
+        "symfony/symfony": "~2.4",
+        "doctrine/orm": "~2.2,>=2.2.3",
+        "twig/extensions": "~1.0",
+        "knplabs/knp-paginator-bundle": "2.4.*@dev",
+        "lexik/form-filter-bundle": "2.0.*",
+        "knplabs/knp-menu": "2.0.*@dev",
+        "knplabs/knp-menu-bundle": "2.0.*@dev",
+        "jms/security-extra-bundle": "1.5.*@dev"
     },
     "autoload": {
         "psr-0": {
