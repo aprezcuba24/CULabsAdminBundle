@@ -17,7 +17,8 @@
         </service>
         <service id="cu_labs_admin.theme.default" class="%cu_labs_admin.theme.generity.class%">
             <tag name="cu_labs_admin.theme" alias="default" />
-            <argument type="service" id="service_container" />
+            <argument type="service" id="kernel" />
+            <argument type="service" id="filesystem" />
             <argument>%cu_labs_admin.theme.default.skeleton%</argument>
         </service>
     </services>
