@@ -11,28 +11,33 @@
 
 namespace CULabs\AdminBundle\Theme;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 
 class ThemeDoctrineCrudCollection implements ThemeDoctrineCrudCollectionInterface
 {
-    protected $container;
-    protected $themes_name;
-    
-    public function __construct(ContainerInterface $container, array $themes_name)
+    protected $themes = array();
+
+    public function __construct(array $themes)
     {
-        $this->container   = $container;
-        $this->themes_name = $themes_name;
+        $this->themes = $themes;
+    }
+
+    public function addTheme($name, $theme_service)
+    {
+        $this->themes[$name] = $theme_service;
     }
 
     public function getTheme($name)
     {
-        if (!isset ($this->themes_name[$name]))
+        if (!isset($this->themes[$name])) {
+
             throw new InvalidArgumentException('Theme name not exist');
-        
-        $theme_service = $this->container->get($this->themes_name[$name]);
+        }
+
+        $theme_service = $this->themes[$name];
         
         if (!$theme_service instanceof ThemeDoctrineCrudInterface) {
+
             throw new InvalidArgumentException($theme_service, 'CULabs\AdminBundle\Theme\ThemeDoctrineCrudInterface');
         }
         

@@ -6,6 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * This is the class that loads and manages your bundle configuration
@@ -41,9 +42,9 @@ class CULabsAdminExtension extends Extension
                 ? $tag[0]['alias']
                 : $serviceId;
             
-            $items[$alias] = $serviceId;
+            $items[$alias] =  new Reference($serviceId);
         }
         
-        $container->getDefinition('cu_labs_admin.theme.collection')->replaceArgument(1, $items);
+        $container->getDefinition('cu_labs_admin.theme.collection')->replaceArgument(0, $items);
     }
 }

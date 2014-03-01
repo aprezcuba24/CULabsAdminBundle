@@ -12,7 +12,6 @@
 
     <services>
         <service id="cu_labs_admin.theme.collection" class="%cu_labs_admin.themecollection.class%">
-            <argument type="service" id="service_container" />
             <argument type="collection"/>
         </service>
         <service id="cu_labs_admin.theme.default" class="%cu_labs_admin.theme.generity.class%">
