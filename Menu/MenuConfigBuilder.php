@@ -33,12 +33,12 @@ class MenuConfigBuilder
     }
 
     /**
-     * @param Request $request
-     * @param $menu_config
-     * @param  array                   $options
+     * @param Request                  $request
+     * @param Array                    $menu_config
+     * @param  Array                   $options
      * @return \Knp\Menu\ItemInterface
      */
-    public function getMenu(Request $request, $menu_config, array $options = array())
+    public function getMenu(Request $request, Array $menu_config, Array $options = array())
     {
         if (isset($menu_config['roles']) && !$this->security_context->isGranted($menu_config['roles'])) {
             return;
@@ -70,7 +70,7 @@ class MenuConfigBuilder
         return $menu;
     }
 
-    /**
+    /**$
      * @param ItemInterface $menu
      * @param array         $menu_config
      */
@@ -83,7 +83,7 @@ class MenuConfigBuilder
 
             $child = new MenuItem($key, $this->factory);
 
-            $label = isset($menu_config['label'])? $menu_config['label']: $this->buildLabel($key);
+            $label = isset($item['label'])? $item['label']: $this->buildLabel($key);
             $child->setLabel($label);
 
             if (isset($item['route'])) {
