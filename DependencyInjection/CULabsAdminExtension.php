@@ -25,26 +25,26 @@ class CULabsAdminExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
-        
+
         $this->complileThemeColletions($container);
-        
+
         $container->setParameter('culabs.admin.list_cant', 10);
-        
+
         $container->setParameter('culabs.admin.admin_menu', 'admin_menu');
     }
-    
+
     protected function complileThemeColletions(ContainerBuilder $container)
     {
         $items = array();
-        
+
         foreach ($container->findTaggedServiceIds('cu_labs_admin.theme') as $serviceId => $tag) {
             $alias = isset($tag[0]['alias'])
                 ? $tag[0]['alias']
                 : $serviceId;
-            
+
             $items[$alias] =  new Reference($serviceId);
         }
-        
+
         $container->getDefinition('cu_labs_admin.theme.collection')->replaceArgument(0, $items);
     }
 }

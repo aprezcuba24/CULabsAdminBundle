@@ -3,7 +3,7 @@
     <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>{% block title %}Admin Aplication{% endblock %}</title>
-        {% block stylesheets %}        
+        {% block stylesheets %}
 	<link rel="stylesheet" href="{{ asset('bundles/culabsadmin/css/backend.css') }}" type="text/css" media="screen" title="default" />
 	<link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.css') }}" type="text/css" media="screen" title="default" />
 	<link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-responsive.css') }}" type="text/css" media="screen" title="default" />
@@ -50,9 +50,9 @@
             </div>
         </div>
         <div class="container-fluid">
-            <div class="page-title">                
+            <div class="page-title">
                 <h1>{% block title_page('Title...') %}</h1>
-                <div class="flash">                
+                <div class="flash">
                     {% block flashes %}
                         {% include "CULabsAdminBundle:Layout:flashes.html.twig" %}
                     {% endblock %}

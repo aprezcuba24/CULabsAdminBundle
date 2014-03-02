@@ -22,7 +22,7 @@
     <ul class="actions">
         {{ '{% if is_granted(\'ROLE_%entity_name%_NEW\') %}'|replace({'%entity_name%':entity|upper}) }}
         <li>
-            <a href="{{ "{{ path('"~ route_name_prefix ~"_new') }}" }}" class="btn btn-icon btn-primary">     
+            <a href="{{ "{{ path('"~ route_name_prefix ~"_new') }}" }}" class="btn btn-icon btn-primary">
                 <i class="icon-plus-sign icon-white"></i>{{ '{{ \'New\'|trans }}' }}
             </a>
         </li>
@@ -32,7 +32,7 @@
 
 {{ '{% block list %}' }}
 <div id="ajax_{{ entity }}">
-    {{ '{% include \'%bundle_name%:%entity_name%CRUD:list.html.twig\' with { 
+    {{ '{% include \'%bundle_name%:%entity_name%CRUD:list.html.twig\' with {
         \'pager\': pager,
         \'sort\' : sort,
     } %}'|replace({'%entity_name%':entity, '%bundle_name%':bundle }) }}

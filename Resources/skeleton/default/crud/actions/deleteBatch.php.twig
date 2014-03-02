@@ -1,4 +1,4 @@
-    
+
     protected function deleteBatch($ids)
     {
         $qb = $this->getRepository('{{ bundle }}:{{ entity }}')->createQueryBuilder('{{ entity }}');
@@ -16,4 +16,3 @@
             $this->addFlash('error', 'The records are not deleted.');
         }
     }
-    

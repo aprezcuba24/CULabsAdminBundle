@@ -3,7 +3,7 @@
 /*
  * This file is part of the Symfony package.
  *
- * (c) Alejandro Pérez Cuba <aprezcuba24@gmail.com>
+ * (c) Renier Ricardo Figueredo <aprezcuba24@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -18,8 +18,6 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
 
 /**
  * Generates a CRUD controller.
- *
- * @author Fabien Potencier <fabien@symfony.com>
  */
 class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator
 {
@@ -36,8 +34,8 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator
     /**
      * Constructor.
      *
-     * @param Filesystem $filesystem A Filesystem instance
-     * @param string $skeletonDir Path to the skeleton directory
+     * @param Filesystem $filesystem  A Filesystem instance
+     * @param string     $skeletonDir Path to the skeleton directory
      */
     public function __construct(Filesystem $filesystem, $skeletonDir)
     {
@@ -48,12 +46,12 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator
     /**
      * Generate the CRUD controller.
      *
-     * @param BundleInterface $bundle A bundle object
-     * @param string $entity The entity relative class name
-     * @param ClassMetadataInfo $metadata The entity class metadata
-     * @param string $format The configuration format (xml, yaml, annotation)
-     * @param string $routePrefix The route name prefix
-     * @param array $needWriteActions Wether or not to generate write actions
+     * @param BundleInterface   $bundle           A bundle object
+     * @param string            $entity           The entity relative class name
+     * @param ClassMetadataInfo $metadata         The entity class metadata
+     * @param string            $format           The configuration format (xml, yaml, annotation)
+     * @param string            $routePrefix      The route name prefix
+     * @param array             $needWriteActions Wether or not to generate write actions
      *
      * @throws \RuntimeException
      */
@@ -97,7 +95,7 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator
         if (in_array('edit', $this->actions)) {
             $this->generateEditView($dir);
         }
-        
+
         if (in_array('edit', $this->actions) || in_array('new', $this->actions)) {
             $this->generateFormView($dir);
         }
@@ -201,7 +199,7 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator
 
         $dir    = $this->bundle->getPath() .'/Tests/Controller';
         $target = $dir .'/'. str_replace('\\', '/', $entityNamespace).'/'. $entityClass .'CRUDControllerTest.php';
-        
+
         $formClassName = $entityClass.'Type';
         $form_type_name = strtolower(str_replace('\\', '_', $this->bundle->getNamespace()).($parts ? '_' : '').implode('_', $parts).'_'.$formClassName);
 

@@ -80,7 +80,7 @@
     </tr>
     {{ '{% endfor %}' }}
 {{ '{% endblock %}' }}
- 
+
 {{ '{% block footer_table %}' }}
     <div class="batch">
         {{ '{% if is_granted(\'ROLE_%entity_name%_DELETE\') %}'|replace({'%entity_name%':entity|upper}) }}
@@ -94,7 +94,7 @@
             <img style="display: none" id="{{ 'indicator_table_%entity_name%'|replace({'%entity_name%': entity}) }}" src="{{ '{{ asset(\'bundles/culabsadmin/images/loader.gif\') }}' }}"/>
         </div>
     </div>
-    {{ '{% include \'CULabsAdminBundle:Crud:pager.html.twig\' with { 
+    {{ '{% include \'CULabsAdminBundle:Crud:pager.html.twig\' with {
         \'pager\':                pager,
         \'zona\':                 \'ajax_%entity_name%\',
         \'url\':                  path(\'%route_name_prefix%\'),

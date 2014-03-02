@@ -9,13 +9,13 @@ use Knp\Menu\ItemInterface;
 class MenuEvent extends Event
 {
     const CONFIGURE = 'culabs.menu.configure';
-    
+
     private $factory;
     private $menu;
 
     /**
      * @param \Knp\Menu\FactoryInterface $factory
-     * @param \Knp\Menu\ItemInterface $menu
+     * @param \Knp\Menu\ItemInterface    $menu
      */
     public function __construct(FactoryInterface $factory, ItemInterface $menu)
     {

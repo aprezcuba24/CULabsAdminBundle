@@ -21,21 +21,20 @@
             return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
         }
         $method = $method.'Batch';
-        
+
         if (!method_exists($this, $method)) {
             throw new \UnexpectedValueException('The bacth method not defined');
         }
-        
+
         $ids = $request->get('ids');
-        
+
         if (!count($ids)) {
             $this->addFlash('error', 'Select a record');
 
             return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
         }
-        
+
         $this->$method($ids);
-        
+
         return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
     }
-    

@@ -51,15 +51,15 @@ class {{ entity_class }}CRUDController extends CRUDController
     {%- if 'delete' in actions %}
         {%- include 'actions/delete.php.twig' %}
     {%- endif %}
-    
+
     {%- if 'batch' in actions %}
         {%- include 'actions/batch.php.twig' %}
     {%- endif %}
-    
+
     {%- if 'batch' in actions and ('delete' in actions) %}
         {%- include 'actions/deleteBatch.php.twig' %}
     {%- endif %}
-    
+
     {%- include 'actions/utilmethods.php.twig' %}
-    
+
 }

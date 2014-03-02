@@ -3,7 +3,7 @@
 /*
  * This file is part of the Symfony package.
  *
- * (c) Alejandro Pérez Cuba <aprezcuba24@gmail.com>
+ * (c) Renier Ricardo Figueredo <aprezcuba24@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -37,14 +37,14 @@ class ThemeDoctrineCrud implements ThemeDoctrineCrudInterface
      * @return DoctrineCrudGenerator
      * @throws \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
      */
-    public function getGenerator() 
-    {   
+    public function getGenerator()
+    {
         if (null === $this->generator) {
-            
-            $dir_path = $this->skeletonPath().'crud';        
+
+            $dir_path = $this->skeletonPath().'crud';
             if (!file_exists($dir_path))
                 throw new InvalidArgumentException(sprintf('%s is no directory', $dir_path));
-            
+
             $this->generator = new DoctrineCrudGenerator($this->filesystem, $dir_path);
         }
 
@@ -55,14 +55,14 @@ class ThemeDoctrineCrud implements ThemeDoctrineCrudInterface
      * @return DoctrineFormGenerator
      * @throws \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
      */
-    public function getFormGenerator() 
-    {   
+    public function getFormGenerator()
+    {
         if (null === $this->formGenerator) {
-            
-            $dir_path = $this->skeletonPath().'form';        
+
+            $dir_path = $this->skeletonPath().'form';
             if (!file_exists($dir_path))
                 throw new InvalidArgumentException(sprintf('%s is no directory', $dir_path));
-            
+
             $this->formGenerator = new DoctrineFormGenerator($this->filesystem);
             $this->formGenerator->setSkeletonDirs($this->skeletonPath());
         }
@@ -75,13 +75,13 @@ class ThemeDoctrineCrud implements ThemeDoctrineCrudInterface
      * @throws \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
      */
     public function getFilterFormGenerator()
-    {   
+    {
         if (null === $this->filterFormGenerator) {
-            
-            $dir_path = $this->skeletonPath().'filter';        
+
+            $dir_path = $this->skeletonPath().'filter';
             if (!file_exists($dir_path))
                 throw new InvalidArgumentException(sprintf('%s is no directory', $dir_path));
-            
+
             $this->filterFormGenerator = new DoctrineFiterGenerator($this->filesystem, $dir_path);
         }
 
@@ -94,16 +94,16 @@ class ThemeDoctrineCrud implements ThemeDoctrineCrudInterface
      */
     protected function skeletonPath()
     {
-        $part_name = explode(':', $this->theme_name);        
+        $part_name = explode(':', $this->theme_name);
         if (count($part_name) != 2)
             throw new InvalidArgumentException('The thene name most similar to CULabsAdminBundle:default');
-        
+
         $bundle = $this->kernel->getBundle($part_name[0]);
-        
-        $dir_path = $bundle->getPath().sprintf('/Resources/skeleton/%s/',$part_name[1]);        
+
+        $dir_path = $bundle->getPath().sprintf('/Resources/skeleton/%s/',$part_name[1]);
         if (!file_exists($dir_path))
             throw new InvalidArgumentException(sprintf('%s is no directory', $dir_path));
-        
+
         return $dir_path;
     }
 }

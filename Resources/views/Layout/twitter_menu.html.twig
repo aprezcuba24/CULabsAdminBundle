@@ -88,17 +88,17 @@
 {% endif %}
 {% endblock %}
 
-{% block linkElement %}    
+{% block linkElement %}
     {% if item.level is sameas(1) %}
         {% set linkAttributes = item.linkAttributes|merge({'class': (item.linkAttributes.class|default('') ~ ' dropdown-toggle')|trim}) %}
     {% else %}
         {% set linkAttributes = item.linkAttributes %}
     {% endif %}
-    <a href="{{ item.uri }}"{{ _self.attributes(linkAttributes) }} {% if item.level is sameas(1) %}data-toggle="dropdown"{% endif %}>        
+    <a href="{{ item.uri }}"{{ _self.attributes(linkAttributes) }} {% if item.level is sameas(1) %}data-toggle="dropdown"{% endif %}>
         {{ block('label') }}
         {% if item.level is sameas(1) %}
             <b class="caret"></b>
-        {% endif %}         
+        {% endif %}
     </a>
 {% endblock %}
 
@@ -108,11 +108,11 @@
     {% else %}
         {% set linkAttributes = item.linkAttributes %}
     {% endif %}
-    <a href="#" {{ _self.attributes(linkAttributes) }} {% if item.level is sameas(1) %}data-toggle="dropdown"{% endif %}>        
+    <a href="#" {{ _self.attributes(linkAttributes) }} {% if item.level is sameas(1) %}data-toggle="dropdown"{% endif %}>
         {{ block('label') }}
         {% if item.level is sameas(1) %}
             <b class="caret"></b>
-        {% endif %}         
+        {% endif %}
     </a>
 {% endblock %}
 

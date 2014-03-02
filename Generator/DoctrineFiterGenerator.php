@@ -28,7 +28,7 @@ class DoctrineFiterGenerator extends Generator
     {
         return $this->classPath;
     }
-    
+
     public function generate(BundleInterface $bundle, $entity, ClassMetadataInfo $metadata)
     {
         $parts       = explode('\\', $entity);

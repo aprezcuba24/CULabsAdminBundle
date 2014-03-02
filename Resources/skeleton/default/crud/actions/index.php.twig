@@ -40,7 +40,7 @@
         ));
 {% endif %}
     }
-    
+
     /**
      * Filter {{ entity }} entities.
      *
@@ -48,7 +48,7 @@
      * @Route("/filter", name="{{ route_name_prefix }}_filter")
      * @Secure(roles="ROLE_{{ entity|upper }}_LIST")
      * @Method("POST")
-{%- endif %}     
+{%- endif %}
      */
     public function filterAction(Request $request)
     {
@@ -58,12 +58,12 @@
         }
         if ($this->getRequest()->getMethod() == 'POST')
             throw $this->createNotFoundException();
-        {% endif %}        
+        {% endif %}
         if ($request->get('action_reset')) {
             $this->setFilters(array());
 
             return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
-        }        
+        }
         $filter_form = $this->getFilterForm();
         $filter_form->handleRequest($request);
         if ($filter_form->isValid()) {
@@ -79,4 +79,3 @@
             'sort'   => $this->getSort(),
         ));
     }
-    

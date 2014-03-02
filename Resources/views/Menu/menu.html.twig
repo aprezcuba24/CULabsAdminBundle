@@ -13,7 +13,7 @@
 <ul {{ menu.attributes(attributes)|raw }}>
     {% for child in item.children %}
         {% include 'CULabsAdminBundle:Menu:item.html.twig' with {
-            'item':  child, 
+            'item':  child,
             'menu':  menu,
             'nivel': nivel + 1,
         } %}

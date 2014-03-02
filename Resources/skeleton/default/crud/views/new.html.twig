@@ -5,15 +5,15 @@
 {{ '{% block actions %}' }}
     <ul class="actions">
         <li>
-            <a href="{{ "{{ path('"~ route_name_prefix ~"') }}" }}" class="btn btn-icon btn-info">     
+            <a href="{{ "{{ path('"~ route_name_prefix ~"') }}" }}" class="btn btn-icon btn-info">
                 <i class="icon-list icon-white"></i>{{ '{{ \'List\'|trans }}' }}
             </a>
         </li>
     </ul>
 {{ '{% endblock %}' }}
-    
+
 {{ '{% block view_body %}' }}
-    {{ '{% include \'%bundle_name%:%entity_name%CRUD:form.html.twig\' with { 
+    {{ '{% include \'%bundle_name%:%entity_name%CRUD:form.html.twig\' with {
         \'form\': form,
     } %}'|replace({'%entity_name%':entity, '%bundle_name%':bundle }) }}
 {{ '{% endblock %}' }}

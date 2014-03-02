@@ -34,7 +34,7 @@
             });
         </script>
     {% endif %}
-        
+
     {% if pager_data.previous is defined %}
         <a class="icon-step-backward" href="#" id="icon-step-backward_{{ zona }}"></a>
         <script type="text/javascript">
@@ -69,11 +69,11 @@
             });
         </script>
     {% endif %}
-        
+
     <div class="pager-indicator">
         <span class="page">{{ pager_data.current }}</span> / <span class="cant">{{ pager_data.pageCount }}</span>
     </div>
-        
+
     <select onchange="window.location='{{ url_changemaxperpage }}?cant=' + this.value">
         {% if maxperpage is defined %}
             {% for item in maxperpage_list %}
@@ -85,7 +85,7 @@
             <option {% if pager_data.numItemsPerPage == 50 %} selected="selected" {% endif %}>50</option>
         {% endif %}
     </select>
-        
+
     {% if pager_data.next is defined %}
         <a class="icon-step-forward" href="#" id="icon-step-forward_{{ zona }}"></a>
         <script type="text/javascript">
@@ -120,7 +120,7 @@
             });
         </script>
     {% endif %}
-        
+
     {% if pager_data.current != pager_data.pageCount %}
         <a class="icon-fast-forward" href="#" id="icon-fast-forward_{{ zona }}"></a>
         <script type="text/javascript">
@@ -155,7 +155,7 @@
             });
         </script>
     {% endif %}
-     
+
     <div class="loader">
         <img style="display: none;" src="{{ asset('bundles/culabsadmin/images/loader.gif') }}" id="indicador_{{ zona }}"/>
     </div>

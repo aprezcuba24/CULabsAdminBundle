@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Description of Controller
  *
- * @author 
+ * @author
  */
 class Controller extends BaseController
 {

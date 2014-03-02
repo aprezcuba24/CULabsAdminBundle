@@ -1,4 +1,4 @@
-    
+
     /**
      * Change Max Per Page.
      *
@@ -19,7 +19,7 @@
 
         return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
     }
-    
+
     /**
      * Change Sort.
      *
@@ -44,10 +44,10 @@
 
         return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
     }
-    
+
     protected function getPager()
     {
-        $filter_form = $this->getFilterForm();        
+        $filter_form = $this->getFilterForm();
         $qb = $this->getRepository('{{ bundle }}:{{ entity }}')
             ->createQueryBuilder('{{ entity }}')
         ;
@@ -64,7 +64,7 @@
 
         return $pager;
     }
-    
+
     protected function getFilterForm()
     {
         $filter_form = $this->createForm(new {{ entity }}FilterType(), $this->getFilters());
