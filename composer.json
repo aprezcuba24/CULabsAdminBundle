@@ -2,13 +2,14 @@
     "name": "culabs/admin-bundle",
     "type": "symfony-bundle",
     "description": "Easy admin generator for symfony2",
-    "keywords": ["admin", "generator"],
+    "keywords": ["symfony2-bundle", "admin", "generator"],
     "license": "MIT",
     "version": "master",
     "authors": [
         {
             "name": "Renier Ricardo Figueredo",
-            "email": "aprezcuba24@gmail.com"
+            "email": "aprezcuba24@gmail.com",
+            "role": "Developer"
         }
     ],
     "require": {
