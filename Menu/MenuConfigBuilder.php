@@ -65,21 +65,23 @@ class MenuConfigBuilder
 
         $this->event_dispatcher->dispatch(MenuEvent::CONFIGURE, new MenuEvent($this->factory, $menu));
 
-        $this->doMenu($menu, $menu_config['items']);
+        $this->doMenu($menu, $menu_config['items'], $request_uri);
 
         return $menu;
     }
 
     /**$
      * @param ItemInterface $menu
-     * @param array         $menu_config
+     * @param Array         $menu_config
+     * @param string        $request_uri
      */
-    protected function doMenu(ItemInterface $menu, Array $menu_config)
+    protected function doMenu(ItemInterface $menu, Array $menu_config, $request_uri)
     {
         foreach ($menu_config as $key => $item) {
 
-            if (isset($item['roles']) && !$this->security_context->isGranted($item['roles']))
+            if (isset($item['roles']) && !$this->security_context->isGranted($item['roles'])) {
                 continue;
+            }
 
             $child = new MenuItem($key, $this->factory);
 
@@ -90,6 +92,10 @@ class MenuConfigBuilder
 
                 $path  = $this->router->generate($item['route']);
                 $child->setUri($path);
+
+                if ($request_uri == $path) {
+                    $child->setCurrent(true);
+                }
             }
 
             $this->event_dispatcher->dispatch(MenuEvent::CONFIGURE, new MenuEvent($this->factory, $child));
@@ -97,7 +103,7 @@ class MenuConfigBuilder
             $menu->addChild($child);
 
             if (isset($item['items'])) {
-                $this->doMenu($child, $item['items']);
+                $this->doMenu($child, $item['items'], $request_uri);
             }
         }
     }
