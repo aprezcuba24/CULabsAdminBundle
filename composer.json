@@ -23,6 +23,11 @@
         "knplabs/knp-menu-bundle": "2.0.*@dev",
         "jms/security-extra-bundle": "1.5.*@dev"
     },
+    "suggest": {
+        "behat/symfony2-extension": "For test",
+        "behat/mink-extension": "For test",
+        "behat/mink-browserkit-driver": "For test"
+    },
     "autoload": {
         "psr-0": {
             "CULabs\\AdminBundle": ""
