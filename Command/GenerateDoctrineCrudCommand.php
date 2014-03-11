@@ -11,6 +11,7 @@
 
 namespace CULabs\AdminBundle\Command;
 
+use CULabs\AdminBundle\Theme\DoctrineCrudGeneratorInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -30,6 +31,7 @@ class GenerateDoctrineCrudCommand extends BaseGenerateDoctrineCrudCommand
             ->setDefinition(array(
                 new InputOption('entity', '', InputOption::VALUE_REQUIRED, 'The entity class name to initialize (shortcut notation)'),
                 new InputOption('route-prefix', '', InputOption::VALUE_REQUIRED, 'The route prefix'),
+                new InputOption('test-environment', '', InputOption::VALUE_OPTIONAL, 'Test environment, behat or phpunit', 'behat'),
                 new InputOption('theme', '', InputOption::VALUE_OPTIONAL, 'The Theme name', 'default'),
                 new InputOption('with-write', '', InputOption::VALUE_NONE, 'Whether or not to generate create, new and delete actions'),
                 new InputOption('format', '', InputOption::VALUE_REQUIRED, 'Use the format for configuration files (php, xml, yml, or annotation)', 'annotation'),
@@ -65,15 +67,21 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $theme_colletion = $this->getContainer()->get('cu_labs_admin.theme.collection');
+        $theme_collection = $this->getContainer()->get('cu_labs_admin.theme.collection');
 
-        if (!$theme_colletion instanceof ThemeDoctrineCrudCollectionInterface) {
+        if (!$theme_collection instanceof ThemeDoctrineCrudCollectionInterface) {
             throw new InvalidArgumentException('The service "cu_labs_admin.theme.collection" most implements CULabs\AdminBundle\Theme\ThemeDoctrineCrudCollectionInterface');
         }
 
-        $this->setGenerator($theme_colletion->getTheme($input->getOption('theme'))->getGenerator());
-        $this->setFormGenerator($theme_colletion->getTheme($input->getOption('theme'))->getFormGenerator());
-        $this->setFilterFormGenerator($theme_colletion->getTheme($input->getOption('theme'))->getFilterFormGenerator());
+        $generator = $theme_collection->getTheme($input->getOption('theme'))->getGenerator();
+        if (!($generator instanceof DoctrineCrudGeneratorInterface)) {
+            throw new \InvalidArgumentException('The generator must implements DoctrineCrudGeneratorInterface');
+        }
+        $generator->testEnvironment(strtoupper($input->getOption('test-environment')));
+        $this->setGenerator($generator);
+
+        $this->setFormGenerator($theme_collection->getTheme($input->getOption('theme'))->getFormGenerator());
+        $this->setFilterFormGenerator($theme_collection->getTheme($input->getOption('theme'))->getFilterFormGenerator());
 
         $entity = Validators::validateEntityName($input->getOption('entity'));
         list($bundle, $entity) = $this->parseShortcutNotation($entity);
@@ -125,6 +133,15 @@ EOT
         ));
         $theme = $dialog->ask($output, $dialog->getQuestion('Select the theme', 'default'), 'default');
         $input->setOption('theme', $theme);
+
+        $test_environment = $input->getOption('test-environment');
+        $output->writeln(array(
+            '',
+            'Determine the test environment to use for CRUD.',
+            '',
+        ));
+        $test_environment = $dialog->ask($output, $dialog->getQuestion('Select the test environment', 'behat'), 'behat');
+        $input->setOption('test-environment', $test_environment);
     }
 
     protected function getSkeletonPath($dir)

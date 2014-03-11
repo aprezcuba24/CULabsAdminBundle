@@ -26,7 +26,8 @@
     "suggest": {
         "behat/symfony2-extension": "For test",
         "behat/mink-extension": "For test",
-        "behat/mink-browserkit-driver": "For test"
+        "behat/mink-browserkit-driver": "For test",
+        "doctrine/data-fixtures": "For test"
     },
     "autoload": {
         "psr-0": {

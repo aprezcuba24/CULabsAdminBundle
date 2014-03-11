@@ -19,7 +19,7 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
 /**
  * Generates a CRUD controller.
  */
-class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator
+class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator implements DoctrineCrudGeneratorInterface
 {
     protected $filesystem;
     protected $skeletonDir;
@@ -30,6 +30,7 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator
     protected $metadata;
     protected $format;
     protected $actions;
+    protected $test_environment;
 
     /**
      * Constructor.
@@ -52,6 +53,7 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator
      * @param string            $format           The configuration format (xml, yaml, annotation)
      * @param string            $routePrefix      The route name prefix
      * @param array             $needWriteActions Wether or not to generate write actions
+     * @param boolean           $forceOverwrite
      *
      * @throws \RuntimeException
      */
@@ -100,7 +102,12 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator
             $this->generateFormView($dir);
         }
 
-        $this->generateTestClass();
+        if ($this->test_environment == DoctrineCrudGeneratorInterface::TEST_ENVIRONMENT_BEHAT) {
+            $this->generateBehatFeature();
+        } else {
+            $this->generateTestClass();
+        }
+
         $this->generateConfiguration();
     }
 
@@ -184,6 +191,34 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator
             'namespace'         => $this->bundle->getNamespace(),
             'entity_namespace'  => $entityNamespace,
             'format'            => $this->format,
+        ));
+    }
+
+    protected function generateBehatFeature()
+    {
+        $parts = explode('\\', $this->entity);
+        $entityClass = array_pop($parts);
+        $entityNamespace = implode('\\', $parts);
+
+        $dir    = $this->bundle->getPath() .'/Features';
+        $target = $dir .'/'. str_replace('\\', '/', $entityNamespace).'/'. $entityClass .'CRUD.feature';
+
+        $this->renderFile('Features/CRUD.feature.twig', $target, array(
+            'route_prefix'      => $this->routePrefix,
+            'fields'            => $this->metadata->fieldMappings,
+            'entity_class'      => $entityClass,
+            'namespace'         => $this->bundle->getNamespace(),
+            'entity'            => $this->entity,
+            'bundle'            => $this->bundle->getName(),
+        ));
+
+        //Generate class
+        $dir    = $this->bundle->getPath() .'/Features/Context';
+        $target = $dir .'/'. str_replace('\\', '/', $entityNamespace).'/'. $entityClass .'CRUD.php';
+
+        $this->renderFile('Features/Context/CRUD.php.twig', $target, array(
+            'namespace'         => $this->bundle->getNamespace(),
+            'entity'            => $this->entity,
         ));
     }
 
@@ -322,5 +357,19 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator
         return array_filter($this->actions, function($item) {
             return in_array($item, array('show', 'edit', 'delete'));
         });
+    }
+
+    public function testEnvironment($test_environment)
+    {
+        $test_environments = array(
+            DoctrineCrudGeneratorInterface::TEST_ENVIRONMENT_BEHAT,
+            DoctrineCrudGeneratorInterface::TEST_ENVIRONMENT_PHPUNIT
+        );
+
+        if (!in_array($test_environment, $test_environments)) {
+            throw new \InvalidArgumentException('test_environment must be ', json_encode($test_environments));
+        }
+
+        $this->test_environment = $test_environment;
     }
 }
