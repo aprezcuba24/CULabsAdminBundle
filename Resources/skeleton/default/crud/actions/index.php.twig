@@ -52,13 +52,13 @@
      */
     public function filterAction(Request $request)
     {
-    {%- if 'annotation' != format %}
+{% if 'annotation' != format %}
         if (false === $this->get('security.context')->isGranted('ROLE_{{ entity|upper }}_LIST')) {
             throw new AccessDeniedException();
         }
         if ($this->getRequest()->getMethod() == 'POST')
             throw $this->createNotFoundException();
-        {% endif %}
+{% endif %}
         if ($request->get('action_reset')) {
             $this->setFilters(array());
 
