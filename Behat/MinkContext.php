@@ -132,9 +132,9 @@ class MinkContext extends BaseMinkContext implements KernelAwareInterface, MinkC
     }
 
     /**
-     * @param string $class
-     * @param array $data
-     * @param bool $flush
+     * @param  string $class
+     * @param  array  $data
+     * @param  bool   $flush
      * @return mixed
      */
     public function createEntity($class, $data, $flush = true)
@@ -214,4 +214,4 @@ class MinkContext extends BaseMinkContext implements KernelAwareInterface, MinkC
     {
         return $this->getContainer()->get('doctrine')->getManager();
     }
-} 
+}

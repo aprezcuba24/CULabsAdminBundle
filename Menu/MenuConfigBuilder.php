@@ -33,8 +33,8 @@ class MenuConfigBuilder
     }
 
     /**
-     * @param Request                  $request
-     * @param Array                    $menu_config
+     * @param  Request                 $request
+     * @param  Array                   $menu_config
      * @param  Array                   $options
      * @return \Knp\Menu\ItemInterface
      */

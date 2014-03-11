@@ -39,10 +39,10 @@ class BehatCreateEvent extends Event
 
     /**
      * @param MinkContextInterface $subject
-     * @param string $type
-     * @param array $data
-     * @param EntityManager $entityManager
-     * @param bool $flush
+     * @param string               $type
+     * @param array                $data
+     * @param EntityManager        $entityManager
+     * @param bool                 $flush
      */
     public function __construct(MinkContextInterface $subject, $type, array $data, EntityManager $entityManager, $flush = true)
     {
@@ -54,8 +54,8 @@ class BehatCreateEvent extends Event
     }
 
     /**
-     * @param string $key
-     * @param mixed $default
+     * @param  string $key
+     * @param  mixed  $default
      * @return mixed
      */
     public function getDataItem($key, $default)
@@ -65,7 +65,7 @@ class BehatCreateEvent extends Event
 
     /**
      * @param string $key
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function setDataItem($key, $value)
     {

@@ -12,9 +12,9 @@ use CULabs\AdminBundle\Behat\Event\BehatCreateEvent;
 interface MinkContextInterface
 {
     /**
-     * @param string $class
-     * @param array $data
-     * @param bool $flush
+     * @param  string $class
+     * @param  array  $data
+     * @param  bool   $flush
      * @return mixed
      */
     public function createEntity($class, $data, $flush = true);
