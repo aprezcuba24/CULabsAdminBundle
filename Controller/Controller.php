@@ -37,10 +37,10 @@ class Controller extends BaseController
     }
     protected function setSession($name, $value)
     {
-        $this->getRequest()->getSession()->set($this->sessionName($name), $value);
+        $this->get('session')->set($this->sessionName($name), $value);
     }
     protected function getSession($name, $default)
     {
-        return $this->getRequest()->getSession()->get($this->sessionName($name), $default);
+        return $this->get('session')->get($this->sessionName($name), $default);
     }
 }
