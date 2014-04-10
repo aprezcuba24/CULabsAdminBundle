@@ -11,6 +11,7 @@
 
 namespace CULabs\AdminBundle\Command;
 
+use CULabs\AdminBundle\Generator\DoctrineModelGenerator;
 use CULabs\AdminBundle\Theme\DoctrineCrudGeneratorInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -24,6 +25,7 @@ use Sensio\Bundle\GeneratorBundle\Command\Validators;
 class GenerateDoctrineCrudCommand extends BaseGenerateDoctrineCrudCommand
 {
     protected $filterFormGenerator;
+    protected $modelGenerator;
 
     protected function configure()
     {
@@ -82,6 +84,7 @@ EOT
 
         $this->setFormGenerator($theme_collection->getTheme($input->getOption('theme'))->getFormGenerator());
         $this->setFilterFormGenerator($theme_collection->getTheme($input->getOption('theme'))->getFilterFormGenerator());
+        $this->setModelGenerator($theme_collection->getTheme($input->getOption('theme'))->getModelGenerator());
 
         $entity = Validators::validateEntityName($input->getOption('entity'));
         list($bundle, $entity) = $this->parseShortcutNotation($entity);
@@ -91,6 +94,7 @@ EOT
         $metadata    = $this->getEntityMetadata($entityClass);
 
         $this->generateFilterForm($bundle, $entity, $metadata);
+        $this->generateModel($bundle, $entity, $metadata);
         $output->writeln('Generating the Form code: <info>OK</info>');
 
         return parent::execute($input, $output);
@@ -117,6 +121,29 @@ EOT
         }
 
         return $this->filterFormGenerator;
+    }
+
+    public function setModelGenerator(DoctrineModelGenerator $modelGenerator)
+    {
+        $this->modelGenerator = $modelGenerator;
+    }
+
+    private function generateModel($bundle, $entity, $metadata)
+    {
+        try {
+            $this->getModelGenerator()->generate($bundle, $entity, $metadata[0]);
+        } catch (\RuntimeException $e ) {
+            // form already exists
+        }
+    }
+
+    protected function getModelGenerator()
+    {
+        if (null === $this->modelGenerator) {
+            $this->modelGenerator = new DoctrineModelGenerator($this->getContainer()->get('filesystem'),  $this->getSkeletonPath('model'));
+        }
+
+        return $this->modelGenerator;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

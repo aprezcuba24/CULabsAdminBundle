@@ -1,0 +1,6 @@
+
+    {{ entity_class|lower }}_model:
+        class:     {{ namespace }}\Model{{ entity_namespace ? '\\' ~ entity_namespace : '' }}\{{ model_class }}
+        arguments: [@doctrine.orm.entity_manager]
+        calls:
+            - [setEventDispatcher, [@event_dispatcher]]

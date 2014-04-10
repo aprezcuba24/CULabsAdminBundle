@@ -11,22 +11,17 @@
     public function showAction($id)
     {
 {% if 'annotation' != format %}
-        if (false === $this->get('security.context')->isGranted('ROLE_{{ entity|upper }}_SHOW')) {
+        if (!$this->isGranted('ROLE_{{ entity|upper }}_SHOW')) {
             throw new AccessDeniedException();
         }
 {% endif %}
-        $entity = $this->getRepository('{{ bundle }}:{{ entity }}')->find($id);
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find {{ entity }} entity.');
-        }
-
 {% if 'annotation' == format %}
         return array(
-            'entity' => $entity,
+            'entity' => $this->findOr404($this->getModel(), $id),
         );
 {% else %}
         return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}CRUD:show.html.twig', array(
-            'entity' => $entity,
+            'entity' => $this->findOr404($this->getModel(), $id),
         ));
 {% endif %}
     }

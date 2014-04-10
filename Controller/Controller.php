@@ -13,6 +13,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Controller extends BaseController
 {
+    protected function isXmlHttpRequest()
+    {
+        return $this->get('request')->isXmlHttpRequest();
+    }
+
     protected function redirectToRoute($route, $parameters = array(), $status = 302)
     {
         return $this->redirect($this->generateUrl($route, $parameters), $status);
@@ -68,8 +73,8 @@ class Controller extends BaseController
 
         if (is_object($entity) && $entity instanceof ObjectRepository) {
             $result = $entity->$findMethod($criterias);
-        } elseif (is_object($entity) && $this->getEntityManager()->contains($entity)) {
-            $result = $this->getEntityManager()->refresh($entity);
+        } elseif (is_object($entity) && $this->getManager()->contains($entity)) {
+            $result = $this->getManager()->refresh($entity);
         } elseif (is_string($entity)) {
             $repository = $this->getRepository($entity);
             $result = $repository->$findMethod($criterias);

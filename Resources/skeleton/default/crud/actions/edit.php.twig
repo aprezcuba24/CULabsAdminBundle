@@ -11,23 +11,20 @@
     public function editAction($id, Request $request)
     {
 {% if 'annotation' != format %}
-        if (false === $this->get('security.context')->isGranted('ROLE_{{ entity|upper }}_EDIT')) {
+        if (!$this->isGranted('ROLE_{{ entity|upper }}_EDIT')) {
             throw new AccessDeniedException();
         }
 {% endif %}
-        $entity = $this->getRepository('{{ bundle }}:{{ entity }}')->find($id);
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find {{ entity }} entity.');
-        }
-        $form = $this->createForm(new {{ entity_class }}Type(), $entity);
+        $entity = $this->findOr404($this->getModel(), $id);
+        $form = $this->createForm('{{ entity|lower }}_form', $entity);
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $em = $this->getManager();
-            $em->persist($entity);
-            $em->flush();
+            $this->update($entity);
             $this->addFlash('notice', 'The entity is saved.');
 
-            return $this->redirect($this->generateUrl('{{ route_name_prefix }}_show', array('id' => $entity->getId())));
+            return $this->redirectToRoute('{{ route_name_prefix }}_show', array(
+                'id' => $entity->getId(),
+            ));
         }
 
 {% if 'annotation' == format %}

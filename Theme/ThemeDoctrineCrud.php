@@ -11,7 +11,8 @@
 
 namespace CULabs\AdminBundle\Theme;
 
-use Sensio\Bundle\GeneratorBundle\Generator\DoctrineFormGenerator;
+use CULabs\AdminBundle\Generator\DoctrineFormGenerator;
+use CULabs\AdminBundle\Generator\DoctrineModelGenerator;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use CULabs\AdminBundle\Generator\DoctrineFiterGenerator;
 use Symfony\Component\Filesystem\Filesystem;
@@ -22,6 +23,7 @@ class ThemeDoctrineCrud implements ThemeDoctrineCrudInterface
     protected $generator;
     protected $theme_name;
     protected $formGenerator;
+    protected $modelGenerator;
     protected $filterFormGenerator;
     protected $filesystem;
     protected $kernel;
@@ -68,6 +70,24 @@ class ThemeDoctrineCrud implements ThemeDoctrineCrudInterface
         }
 
         return $this->formGenerator;
+    }
+
+    /**
+     * @return DoctrineModelGenerator
+     * @throws \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
+     */
+    public function getModelGenerator()
+    {
+        if (null === $this->modelGenerator) {
+
+            $dir_path = $this->skeletonPath().'model';
+            if (!file_exists($dir_path))
+                throw new InvalidArgumentException(sprintf('%s is no directory', $dir_path));
+
+            $this->modelGenerator = new DoctrineModelGenerator($this->filesystem, $dir_path);
+        }
+
+        return $this->modelGenerator;
     }
 
     /**

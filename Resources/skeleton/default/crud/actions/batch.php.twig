@@ -10,7 +10,7 @@
     public function batchAction(Request $request)
     {
 {% if 'annotation' != format %}
-        if (false === $this->get('security.context')->isGranted('ROLE_{{ entity|upper }}_DELETE')) {
+        if (!$this->isGranted('ROLE_{{ entity|upper }}_DELETE')) {
             throw new AccessDeniedException();
         }
 {% endif %}
@@ -18,7 +18,7 @@
         if (!$method) {
             $this->addFlash('error', 'Select a action');
 
-            return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
+            return $this->redirectToRoute('{{ route_name_prefix }}');
         }
         $method = $method.'Batch';
 
@@ -31,10 +31,10 @@
         if (!count($ids)) {
             $this->addFlash('error', 'Select a record');
 
-            return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
+            return $this->redirectToRoute('{{ route_name_prefix }}');
         }
 
         $this->$method($ids);
 
-        return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
+        return $this->redirectToRoute('{{ route_name_prefix }}');
     }

@@ -2,7 +2,7 @@
 
 namespace {{ namespace }}\Controller{{ entity_namespace ? '\\' ~ entity_namespace : '' }};
 
-use CULabs\AdminBundle\Controller\CRUDController;
+use CULabs\AdminBundle\Controller\ModelController;
 {% if 'annotation' != format -%}
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 {%- endif %}
@@ -12,15 +12,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-{%- endif %}
-
-use {{ namespace }}\Entity\{{ entity }};
-{% if 'new' in actions or 'edit' in actions %}
-use {{ namespace }}\Form\{{ entity }}Type;
-{% endif %}
-{%- if 'index' in actions %}
-use {{ namespace }}\Filter\{{ entity }}FilterType;
-{% endif %}
+{% endif -%}
+use {{ namespace }}\Model\{{ entity }}Model;
 
 /**
  * {{ entity }} controller.
@@ -29,10 +22,16 @@ use {{ namespace }}\Filter\{{ entity }}FilterType;
  * @Route("/{{ route_prefix }}")
 {% endif %}
  */
-class {{ entity_class }}CRUDController extends CRUDController
+class {{ entity_class }}CRUDController extends ModelController
 {
-
-    {%- if 'index' in actions %}
+    /**
+     * @return {{ entity }}Model
+     */
+    protected function getModel()
+    {
+        return $this->get('{{ entity|lower }}_model');
+    }
+    {% if 'index' in actions %}
         {%- include 'actions/index.php.twig' %}
     {%- endif %}
 

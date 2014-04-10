@@ -11,9 +11,33 @@
 
 namespace CULabs\AdminBundle\Theme;
 
+use CULabs\AdminBundle\Generator\DoctrineFiterGenerator;
+use CULabs\AdminBundle\Generator\DoctrineFormGenerator;
+use CULabs\AdminBundle\Generator\DoctrineModelGenerator;
+
 interface ThemeDoctrineCrudInterface
 {
+    /**
+     * @return DoctrineCrudGenerator
+     * @throws \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
+     */
     public function getGenerator();
+
+    /**
+     * @return DoctrineFormGenerator
+     * @throws \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
+     */
     public function getFormGenerator();
+
+    /**
+     * @return DoctrineFiterGenerator
+     * @throws \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
+     */
     public function getFilterFormGenerator();
+
+    /**
+     * @return DoctrineModelGenerator
+     * @throws \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
+     */
+    public function getModelGenerator();
 }

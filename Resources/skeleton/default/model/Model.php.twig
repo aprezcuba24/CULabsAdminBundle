@@ -1,0 +1,25 @@
+<?php
+
+namespace {{ namespace }}\Model{{ entity_namespace ? '\\' ~ entity_namespace : '' }};
+
+use CULabs\AdminBundle\Model\Model;
+use {{ namespace }}\Entity{{ entity_namespace ? '\\' ~ entity_namespace : '' }}\{{ entity }};
+
+class {{ model_class }} extends Model
+{
+   /**
+    * @inheritdoc
+    */
+    protected function getCurrentRepository()
+    {
+        return $this->getRepository('\{{ namespace }}\Entity{{ entity_namespace ? '\\' ~ entity_namespace : '' }}\{{ entity }}');
+    }
+
+   /**
+    * @return {{ entity_class }}
+    */
+    public function createEntity()
+    {
+        return new {{ entity_class }}();
+    }
+}

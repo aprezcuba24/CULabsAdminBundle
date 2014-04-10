@@ -11,20 +11,20 @@
     public function newAction(Request $request)
     {
 {% if 'annotation' != format %}
-        if (false === $this->get('security.context')->isGranted('ROLE_{{ entity|upper }}_NEW')) {
+        if (!$this->isGranted('ROLE_{{ entity|upper }}_NEW')) {
             throw new AccessDeniedException();
         }
 {% endif %}
-        $entity = new {{ entity_class }}();
-        $form   = $this->createForm(new {{ entity_class }}Type(), $entity);
+        $entity = $this->getModel()->createEntity();
+        $form   = $this->createForm('{{ entity|lower }}_form', $entity);
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $em = $this->getManager();
-            $em->persist($entity);
-            $em->flush();
+            $this->create($entity);
             $this->addFlash('notice', 'The entity is saved.');
 
-            return $this->redirect($this->generateUrl('{{ route_name_prefix }}_show', array('id' => $entity->getId())));
+            return $this->redirectToRoute('{{ route_name_prefix }}_show', array(
+                'id' => $entity->getId(),
+            ));
         }
 
 {% if 'annotation' == format %}

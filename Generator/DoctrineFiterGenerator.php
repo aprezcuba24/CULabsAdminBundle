@@ -58,6 +58,17 @@ class DoctrineFiterGenerator extends Generator
             'form_class'       => $this->className,
             'form_type_name'   => strtolower(str_replace('\\', '_', $bundle->getNamespace()).($parts ? '_' : '').implode('_', $parts).'_'.$this->className),
         ));
+
+        $servicePath = $bundle->getPath().'/Resources/config/services.yml';
+        $content  = file_get_contents($servicePath);
+        $content .= "\n".$this->render('service.yml.twig', array(
+            'entity_class'     => $entityClass,
+            'namespace'        => $bundle->getNamespace(),
+            'entity_namespace' => implode('\\', $parts),
+            'form_class'       => $this->className,
+        ));
+
+        file_put_contents($servicePath, $content);
     }
     private function getFieldsFromMetadata(ClassMetadataInfo $metadata)
     {

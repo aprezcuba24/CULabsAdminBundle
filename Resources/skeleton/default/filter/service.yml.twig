@@ -1,0 +1,5 @@
+
+    {{ entity_class|lower }}_form_filter:
+        class: {{ namespace }}\Filter{{ entity_namespace ? '\\' ~ entity_namespace : '' }}\{{ form_class }}
+        tags:
+            - { name: form.type, alias: {{ entity_class|lower }}_form_filter }

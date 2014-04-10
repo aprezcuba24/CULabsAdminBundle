@@ -11,14 +11,13 @@
     public function indexAction()
     {
 {% if 'annotation' != format %}
-        if (false === $this->get('security.context')->isGranted('ROLE_{{ entity|upper }}_LIST')) {
+        if (!$this->isGranted('ROLE_{{ entity|upper }}_LIST')) {
             throw new AccessDeniedException();
         }
 {% endif %}
-        $page = $this->get('request')->query->get('page', $this->getPage());
-        $this->setPage($page);
+        $this->setPage($this->getRequestParameter('page', $this->getPage()));
         $pager = $this->getPager();
-        if ($this->get('request')->isXmlHttpRequest()) {
+        if ($this->isXmlHttpRequest()) {
             return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}CRUD:list.html.twig', array(
                 'pager' => $pager,
                 'sort'  => $this->getSort(),
@@ -53,7 +52,7 @@
     public function filterAction(Request $request)
     {
 {% if 'annotation' != format %}
-        if (false === $this->get('security.context')->isGranted('ROLE_{{ entity|upper }}_LIST')) {
+        if (!$this->isGranted('ROLE_{{ entity|upper }}_LIST')) {
             throw new AccessDeniedException();
         }
         if ($this->getRequest()->getMethod() == 'POST')
@@ -62,7 +61,7 @@
         if ($request->get('action_reset')) {
             $this->setFilters(array());
 
-            return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
+            return $this->redirectToRoute('{{ route_name_prefix }}');
         }
         $filter_form = $this->getFilterForm();
         $filter_form->handleRequest($request);
@@ -70,7 +69,7 @@
             $this->setPage(1);
             $this->setFilters($filter_form->getData());
 
-            return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
+            return $this->redirectToRoute('{{ route_name_prefix }}');
         }
 
         return $this->render('{{ bundle }}:{{ entity }}:index.html.twig', array(

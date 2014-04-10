@@ -10,14 +10,14 @@
     public function changeMaxPerPageAction()
     {
 {% if 'annotation' != format %}
-        if (false === $this->get('security.context')->isGranted('ROLE_{{ entity|upper }}_LIST')) {
+        if (!$this->isGranted('ROLE_{{ entity|upper }}_LIST')) {
             throw new AccessDeniedException();
         }
 {% endif %}
         $this->setSession('maxperpage', $this->get('request')->query->get('cant'));
         $this->setPage(1);
 
-        return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
+        return $this->redirectToRoute('{{ route_name_prefix }}');
     }
 
     /**
@@ -31,7 +31,7 @@
     public function sortAction($field, $order)
     {
 {% if 'annotation' != format %}
-        if (false === $this->get('security.context')->isGranted('ROLE_{{ entity|upper }}_LIST')) {
+        if (!$this->isGranted('ROLE_{{ entity|upper }}_LIST')) {
             throw new AccessDeniedException();
         }
 {% endif %}
@@ -42,13 +42,13 @@
             'next'  => $order == 'ASC'? 'DESC': 'ASC',
         ));
 
-        return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
+        return $this->redirectToRoute('{{ route_name_prefix }}');
     }
 
     protected function getPager()
     {
         $filter_form = $this->getFilterForm();
-        $qb = $this->getRepository('{{ bundle }}:{{ entity }}')
+        $qb = $this->getModel()
             ->createQueryBuilder('{{ entity }}')
         ;
         $sort = $this->getSort();
@@ -67,7 +67,7 @@
 
     protected function getFilterForm()
     {
-        $filter_form = $this->createForm(new {{ entity }}FilterType(), $this->getFilters());
+        $filter_form = $this->createForm('{{ entity|lower }}_form_filter', $this->getFilters());
 
         return $filter_form;
     }
