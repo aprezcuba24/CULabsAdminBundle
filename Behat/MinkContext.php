@@ -8,33 +8,34 @@
 namespace CULabs\AdminBundle\Behat;
 
 use Behat\MinkExtension\Context\MinkContext as BaseMinkContext;
-use Behat\Symfony2Extension\Context\KernelAwareInterface;
-use CULabs\AdminBundle\Behat\Event\BehatCreateEvent;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Behat\Symfony2Extension\Context\KernelAwareContext;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Behat\Symfony2Extension\Context\KernelDictionary;
+use CULabs\AdminBundle\Behat\Event\BehatCreateEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Exception\ExpectationException;
 
-class MinkContext extends BaseMinkContext implements KernelAwareInterface, MinkContextInterface
+class MinkContext extends BaseMinkContext implements KernelAwareContext
 {
-    protected $kernel;
     protected $event_dispatcher;
+    protected $kernel;
 
-    /**
-     * Sets HttpKernel instance.
-     * This method will be automatically called by Symfony2Extension ContextInitializer.
-     *
-     * @param KernelInterface $kernel
-     */
+    public function __construct(EventDispatcherInterface $event_dispatcher)
+    {
+        $this->event_dispatcher = $event_dispatcher;
+    }
+
     public function setKernel(KernelInterface $kernel)
     {
         $this->kernel = $kernel;
+        $this->kernel->boot();
     }
 
-    public function setEventDispatcher(EventDispatcher $event_dispatcher)
+    public function getContainer()
     {
-        $this->event_dispatcher = $event_dispatcher;
+        return $this->kernel->getContainer();
     }
 
     public function getEventDispatcher()
@@ -51,7 +52,7 @@ class MinkContext extends BaseMinkContext implements KernelAwareInterface, MinkC
      */
     public function purgeDatabase()
     {
-        $entityManager = $this->kernel->getContainer()->get('doctrine.orm.entity_manager');
+        $entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
 
         $purger = new ORMPurger($entityManager);
         $purger->purge();
@@ -65,7 +66,15 @@ class MinkContext extends BaseMinkContext implements KernelAwareInterface, MinkC
         $this->getSession()->visit($this->generateUrl('fos_user_security_login'));
         $this->fillField('_username', $user);
         $this->fillField('_password', $user);
-        $this->pressButton('Login');
+        $this->pressButton('security.login.submit');
+    }
+
+    /**
+     * @Then I logout
+     */
+    public function iLogout()
+    {
+        $this->getSession()->visit($this->generateUrl('fos_user_security_logout'));
     }
 
     protected function getUrlByEntityAndFieldValue($pattern, $entity_name, $field_value)
@@ -104,7 +113,7 @@ class MinkContext extends BaseMinkContext implements KernelAwareInterface, MinkC
     }
 
     /**
-     * @Given /^There are the following "([^"]*)":$/
+     * @Given There are the following :class:
      */
     public function thereAreTheFollowing($class, TableNode $table)
     {
@@ -113,22 +122,12 @@ class MinkContext extends BaseMinkContext implements KernelAwareInterface, MinkC
 
         foreach ($table->getHash() as $row) {
 
-            $event = new BehatCreateEvent($this, $class, $row, $em, false);
-            $this->getEventDispatcher()->dispatch('behat.create_entity', $event);
-            if (!$event->isProcessed()) {
-                $this->createEntity($class, $row, false);
-            }
+            $event = new BehatCreateEvent($class, $row, $em, false);
+            $this->getEventDispatcher()->dispatch('behat.create_entity.'.$class, $event);
+            $this->createEntity($event->getType(), $event->getData(), false);
         }
 
         $em->flush();
-    }
-
-    /**
-     * @param BehatCreateEvent $event
-     */
-    public function createEntityByEvent(BehatCreateEvent $event)
-    {
-        $this->createEntity($event->getType(), $event->getData(), $event->getFlush());
     }
 
     /**
@@ -142,10 +141,10 @@ class MinkContext extends BaseMinkContext implements KernelAwareInterface, MinkC
         /**@var $em \Doctrine\ORM\EntityManager*/
         $em = $this->getEntityManager();
         $entity = new $class();
-        foreach ($data as $field => $value) {
+        foreach ($data as $field => $value_item) {
 
-            if (is_string($value)) {
-                $value = explode(',', $value);
+            if (is_string($value_item)) {
+                $value = explode(',', $value_item);
             }
 
             $add_method = sprintf('add%s', ucfirst($field));
@@ -156,11 +155,7 @@ class MinkContext extends BaseMinkContext implements KernelAwareInterface, MinkC
                     $entity->$add_method($item);
                 }
             } else {
-
-                if (is_array($value)) {
-                    $value = $value[0];
-                }
-                $entity->$set_method($value);
+                $entity->$set_method($value_item);
             }
         }
         $em->persist($entity);
@@ -180,7 +175,7 @@ class MinkContext extends BaseMinkContext implements KernelAwareInterface, MinkC
      */
     protected function generateUrl($route, array $parameters = array(), $absolute = false)
     {
-        return $this->getService('router')->generate($route, $parameters, $absolute);
+        return $this->get('router')->generate($route, $parameters, $absolute);
     }
 
     /**
@@ -190,19 +185,9 @@ class MinkContext extends BaseMinkContext implements KernelAwareInterface, MinkC
      *
      * @return object
      */
-    protected function getService($id)
+    protected function get($id)
     {
         return $this->getContainer()->get($id);
-    }
-
-    /**
-     * Returns Container instance.
-     *
-     * @return ContainerInterface
-     */
-    protected function getContainer()
-    {
-        return $this->kernel->getContainer();
     }
 
     /**
@@ -213,5 +198,10 @@ class MinkContext extends BaseMinkContext implements KernelAwareInterface, MinkC
     public function getEntityManager()
     {
         return $this->getContainer()->get('doctrine')->getManager();
+    }
+
+    public function getRepository($repository)
+    {
+        return $this->getEntityManager()->getRepository($repository);
     }
 }

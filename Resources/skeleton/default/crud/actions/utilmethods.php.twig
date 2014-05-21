@@ -36,11 +36,11 @@
         }
 {% endif %}
         $this->setPage(1);
-        $this->setSort(array(
+        $this->setSort([
             'field' => $field,
             'order' => $order,
             'next'  => $order == 'ASC'? 'DESC': 'ASC',
-        ));
+        ]);
 
         return $this->redirectToRoute('{{ route_name_prefix }}');
     }
@@ -67,7 +67,9 @@
 
     protected function getFilterForm()
     {
-        $filter_form = $this->createForm('{{ entity|lower }}_form_filter', $this->getFilters());
+        $filter_form = $this->createForm('{{ entity|lower }}_form_filter', $this->getFilters(), [
+            'action' => $this->generateUrl('{{ route_name_prefix }}_filter'),
+        ]);
 
         return $filter_form;
     }

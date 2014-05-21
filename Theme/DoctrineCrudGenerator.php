@@ -212,14 +212,14 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator implements Doctrin
             'bundle'            => $this->bundle->getName(),
         ));
 
-        //Generate class
-        $dir    = $this->bundle->getPath() .'/Features/Context';
-        $target = $dir .'/'. str_replace('\\', '/', $entityNamespace).'/'. $entityClass .'CRUD.php';
-
-        $this->renderFile('Features/Context/CRUD.php.twig', $target, array(
-            'namespace'         => $this->bundle->getNamespace(),
-            'entity'            => $this->entity,
-        ));
+//        //Generate class
+//        $dir    = $this->bundle->getPath() .'/Features/Context';
+//        $target = $dir .'/'. str_replace('\\', '/', $entityNamespace).'/'. $entityClass .'CRUD.php';
+//
+//        $this->renderFile('Features/Context/CRUD.php.twig', $target, array(
+//            'namespace'         => $this->bundle->getNamespace(),
+//            'entity'            => $this->entity,
+//        ));
     }
 
     /**

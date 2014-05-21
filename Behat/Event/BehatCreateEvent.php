@@ -7,20 +7,13 @@
 
 namespace CULabs\AdminBundle\Behat\Event;
 
-use CULabs\AdminBundle\Behat\MinkContextInterface;
 use Symfony\Component\EventDispatcher\Event;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class BehatCreateEvent extends Event
 {
-    /** @var bool */
-    protected $isProcessed = false;
-
     /** @var  string */
     protected $type;
-
-    /** @var bool */
-    protected $flush = true;
 
     /**
      * @var array
@@ -33,24 +26,15 @@ class BehatCreateEvent extends Event
     protected $em;
 
     /**
-     * @var MinkContextInterface
+     * @param string                 $type
+     * @param array                  $data
+     * @param EntityManagerInterface $entityManager
      */
-    protected $subject;
-
-    /**
-     * @param MinkContextInterface $subject
-     * @param string               $type
-     * @param array                $data
-     * @param EntityManager        $entityManager
-     * @param bool                 $flush
-     */
-    public function __construct(MinkContextInterface $subject, $type, array $data, EntityManager $entityManager, $flush = true)
+    public function __construct($type, array $data, EntityManagerInterface $entityManager)
     {
         $this->setType($type);
         $this->setData($data);
-        $this->setFlush($flush);
         $this->setEntityManager($entityManager);
-        $this->setSubject($subject);
     }
 
     /**
@@ -58,9 +42,22 @@ class BehatCreateEvent extends Event
      * @param  mixed  $default
      * @return mixed
      */
-    public function getDataItem($key, $default)
+    public function getDataItem($key, $default = null)
     {
         return isset($this->getData()[$key])? $this->getData()[$key]: $default;
+    }
+
+    /**
+     * @param string $key
+     * @param mixed  $value
+     */
+    public function setDataItemIfNotHas($key, $value)
+    {
+        if ($this->getDataItem($key)) {
+            return;
+        }
+
+        $this->data[$key] = $value;
     }
 
     /**
@@ -70,22 +67,6 @@ class BehatCreateEvent extends Event
     public function setDataItem($key, $value)
     {
         $this->data[$key] = $value;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isProcessed()
-    {
-        return $this->isProcessed;
-    }
-
-    /**
-     * @param $isProcessed bool
-     */
-    public function setIsProcessed($isProcessed)
-    {
-        $this->isProcessed = $isProcessed;
     }
 
     /**
@@ -105,22 +86,6 @@ class BehatCreateEvent extends Event
     }
 
     /**
-     * @param $flush bool
-     */
-    public function setFlush($flush)
-    {
-        $this->flush = $flush;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getFlush()
-    {
-        return $this->flush;
-    }
-
-    /**
      * @return array
      */
     public function getData()
@@ -137,9 +102,9 @@ class BehatCreateEvent extends Event
     }
 
     /**
-     * @param EntityManager $entityManager
+     * @param EntityManagerInterface $entityManager
      */
-    public function setEntityManager(EntityManager $entityManager)
+    public function setEntityManager(EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
     }
@@ -150,21 +115,5 @@ class BehatCreateEvent extends Event
     public function getEntityManager()
     {
         return $this->em;
-    }
-
-    /**
-     * @param $subject MinkContextInterface
-     */
-    public function setSubject(MinkContextInterface $subject)
-    {
-        $this->subject = $subject;
-    }
-
-    /**
-     * @return MinkContextInterface
-     */
-    public function getSubject()
-    {
-        return $this->subject;
     }
 }

@@ -16,26 +16,28 @@
         }
 {% endif %}
         $entity = $this->getModel()->createEntity();
-        $form   = $this->createForm('{{ entity|lower }}_form', $entity);
+        $form   = $this->createForm('{{ entity|lower }}_form', $entity, [
+            'action' => $this->generateUrl('{{ route_name_prefix }}_new'),
+        ]);
         $form->handleRequest($request);
         if ($form->isValid()) {
             $this->create($entity);
             $this->addFlash('notice', 'The entity is saved.');
 
-            return $this->redirectToRoute('{{ route_name_prefix }}_show', array(
+            return $this->redirectToRoute('{{ route_name_prefix }}_show', [
                 'id' => $entity->getId(),
-            ));
+            ]);
         }
 
 {% if 'annotation' == format %}
-        return array(
+        return [
             'entity' => $entity,
             'form'   => $form->createView()
-        );
+        ];
 {% else %}
-        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}CRUD:new.html.twig', array(
+        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}CRUD:new.html.twig', [
             'entity' => $entity,
             'form'   => $form->createView()
-        ));
+        ]);
 {% endif %}
     }

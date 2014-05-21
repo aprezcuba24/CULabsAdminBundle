@@ -18,25 +18,25 @@
         $this->setPage($this->getRequestParameter('page', $this->getPage()));
         $pager = $this->getPager();
         if ($this->isXmlHttpRequest()) {
-            return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}CRUD:list.html.twig', array(
+            return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}CRUD:list.html.twig', [
                 'pager' => $pager,
                 'sort'  => $this->getSort(),
-            ));
+            ]);
         }
         $filter_form = $this->getFilterForm();
 
 {% if 'annotation' == format %}
-        return array(
+        return [
             'pager'  => $pager,
             'filter' => $filter_form->createView(),
             'sort'   => $this->getSort(),
-        );
+        ];
 {% else %}
-        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}CRUD:index.html.twig', array(
+        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}CRUD:index.html.twig', [
             'pager'  => $pager,
             'filter' => $filter_form->createView(),
             'sort'   => $this->getSort(),
-        ));
+        ]);
 {% endif %}
     }
 
@@ -59,7 +59,7 @@
             throw $this->createNotFoundException();
 {% endif %}
         if ($request->get('action_reset')) {
-            $this->setFilters(array());
+            $this->setFilters([]);
 
             return $this->redirectToRoute('{{ route_name_prefix }}');
         }
@@ -72,9 +72,9 @@
             return $this->redirectToRoute('{{ route_name_prefix }}');
         }
 
-        return $this->render('{{ bundle }}:{{ entity }}:index.html.twig', array(
+        return $this->render('{{ bundle }}:{{ entity }}:index.html.twig', [
             'filter' => $filter_form->createView(),
             'pager'  => $this->getPager(),
             'sort'   => $this->getSort(),
-        ));
+        ]);
     }

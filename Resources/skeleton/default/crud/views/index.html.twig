@@ -5,7 +5,7 @@
 {{ '{% block list_id %}' }}{{ entity }}_list{{ '{% endblock %}' }}
 
 {{ '{% block filter_form %}' }}
-<form action="{{ "{{ path('"~ route_name_prefix ~"_filter') }}" }}" method="post">
+{{ '{{ form_start(filter) }}' }}
     <div class="form">
         <div>
             {{ '{% form_theme filter \'CULabsAdminBundle:Form:fields.html.twig\' %}' }}
@@ -15,7 +15,7 @@
         <input class="btn btn-primary" type="submit" name="action_filter" value="{{ '{{ \'Filter\'|trans }}' }}"/>
         <input class="btn" type="submit" name="action_reset" value="{{ '{{ \'Reset\'|trans }}' }}" />
     </div>
-</form>
+{{ '{{ form_end(filter) }}' }}
 {{ '{% endblock %}' }}
 
 {{ '{% block actions %}' }}

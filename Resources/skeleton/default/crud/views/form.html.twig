@@ -1,8 +1,8 @@
 {{ '{% form_theme form \'CULabsAdminBundle:Form:fields.html.twig\' %}' }}
-<form id="form_new" action="#" method="post" {{ '{{ form_enctype(form) }}' }} class="form-horizontal">
+{{ '{{ form_start(form) }}' }}
     {{ "{{ form_widget(form) }}" }}
     <div class="form-actions">
         <input class="btn btn-primary" value="{{ '{{ \'Save\'|trans }}' }}" type="submit"/>
         <a href="{{ "{{ path('"~ route_name_prefix ~"') }}" }}" class="btn">{{ '{{ \'Cancel\'|trans }}' }}</a>
     </div>
-</form>
+{{ '{{ form_end(form) }}' }}

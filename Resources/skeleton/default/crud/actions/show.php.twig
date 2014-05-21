@@ -16,12 +16,12 @@
         }
 {% endif %}
 {% if 'annotation' == format %}
-        return array(
+        return [
             'entity' => $this->findOr404($this->getModel(), $id),
-        );
+        ];
 {% else %}
-        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}CRUD:show.html.twig', array(
+        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}CRUD:show.html.twig', [
             'entity' => $this->findOr404($this->getModel(), $id),
-        ));
+        ]);
 {% endif %}
     }
