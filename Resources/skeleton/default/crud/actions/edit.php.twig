@@ -17,7 +17,9 @@
 {% endif %}
         $entity = $this->findOr404($this->getModel(), $id);
         $form = $this->createForm('{{ entity|lower }}_form', $entity, [
-            'action' => $this->generateUrl('{{ route_name_prefix }}_edit'),
+            'action' => $this->generateUrl('{{ route_name_prefix }}_edit', [
+                'id' => $id,
+            ]),
         ]);
         $form->handleRequest($request);
         if ($form->isValid()) {

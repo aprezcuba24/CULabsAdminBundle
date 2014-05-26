@@ -47,7 +47,7 @@
      * @Route("/filter", name="{{ route_name_prefix }}_filter")
      * @Secure(roles="ROLE_{{ entity|upper }}_LIST")
      * @Method("POST")
-{%- endif %}
+{% endif %}
      */
     public function filterAction(Request $request)
     {

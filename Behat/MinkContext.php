@@ -7,12 +7,12 @@
 
 namespace CULabs\AdminBundle\Behat;
 
+use Behat\Mink\Exception\ResponseTextException;
 use Behat\MinkExtension\Context\MinkContext as BaseMinkContext;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Behat\Symfony2Extension\Context\KernelDictionary;
 use CULabs\AdminBundle\Behat\Event\BehatCreateEvent;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Exception\ExpectationException;
@@ -22,7 +22,7 @@ class MinkContext extends BaseMinkContext implements KernelAwareContext
     protected $event_dispatcher;
     protected $kernel;
 
-    public function __construct(EventDispatcherInterface $event_dispatcher)
+    public function __construct(EventDispatcher $event_dispatcher = null)
     {
         $this->event_dispatcher = $event_dispatcher;
     }
@@ -56,6 +56,17 @@ class MinkContext extends BaseMinkContext implements KernelAwareContext
 
         $purger = new ORMPurger($entityManager);
         $purger->purge();
+    }
+
+    /**
+     * @Given /^I am logged in OAuth "([^"]*)"$/
+     */
+    public function loginOAuth($user)
+    {
+        $this->iAmOnHomepage();
+        $this->iAmOnHomepage();
+        $this->visit("/pagomio/login/check?code=code");
+        $this->iAmOnHomepage();
     }
 
     /**
@@ -131,6 +142,41 @@ class MinkContext extends BaseMinkContext implements KernelAwareContext
     }
 
     /**
+     * @Given See the page :arg1
+     */
+    public function seeThePage($arg1)
+    {
+        echo substr($this->getSession()->getPage()->getContent(), 0, $arg1);
+        exit;
+    }
+
+    /**
+     * @Then I should see in content :text
+     */
+    public function iShouldSeeInContent($text)
+    {
+        $actual = $this->getSession()->getPage()->getContent();
+        $actual = preg_replace('/\s+/u', ' ', $actual);
+        $regex  = '/'.preg_quote($text, '/').'/ui';
+
+        if (preg_match($regex, $actual)) {
+            $message = sprintf('The text "%s" appears in the text of this page, but it should not.', $text);
+            throw new ResponseTextException($message, $this->session);
+        }
+    }
+
+    /**
+     * @Given I fill in :select with :option entity :entity field :field
+     */
+    public function iFillInWithEntityField($select, $option, $entity, $field)
+    {
+        $em = $this->getContainer()->get('doctrine')->getManager();
+        $entity = $this->getRepository($entity)->findOneBy([$field => $option]);
+
+        return $this->selectOption($select, $entity->getId());
+    }
+
+    /**
      * @param  string $class
      * @param  array  $data
      * @param  bool   $flush
@@ -145,12 +191,14 @@ class MinkContext extends BaseMinkContext implements KernelAwareContext
 
             if (is_string($value_item)) {
                 $value = explode(',', $value_item);
+            } else {
+                $value = $value_item;
             }
 
             $add_method = sprintf('add%s', ucfirst($field));
             $set_method = sprintf('set%s', ucfirst($field));
 
-            if (method_exists($entity, $add_method)) {
+            if (method_exists($entity, $add_method) && is_array($value)) {
                 foreach ($value as $item) {
                     $entity->$add_method($item);
                 }
@@ -162,6 +210,8 @@ class MinkContext extends BaseMinkContext implements KernelAwareContext
         if ($flush) {
             $em->flush();
         }
+
+        return $entity;
     }
 
     /**
@@ -203,5 +253,98 @@ class MinkContext extends BaseMinkContext implements KernelAwareContext
     public function getRepository($repository)
     {
         return $this->getEntityManager()->getRepository($repository);
+    }
+
+    /**
+     * @Given I should see :text in :class_css
+     */
+    public function iShouldSeeIn($text, $class_css)
+    {
+        $this->textMatch($class_css, $text, true);
+    }
+
+    /**
+     * @Given I should not see :text in :class_css
+     */
+    public function iShouldNotSeeIn($text, $class_css)
+    {
+        $this->textMatch($class_css, $text, false);
+    }
+
+    protected function textMatch($class_css, $text, $exist)
+    {
+        $page = $this->getSession()->getPage();
+        $node = $page->find('css', $class_css);
+        $actual = $node->getText();
+
+        $actual = preg_replace('/\s+/u', ' ', $actual);
+        $regex  = '/'.preg_quote($text, '/').'/ui';
+
+        if ($exist) {
+            if (!preg_match($regex, $actual)) {
+                $message = sprintf('The text "%s" was not found anywhere in the "%s".', $text, $class_css);
+                throw new ResponseTextException($message, $this->getSession());
+            }
+        } else {
+            if (preg_match($regex, $actual)) {
+                $message = sprintf('The text "%s" was found in the "%s".', $text, $class_css);
+                throw new ResponseTextException($message, $this->getSession());
+            }
+        }
+    }
+
+    public function getSymfonyProfile()
+    {
+        $driver = $this->getSession()->getDriver();
+        $profile = $driver->getClient()->getProfile();
+        if (false === $profile) {
+            throw new \RuntimeException(
+                'Emails cannot be tested as the profiler is '.
+                'disabled.'
+            );
+        }
+
+        return $profile;
+    }
+
+    /**
+     * @Then I should get an email form :email_to
+     */
+    public function iShouldGetAnEmail($email_to)
+    {
+        $error     = sprintf('No message sent to "%s"', $email_to);
+        $profile   = $this->getSymfonyProfile();
+        $collector = $profile->getCollector('swiftmailer');
+
+        foreach ($collector->getMessages() as $message) {
+            $correctRecipient = array_key_exists(
+                $email_to, $message->getTo()
+            );
+
+            if (count($correctRecipient)) {
+                return;
+            }
+        }
+
+        throw new ExpectationException($error, $this->getSession());
+    }
+
+    /**
+     * @Given /^intersect redirection$/
+     */
+    public function theRedirectionsAreIntercepted()
+    {
+        $this->getSession()->getDriver()->getClient()->followRedirects(false);
+    }
+
+    /**
+     * @When /^I follow the redirection$/
+     * @Then /^I should be redirected$/
+     */
+    public function iFollowTheRedirection()
+    {
+        $client = $this->getSession()->getDriver()->getClient();
+        $client->followRedirects(true);
+        $client->followRedirect();
     }
 }

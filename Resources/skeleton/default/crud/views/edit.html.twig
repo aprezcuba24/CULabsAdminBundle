@@ -19,7 +19,7 @@
         {{ '{% if is_granted(\'ROLE_%entity_name%_SHOW\') %}'|replace({'%entity_name%':entity|upper}) }}
         <li>
             <a href="{{ "{{ path('"~ route_name_prefix ~"_show', { 'id': entity.id }) }}" }}" class="btn btn-icon btn-info">
-                <i class="icon-eye-open"></i>{{ '{{ \'Show\'|trans }}' }}
+                <i class="icon-eye-open icon-white"></i>{{ '{{ \'Show\'|trans }}' }}
             </a>
         </li>
         {{ '{% endif %}' }}

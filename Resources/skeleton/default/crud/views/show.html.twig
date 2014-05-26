@@ -37,7 +37,7 @@
 
 {{ '{% block view_body %}' }}
 <table class="table table-bordered table-hover table-striped">
-    {%- for field, metadata in fields %}
+    {% for field, metadata in fields -%}
     <tr>
         <th class="span2">{{ '{{ \'%field%\'|trans }}'|replace({'%field%':field|capitalize}) }}</th>
         <td>
@@ -53,7 +53,7 @@
 
         </td>
     </tr>
-    {%- endfor %}
+    {% endfor %}
 
 </table>
 {{ '{% endblock %}' }}

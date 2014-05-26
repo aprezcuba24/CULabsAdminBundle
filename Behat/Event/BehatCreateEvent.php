@@ -8,7 +8,7 @@
 namespace CULabs\AdminBundle\Behat\Event;
 
 use Symfony\Component\EventDispatcher\Event;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityManager;
 
 class BehatCreateEvent extends Event
 {
@@ -26,11 +26,11 @@ class BehatCreateEvent extends Event
     protected $em;
 
     /**
-     * @param string                 $type
-     * @param array                  $data
-     * @param EntityManagerInterface $entityManager
+     * @param string        $type
+     * @param array         $data
+     * @param EntityManager $entityManager
      */
-    public function __construct($type, array $data, EntityManagerInterface $entityManager)
+    public function __construct($type, array $data, EntityManager $entityManager)
     {
         $this->setType($type);
         $this->setData($data);
@@ -102,9 +102,9 @@ class BehatCreateEvent extends Event
     }
 
     /**
-     * @param EntityManagerInterface $entityManager
+     * @param EntityManager $entityManager
      */
-    public function setEntityManager(EntityManagerInterface $entityManager)
+    public function setEntityManager(EntityManager $entityManager)
     {
         $this->em = $entityManager;
     }

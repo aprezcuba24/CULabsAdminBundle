@@ -21,7 +21,12 @@ abstract class ModelController extends CRUDController
 
         $findMethod = is_scalar($criterias) ? 'find' : 'findOneBy';
 
-        return $this->getModel()->$findMethod($criterias);
+        $result = $this->getModel()->$findMethod($criterias);
+        if (!$result) {
+            throw $this->createNotFoundException();
+        }
+
+        return $result;
     }
 
     /**
