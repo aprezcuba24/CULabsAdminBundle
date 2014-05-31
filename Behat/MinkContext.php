@@ -7,6 +7,7 @@
 
 namespace CULabs\AdminBundle\Behat;
 
+use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\Mink\Exception\ResponseTextException;
 use Behat\MinkExtension\Context\MinkContext as BaseMinkContext;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
@@ -170,10 +171,50 @@ class MinkContext extends BaseMinkContext implements KernelAwareContext
      */
     public function iFillInWithEntityField($select, $option, $entity, $field)
     {
-        $em = $this->getContainer()->get('doctrine')->getManager();
         $entity = $this->getRepository($entity)->findOneBy([$field => $option]);
 
         return $this->selectOption($select, $entity->getId());
+    }
+
+    protected function findOptionInSelectByEntity($select, $option, $entity, $field)
+    {
+        $select = $this->fixStepArgument($select);
+        $option = $this->fixStepArgument($option);
+        $node = $this->getSession()->getPage()->findField($select);
+
+        $entity = $this->getRepository($entity)->findOneBy([$field => $option]);
+
+        return $node->find('named', array(
+            'option', $this->getSession()->getSelectorsHandler()->xpathLiteral($entity->getId())
+        ));
+    }
+
+    /**
+     * @Then I should see :select with :option entity :entity field :field
+     */
+    public function iShouldSeeWithEntityField($select, $option, $entity, $field)
+    {
+        $opt = $this->findOptionInSelectByEntity($select, $option, $entity, $field);
+
+        if (null === $opt) {
+            throw new ElementNotFoundException(
+                $this->getSession(), 'select option', 'value|text', $option
+            );
+        }
+    }
+
+    /**
+     * @Then I should not see :select with :option entity :entity field :field
+     */
+    public function iShouldNotSeeWithEntityField($select, $option, $entity, $field)
+    {
+        $opt = $this->findOptionInSelectByEntity($select, $option, $entity, $field);
+
+        if ($opt) {
+            throw new ResponseTextException(
+                $this->getSession(), 'select option', 'value|text', $option
+            );
+        }
     }
 
     /**
