@@ -72,7 +72,7 @@
             return $this->redirectToRoute('{{ route_name_prefix }}');
         }
 
-        return $this->render('{{ bundle }}:{{ entity }}:index.html.twig', [
+        return $this->render('{{ bundle }}:{{ entity }}CRUD:index.html.twig', [
             'filter' => $filter_form->createView(),
             'pager'  => $this->getPager(),
             'sort'   => $this->getSort(),
