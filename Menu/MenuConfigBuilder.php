@@ -77,6 +77,7 @@ class MenuConfigBuilder
      */
     protected function doMenu(ItemInterface $menu, Array $menu_config, $request_uri)
     {
+        $has_items = false;
         foreach ($menu_config as $key => $item) {
 
             if (isset($item['roles']) && !$this->security_context->isGranted($item['roles'])) {
@@ -100,12 +101,19 @@ class MenuConfigBuilder
 
             $this->event_dispatcher->dispatch(MenuEvent::CONFIGURE, new MenuEvent($this->factory, $child));
 
-            $menu->addChild($child);
-
+            $has_child_items = false;
             if (isset($item['items'])) {
-                $this->doMenu($child, $item['items'], $request_uri);
+                $has_child_items = $this->doMenu($child, $item['items'], $request_uri);
             }
+
+            if (!$has_child_items && !isset($item['route'])) {
+                continue;
+            }
+            $menu->addChild($child);
+            $has_items = true;
         }
+
+        return $has_items;
     }
 
     /**
