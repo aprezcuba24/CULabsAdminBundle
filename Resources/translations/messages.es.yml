@@ -23,7 +23,11 @@ The entity is deleted.: El registro fue borrado.
 The entity is saved.: El registro fue salvado.
 ## Fin Admin Crud
 
+Confirm: Confirmar
+delete_message: ¿delete_message?
+
 ## Menu
-label_menu_List: Listado
-label_menu_New: Nuevo
+menu:
+  List: Listado
+  New: Nuevo
 ## Fin Menu
