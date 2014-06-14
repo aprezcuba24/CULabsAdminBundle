@@ -388,4 +388,26 @@ class MinkContext extends BaseMinkContext implements KernelAwareContext
         $client->followRedirects(true);
         $client->followRedirect();
     }
+
+    /**
+     * @Then The entity :entity_name with :field_find has :field_test
+     */
+    public function theEntityWithHas($entity_name, $field_find, $field_test)
+    {
+        $field_find = explode(':', $field_find);
+        $entity = $this->getRepository($entity_name)->findOneBy([
+            $field_find[0] => $field_find[1],
+        ]);
+
+        if (!$entity) {
+            throw new ExpectationException(sprintf('There are not entity "%s" with field "%s" equal "%s"', $entity_name, $field_find[0], $field_find[1]), $this->getSession());
+        }
+
+        $field_test = explode(':', $field_test);
+        $method = 'get'.ucfirst($field_test[0]);
+
+        if ($entity->$method() != $field_test[1]) {
+            throw new ExpectationException(sprintf('The field "%s" of entity "%s" not is equal "%s"', $field_test[0], $entity_name, $field_test[1]), $this->getSession());
+        }
+    }
 }
