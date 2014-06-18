@@ -24,7 +24,7 @@ The entity is saved.: El registro fue salvado.
 ## Fin Admin Crud
 
 Confirm: Confirmar
-delete_message: ¿delete_message?
+delete_message: ¿Realmente desea borrar?
 
 ## Menu
 menu:
