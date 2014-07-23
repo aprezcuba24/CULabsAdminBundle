@@ -18,10 +18,11 @@ abstract class ModelController extends CRUDController
         if (!($entity instanceof Model)) {
             return parent::findOr404($entity, $criterias);
         }
+        $model = $entity;
 
         $findMethod = is_scalar($criterias) ? 'find' : 'findOneBy';
 
-        $result = $this->getModel()->$findMethod($criterias);
+        $result = $model->$findMethod($criterias);
         if (!$result) {
             throw $this->createNotFoundException();
         }
