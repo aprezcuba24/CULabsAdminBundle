@@ -4,7 +4,7 @@
      *
 {% if 'annotation' == format %}
      * @Route("/{id}/delete", name="{{ route_name_prefix }}_delete")
-     * @Secure(roles="ROLE_{{ entity|upper }}_DELETE")
+     * @Security("has_role('ROLE_{{ entity|upper }}_DELETE')")
 {% endif %}
      */
     public function deleteAction($id)

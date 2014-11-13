@@ -4,7 +4,7 @@
      *
 {% if 'annotation' == format %}
      * @Route("", name="{{ route_name_prefix }}")
-     * @Secure(roles="ROLE_{{ entity|upper }}_LIST")
+     * @Security("has_role('ROLE_{{ entity|upper }}_LIST')")
      * @Template()
 {% endif %}
      */
@@ -45,7 +45,7 @@
      *
 {% if 'annotation' == format %}
      * @Route("/filter", name="{{ route_name_prefix }}_filter")
-     * @Secure(roles="ROLE_{{ entity|upper }}_LIST")
+     * @Security("has_role('ROLE_{{ entity|upper }}_LIST')")
      * @Method("POST")
 {% endif %}
      */

@@ -4,7 +4,7 @@
      *
 {% if 'annotation' == format %}
      * @Route("/{id}/edit", name="{{ route_name_prefix }}_edit")
-     * @Secure(roles="ROLE_{{ entity|upper }}_EDIT")
+     * @Security("has_role('ROLE_{{ entity|upper }}_EDIT')")
      * @Template()
 {% endif %}
      */

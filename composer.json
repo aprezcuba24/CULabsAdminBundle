@@ -19,8 +19,7 @@
         "knplabs/knp-paginator-bundle": "2.4.*@dev",
         "lexik/form-filter-bundle": "2.0.*",
         "knplabs/knp-menu": "2.0.*@dev",
-        "knplabs/knp-menu-bundle": "2.0.*@dev",
-        "jms/security-extra-bundle": "1.5.*@dev"
+        "knplabs/knp-menu-bundle": "2.0.*@dev"
     },
     "suggest": {
         "behat/symfony2-extension": "For test",

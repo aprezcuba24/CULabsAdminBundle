@@ -4,7 +4,7 @@
      *
 {% if 'annotation' == format %}
      * @Route("/changemaxperpage", name="{{ route_name_prefix }}_changemaxperpage")
-     * @Secure(roles="ROLE_{{ entity|upper }}_LIST")
+     * @Security("has_role('ROLE_{{ entity|upper }}_LIST')")
 {% endif %}
      */
     public function changeMaxPerPageAction()
@@ -25,7 +25,7 @@
      *
 {% if 'annotation' == format %}
      * @Route("/{field}/{order}/short", name="{{ route_name_prefix }}_sort")
-     * @Secure(roles="ROLE_{{ entity|upper }}_LIST")
+     * @Security("has_role('ROLE_{{ entity|upper }}_LIST')")
 {% endif %}
      */
     public function sortAction($field, $order)
