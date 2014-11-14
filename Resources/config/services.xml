@@ -8,6 +8,8 @@
         <parameter key="cu_labs_admin.themecollection.class">CULabs\AdminBundle\Theme\ThemeDoctrineCrudCollection</parameter>
         <parameter key="cu_labs_admin.theme.generity.class">CULabs\AdminBundle\Theme\ThemeDoctrineCrud</parameter>
         <parameter key="cu_labs_admin.theme.default.skeleton">CULabsAdminBundle:default</parameter>
+        <parameter key="cu_labs_admin.menu.config_builder.class">CULabs\AdminBundle\Menu\MenuConfigBuilder</parameter>
+        <parameter key="cu_labs_admin.menu.class">Knp\Menu\MenuItem</parameter>
     </parameters>
 
     <services>
@@ -19,6 +21,17 @@
             <argument type="service" id="kernel" />
             <argument type="service" id="filesystem" />
             <argument>%cu_labs_admin.theme.default.skeleton%</argument>
+        </service>
+        <service id="cu_labs_admin.menu_config_builder" class="%cu_labs_admin.menu.config_builder.class%">
+            <argument type="service" id="knp_menu.factory"/>
+            <argument type="service" id="router"/>
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="security.context"/>
+        </service>
+        <service class="%cu_labs_admin.menu.class%" factory-service="cu_labs_admin.menu_config_builder" factory-method="getMenu" scope="request">
+            <argument type="service" id="request"/>
+            <argument>%culabs.admin.admin_menu%</argument>
+            <tag name="knp_menu.menu" alias="main"/>
         </service>
     </services>
 </container>

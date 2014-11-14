@@ -18,11 +18,14 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('cu_labs_admin');
+        $rootNode = $treeBuilder->root('cu_labs_admin', 'array');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode
+            ->children()
+                ->scalarNode('menu_backend')->isRequired()->cannotBeEmpty()->end()
+            ->end()
+        ;
+
         return $treeBuilder;
     }
 }

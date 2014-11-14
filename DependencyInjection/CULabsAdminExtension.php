@@ -22,6 +22,7 @@ class CULabsAdminExtension extends Extension
     {
         $configuration = new Configuration();
         $this->processConfiguration($configuration, $configs);
+        $configs = $configs[0];
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
@@ -30,7 +31,7 @@ class CULabsAdminExtension extends Extension
 
         $container->setParameter('culabs.admin.list_cant', 10);
 
-        $container->setParameter('culabs.admin.admin_menu', 'admin_menu');
+        $container->setParameter('culabs.admin.admin_menu', $container->getParameter($configs['menu_backend']));
     }
 
     protected function complileThemeColletions(ContainerBuilder $container)
