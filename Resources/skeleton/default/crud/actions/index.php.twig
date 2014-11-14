@@ -5,7 +5,6 @@
 {% if 'annotation' == format %}
      * @Route("", name="{{ route_name_prefix }}")
      * @Security("has_role('ROLE_{{ entity|upper }}_LIST')")
-     * @Template()
 {% endif %}
      */
     public function indexAction()
@@ -18,26 +17,18 @@
         $this->setPage($this->getRequestParameter('page', $this->getPage()));
         $pager = $this->getPager();
         if ($this->isXmlHttpRequest()) {
-            return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}CRUD:list.html.twig', [
+            return $this->render('/admin/{{ entity|lower|replace({'\\': '/'}) }}/list.html.twig', [
                 'pager' => $pager,
                 'sort'  => $this->getSort(),
             ]);
         }
         $filter_form = $this->getFilterForm();
 
-{% if 'annotation' == format %}
-        return [
-            'pager'  => $pager,
-            'filter' => $filter_form->createView(),
-            'sort'   => $this->getSort(),
-        ];
-{% else %}
-        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}CRUD:index.html.twig', [
+        return $this->render('/admin/{{ entity|lower|replace({'\\': '/'}) }}/index.html.twig', [
             'pager'  => $pager,
             'filter' => $filter_form->createView(),
             'sort'   => $this->getSort(),
         ]);
-{% endif %}
     }
 
     /**
@@ -72,7 +63,7 @@
             return $this->redirectToRoute('{{ route_name_prefix }}');
         }
 
-        return $this->render('{{ bundle }}:{{ entity }}CRUD:index.html.twig', [
+        return $this->render('/admin/{{ entity|lower|replace({'\\': '/'}) }}/index.html.twig', [
             'filter' => $filter_form->createView(),
             'pager'  => $this->getPager(),
             'sort'   => $this->getSort(),

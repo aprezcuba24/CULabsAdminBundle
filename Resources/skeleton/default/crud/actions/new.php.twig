@@ -5,7 +5,6 @@
 {% if 'annotation' == format %}
      * @Route("/new", name="{{ route_name_prefix }}_new")
      * @Security("has_role('ROLE_{{ entity|upper }}_NEW')")
-     * @Template()
 {% endif %}
      */
     public function newAction(Request $request)
@@ -29,15 +28,8 @@
             ]);
         }
 
-{% if 'annotation' == format %}
-        return [
-            'entity' => $entity,
-            'form'   => $form->createView()
-        ];
-{% else %}
-        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}CRUD:new.html.twig', [
+        return $this->render('/admin/{{ entity|lower|replace({'\\': '/'}) }}/new.html.twig', [
             'entity' => $entity,
             'form'   => $form->createView()
         ]);
-{% endif %}
     }

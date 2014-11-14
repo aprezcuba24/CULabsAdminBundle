@@ -1,21 +1,21 @@
-{{ '{% extends \'CULabsAdminBundle:Crud:index.html.twig\' %}' }}
+{{ '{% extends \'@CULabsAdmin/Crud/index.html.twig\' %}' }}
 
 {{ '{% block title_page %}' }}{{ '{{ \'%entity_name% list\'|trans}}'|replace({'%entity_name%':entity}) }}{{ '{% endblock %}' }}
 
 {{ '{% block list_id %}' }}{{ entity }}_list{{ '{% endblock %}' }}
 
 {{ '{% block filter_form %}' }}
-{{ '{{ form_start(filter) }}' }}
+<form method="POST" {{ '{{ form_enctype(filter)}}' }}>
     <div class="form">
         <div>
-            {{ '{% form_theme filter \'CULabsAdminBundle:Form:fields.html.twig\' %}' }}
+            {{ '{% form_theme filter \'@CULabsAdmin/Form/fields.html.twig\' %}' }}
             {{ '{{  form_rest(filter) }}' }}
             <div style="clear: both"></div>
         </div>
         <input class="btn btn-primary" type="submit" name="action_filter" value="{{ '{{ \'Filter\'|trans }}' }}"/>
         <input class="btn" type="submit" name="action_reset" value="{{ '{{ \'Reset\'|trans }}' }}" />
     </div>
-{{ '{{ form_end(filter) }}' }}
+</form>
 {{ '{% endblock %}' }}
 
 {{ '{% block actions %}' }}
@@ -32,9 +32,9 @@
 
 {{ '{% block list %}' }}
 <div id="ajax_{{ entity }}">
-    {{ '{% include \'%bundle_name%:%entity_name%CRUD:list.html.twig\' with {
+    {{ '{% include \'/admin/%entity_name%/list.html.twig\' with {
         \'pager\': pager,
         \'sort\' : sort,
-    } %}'|replace({'%entity_name%':entity, '%bundle_name%':bundle }) }}
+    } %}'|replace({'%entity_name%':entity|lower }) }}
 </div>
 {{ '{% endblock %}' }}

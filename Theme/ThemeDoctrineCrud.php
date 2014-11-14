@@ -47,7 +47,7 @@ class ThemeDoctrineCrud implements ThemeDoctrineCrudInterface
             if (!file_exists($dir_path))
                 throw new InvalidArgumentException(sprintf('%s is no directory', $dir_path));
 
-            $this->generator = new DoctrineCrudGenerator($this->filesystem, $dir_path);
+            $this->generator = new DoctrineCrudGenerator($this->kernel, $this->filesystem, $dir_path);
         }
 
         return $this->generator;

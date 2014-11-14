@@ -5,7 +5,6 @@
 {% if 'annotation' == format %}
      * @Route("/{id}/show", name="{{ route_name_prefix }}_show")
      * @Security("has_role('ROLE_{{ entity|upper }}_SHOW')")
-     * @Template()
 {% endif %}
      */
     public function showAction($id)
@@ -15,13 +14,7 @@
             throw new AccessDeniedException();
         }
 {% endif %}
-{% if 'annotation' == format %}
-        return [
-            'entity' => $this->findOr404($this->getModel(), $id),
-        ];
-{% else %}
-        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}CRUD:show.html.twig', [
+        return $this->render('/admin/{{ entity|lower|replace({'\\': '/'}) }}/show.html.twig', [
             'entity' => $this->findOr404($this->getModel(), $id),
         ]);
-{% endif %}
     }

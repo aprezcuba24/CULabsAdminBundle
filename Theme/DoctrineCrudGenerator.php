@@ -15,6 +15,7 @@ use Sensio\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator as BaseDoctrin
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * Generates a CRUD controller.
@@ -31,16 +32,17 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator implements Doctrin
     protected $format;
     protected $actions;
     protected $test_environment;
+    protected $kernel;
 
     /**
-     * Constructor.
-     *
+     * @param KernelInterface $kernel
      * @param Filesystem $filesystem  A Filesystem instance
      * @param string     $skeletonDir Path to the skeleton directory
      */
-    public function __construct(Filesystem $filesystem, $skeletonDir)
+    public function __construct(KernelInterface $kernel, Filesystem $filesystem, $skeletonDir)
     {
         $this->filesystem  = $filesystem;
+        $this->kernel      = $kernel;
         $this->setSkeletonDirs($skeletonDir);
     }
 
@@ -78,7 +80,7 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator implements Doctrin
 
         $this->generateControllerClass($forceOverwrite);
 
-        $dir = sprintf('%s/Resources/views/%sCRUD', $this->bundle->getPath(), str_replace('\\', '/', $this->entity));
+        $dir = sprintf('%s/Resources/views/admin/%s', $this->kernel->getRootDir(), str_replace('\\', '/', strtolower($this->entity)));
 
         if (!file_exists($dir)) {
             $this->filesystem->mkdir($dir, 0777);
@@ -170,7 +172,7 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator implements Doctrin
         $entityNamespace = implode('\\', $parts);
 
         $target = sprintf(
-            '%s/Controller/%s/%sCRUDController.php',
+            '%s/Controller/Admin/%s/%sController.php',
             $dir,
             str_replace('\\', '/', $entityNamespace),
             $entityClass

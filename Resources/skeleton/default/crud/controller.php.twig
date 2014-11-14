@@ -1,6 +1,6 @@
 <?php
 
-namespace {{ namespace }}\Controller{{ entity_namespace ? '\\' ~ entity_namespace : '' }};
+namespace {{ namespace }}\Controller\Admin{{ entity_namespace ? '\\' ~ entity_namespace : '' }};
 
 use CULabs\AdminBundle\Controller\ModelController;
 {% if 'annotation' != format -%}
@@ -10,10 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 {% if 'annotation' == format -%}
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 {% endif -%}
-use {{ namespace }}\Model\{{ entity }}Model;
 
 /**
  * {{ entity }} controller.
@@ -22,11 +20,8 @@ use {{ namespace }}\Model\{{ entity }}Model;
  * @Route("/{{ route_prefix }}")
 {% endif %}
  */
-class {{ entity_class }}CRUDController extends ModelController
+class {{ entity_class }}Controller extends ModelController
 {
-    /**
-     * @return {{ entity }}Model
-     */
     protected function getModel()
     {
         return $this->get('{{ entity|lower }}_model');

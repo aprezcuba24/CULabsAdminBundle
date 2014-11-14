@@ -5,7 +5,6 @@
 {% if 'annotation' == format %}
      * @Route("/{id}/edit", name="{{ route_name_prefix }}_edit")
      * @Security("has_role('ROLE_{{ entity|upper }}_EDIT')")
-     * @Template()
 {% endif %}
      */
     public function editAction($id, Request $request)
@@ -31,15 +30,8 @@
             ]);
         }
 
-{% if 'annotation' == format %}
-        return [
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ];
-{% else %}
-        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}CRUD:edit.html.twig', [
+        return $this->render('/admin/{{ entity|lower|replace({'\\': '/'}) }}/edit.html.twig', [
             'entity' => $entity,
             'form'   => $form->createView(),
         ]);
-{% endif %}
     }

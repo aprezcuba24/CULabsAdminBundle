@@ -1,4 +1,4 @@
-{{ '{% extends \'CULabsAdminBundle:Crud:view.html.twig\' %}' }}
+{{ '{% extends \'@CULabsAdmin/Crud/view.html.twig\' %}' }}
 
 {{ '{% block title_page %}' }}{{ '{{ \'New %entity_name%\'|trans }}'|replace({'%entity_name%':entity}) }}{{ '{% endblock %}' }}
 
@@ -13,7 +13,7 @@
 {{ '{% endblock %}' }}
 
 {{ '{% block view_body %}' }}
-    {{ '{% include \'%bundle_name%:%entity_name%CRUD:form.html.twig\' with {
+    {{ '{% include \'/admin/%entity_name%/form.html.twig\' with {
         \'form\': form,
-    } %}'|replace({'%entity_name%':entity, '%bundle_name%':bundle }) }}
+    } %}'|replace({'%entity_name%':entity|lower }) }}
 {{ '{% endblock %}' }}
