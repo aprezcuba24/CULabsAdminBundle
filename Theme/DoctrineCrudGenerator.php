@@ -213,15 +213,6 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator implements Doctrin
             'entity'            => $this->entity,
             'bundle'            => $this->bundle->getName(),
         ));
-
-//        //Generate class
-//        $dir    = $this->bundle->getPath() .'/Features/Context';
-//        $target = $dir .'/'. str_replace('\\', '/', $entityNamespace).'/'. $entityClass .'CRUD.php';
-//
-//        $this->renderFile('Features/Context/CRUD.php.twig', $target, array(
-//            'namespace'         => $this->bundle->getNamespace(),
-//            'entity'            => $this->entity,
-//        ));
     }
 
     /**
@@ -261,6 +252,9 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator implements Doctrin
      */
     protected function generateIndexView($dir)
     {
+        $parts = explode('\\', $this->entity);
+        $entityClass = array_pop($parts);
+
         $this->renderFile('views/index.html.twig', $dir.'/index.html.twig', array(
             'dir'               => $this->skeletonDir,
             'entity'            => $this->entity,
@@ -270,6 +264,7 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator implements Doctrin
             'route_prefix'      => $this->routePrefix,
             'route_name_prefix' => $this->routeNamePrefix,
             'bundle'            => $this->bundle->getName(),
+            'entityClass'       => $entityClass,
         ));
         $this->renderFile('views/list.html.twig', $dir.'/list.html.twig', array(
             'dir'               => $this->skeletonDir,
@@ -280,6 +275,7 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator implements Doctrin
             'route_prefix'      => $this->routePrefix,
             'route_name_prefix' => $this->routeNamePrefix,
             'bundle'            => $this->bundle->getName(),
+            'entityClass'       => $entityClass,
         ));
     }
 
@@ -290,6 +286,9 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator implements Doctrin
      */
     protected function generateShowView($dir)
     {
+        $parts = explode('\\', $this->entity);
+        $entityClass = array_pop($parts);
+
         $this->renderFile('views/show.html.twig', $dir.'/show.html.twig', array(
             'dir'               => $this->skeletonDir,
             'entity'            => $this->entity,
@@ -297,6 +296,7 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator implements Doctrin
             'actions'           => $this->actions,
             'route_prefix'      => $this->routePrefix,
             'route_name_prefix' => $this->routeNamePrefix,
+            'entityClass'       => $entityClass,
         ));
     }
 
@@ -307,6 +307,9 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator implements Doctrin
      */
     protected function generateNewView($dir)
     {
+        $parts = explode('\\', $this->entity);
+        $entityClass = array_pop($parts);
+
         $this->renderFile('views/new.html.twig', $dir.'/new.html.twig', array(
             'dir'               => $this->skeletonDir,
             'route_prefix'      => $this->routePrefix,
@@ -314,6 +317,7 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator implements Doctrin
             'entity'            => $this->entity,
             'actions'           => $this->actions,
             'bundle'            => $this->bundle->getName(),
+            'entityClass'       => $entityClass,
         ));
     }
 
@@ -324,6 +328,9 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator implements Doctrin
      */
     protected function generateEditView($dir)
     {
+        $parts = explode('\\', $this->entity);
+        $entityClass = array_pop($parts);
+
         $this->renderFile('views/edit.html.twig', $dir.'/edit.html.twig', array(
             'dir'               => $this->skeletonDir,
             'route_prefix'      => $this->routePrefix,
@@ -331,6 +338,7 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator implements Doctrin
             'entity'            => $this->entity,
             'actions'           => $this->actions,
             'bundle'            => $this->bundle->getName(),
+            'entityClass'       => $entityClass,
         ));
     }
     /**
@@ -340,12 +348,16 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator implements Doctrin
      */
     protected function generateFormView($dir)
     {
+        $parts = explode('\\', $this->entity);
+        $entityClass = array_pop($parts);
+
         $this->renderFile('views/form.html.twig', $dir.'/form.html.twig', array(
             'dir'               => $this->skeletonDir,
             'route_prefix'      => $this->routePrefix,
             'route_name_prefix' => $this->routeNamePrefix,
             'entity'            => $this->entity,
             'actions'           => $this->actions,
+            'entityClass'       => $entityClass,
         ));
     }
 

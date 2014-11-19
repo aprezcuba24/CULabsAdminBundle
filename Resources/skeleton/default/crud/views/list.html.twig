@@ -5,7 +5,7 @@
 {{ '{% block header_table %}' }}
 {{ '{% import \'@CULabsAdmin/Crud/macros.html.twig\' as macros %}' }}
 <tr>
-    <th class="checkall batch"><input type="checkbox" onchange="admin_list_checkall(this, '#{{ entity }}_list .check input')"/></th>
+    <th class="checkall batch"><input type="checkbox" onchange="admin_list_checkall(this, '#{{ entityClass }}_list .check input')"/></th>
 
     {%- for field, metadata in fields -%}
         {%- if field == 'id' or field == 'name' %}
@@ -83,7 +83,7 @@
 
 {{ '{% block footer_table %}' }}
     <div class="batch">
-        {{ '{% if is_granted(\'ROLE_%entity_name%_DELETE\') %}'|replace({'%entity_name%':entity|upper}) }}
+        {{ '{% if is_granted(\'ROLE_%entity_name%_DELETE\') %}'|replace({'%entity_name%':entity|upper|replace({'\\': '_'})}) }}
         <select name="batch_action" class="batch_actions">
             <option value="">{{ '{{\'Select a action\'|trans}}' }}</option>
             <option value="delete">{{ '{{\'Delete\'|trans}}' }}</option>
@@ -91,7 +91,7 @@
         <input type="submit" class="btn btn-primary" value="{{ '{{\'Ok\'|trans}}' }}"/>
         {{ '{% endif %}' }}
         <div class="loader">
-            <img style="display: none" id="{{ 'indicator_table_%entity_name%'|replace({'%entity_name%': entity}) }}" src="{{ '{{ asset(\'bundles/culabsadmin/images/loader.gif\') }}' }}"/>
+            <img style="display: none" id="{{ 'indicator_table_%entity_name%'|replace({'%entity_name%': entityClass}) }}" src="{{ '{{ asset(\'bundles/culabsadmin/images/loader.gif\') }}' }}"/>
         </div>
     </div>
     {{ '{% include \'@CULabsAdmin/Crud/pager.html.twig\' with {
@@ -100,5 +100,5 @@
         \'url\':                  path(\'%route_name_prefix%\'),
         \'url_changemaxperpage\': path(\'%route_name_prefix%_changemaxperpage\'),
         \'maxperpage_list\':      [10,20,30,50, 100],
-    } %}'|replace({'%entity_name%': entity, '%route_name_prefix%':route_name_prefix }) }}
+    } %}'|replace({'%entity_name%': entityClass, '%route_name_prefix%':route_name_prefix }) }}
 {{ '{% endblock %}' }}

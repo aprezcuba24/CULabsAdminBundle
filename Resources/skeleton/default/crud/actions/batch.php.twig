@@ -4,13 +4,13 @@
      *
 {% if 'annotation' == format %}
      * @Route("/batch", name="{{ route_name_prefix }}_batch")
-     * @Security("has_role('ROLE_{{ entity|upper }}_DELETE')")
+     * @Security("has_role('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_DELETE')")
 {% endif %}
      */
     public function batchAction(Request $request)
     {
 {% if 'annotation' != format %}
-        if (!$this->isGranted('ROLE_{{ entity|upper }}_DELETE')) {
+        if (!$this->isGranted('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_DELETE')) {
             throw new AccessDeniedException();
         }
 {% endif %}

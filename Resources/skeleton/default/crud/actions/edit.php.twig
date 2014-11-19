@@ -4,18 +4,18 @@
      *
 {% if 'annotation' == format %}
      * @Route("/{id}/edit", name="{{ route_name_prefix }}_edit")
-     * @Security("has_role('ROLE_{{ entity|upper }}_EDIT')")
+     * @Security("has_role('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_EDIT')")
 {% endif %}
      */
     public function editAction($id, Request $request)
     {
 {% if 'annotation' != format %}
-        if (!$this->isGranted('ROLE_{{ entity|upper }}_EDIT')) {
+        if (!$this->isGranted('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_EDIT')) {
             throw new AccessDeniedException();
         }
 {% endif %}
         $entity = $this->findOr404($this->getModel(), $id);
-        $form = $this->createForm('{{ entity|lower }}_form', $entity, [
+        $form = $this->createForm('{{ entity_class|lower }}_form', $entity, [
             'action' => $this->generateUrl('{{ route_name_prefix }}_edit', [
                 'id' => $id,
             ]),

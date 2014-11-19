@@ -1,7 +1,7 @@
 
     protected function deleteBatch($ids)
     {
-        $qb = $this->getModel()->createQueryBuilder('{{ entity }}');
+        $qb = $this->getModel()->createQueryBuilder('{{ entity_class }}');
         $qb->where($qb->expr()->in('{{ entity }}.id', $ids));
         $result = $qb->getQuery()->getResult();
 

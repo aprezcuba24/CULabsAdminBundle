@@ -1,6 +1,6 @@
 {{ '{% extends \'@CULabsAdmin/Crud/index.html.twig\' %}' }}
 
-{{ '{% block title_page %}' }}{{ '{{ \'%entity_name% list\'|trans}}'|replace({'%entity_name%':entity}) }}{{ '{% endblock %}' }}
+{{ '{% block title_page %}' }}{{ '{{ \'%entity_name% list\'|trans}}'|replace({'%entity_name%':entityClass}) }}{{ '{% endblock %}' }}
 
 {{ '{% block list_id %}' }}{{ entity }}_list{{ '{% endblock %}' }}
 
@@ -20,7 +20,7 @@
 
 {{ '{% block actions %}' }}
     <ul class="actions">
-        {{ '{% if is_granted(\'ROLE_%entity_name%_NEW\') %}'|replace({'%entity_name%':entity|upper}) }}
+        {{ '{% if is_granted(\'ROLE_%entity_name%_NEW\') %}'|replace({'%entity_name%':entity|upper|replace({'\\': '_'})}) }}
         <li>
             <a href="{{ "{{ path('"~ route_name_prefix ~"_new') }}" }}" class="btn btn-icon btn-primary">
                 <i class="icon-plus-sign icon-white"></i>{{ '{{ \'New\'|trans }}' }}
@@ -31,10 +31,10 @@
 {{ '{% endblock %}' }}
 
 {{ '{% block list %}' }}
-<div id="ajax_{{ entity }}">
+<div id="ajax_{{ entityClass }}">
     {{ '{% include \'/admin/%entity_name%/list.html.twig\' with {
         \'pager\': pager,
         \'sort\' : sort,
-    } %}'|replace({'%entity_name%':entity|lower }) }}
+    } %}'|replace({'%entity_name%':entity|lower|replace({'\\': '/'}) }) }}
 </div>
 {{ '{% endblock %}' }}

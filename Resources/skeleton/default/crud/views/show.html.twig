@@ -1,6 +1,6 @@
 {{ '{% extends \'@CULabsAdmin/Crud/view.html.twig\' %}' }}
 
-{{ '{% block title_page %}' }}{{ '{{ \'Detail %entity_name%\'|trans }}'|replace({'%entity_name%':entity}) }}{{ '{% endblock %}' }}
+{{ '{% block title_page %}' }}{{ '{{ \'Detail %entity_name%\'|trans }}'|replace({'%entity_name%':entityClass}) }}{{ '{% endblock %}' }}
 
 {{ '{% block actions %}' }}
     <div class="table-header">
@@ -10,21 +10,21 @@
                     <i class="icon-list icon-white"></i>{{ '{{ \'List\'|trans }}' }}
                 </a>
             </li>
-            {{ '{% if is_granted(\'ROLE_%entity_name%_EDIT\') %}'|replace({'%entity_name%':entity|upper}) }}
+            {{ '{% if is_granted(\'ROLE_%entity_name%_EDIT\') %}'|replace({'%entity_name%':entity|upper|replace({'\\': '_'})}) }}
             <li>
                 <a href="{{ "{{ path('"~ route_name_prefix ~"_edit', { 'id': entity.id }) }}" }}" class="btn btn-icon btn-primary">
                     <i class="icon-pencil icon-white"></i>{{ '{{ \'Edit\'|trans }}' }}
                 </a>
             </li>
             {{ '{% endif %}' }}
-            {{ '{% if is_granted(\'ROLE_%entity_name%_NEW\') %}'|replace({'%entity_name%':entity|upper}) }}
+            {{ '{% if is_granted(\'ROLE_%entity_name%_NEW\') %}'|replace({'%entity_name%':entity|upper|replace({'\\': '_'})}) }}
             <li>
                 <a href="{{ "{{ path('"~ route_name_prefix ~"_new') }}" }}" class="btn btn-icon btn-primary">
                     <i class="icon-plus-sign icon-white"></i>{{ '{{ \'New\'|trans }}' }}
                 </a>
             </li>
             {{ '{% endif %}' }}
-            {{ '{% if is_granted(\'ROLE_%entity_name%_DELETE\') %}'|replace({'%entity_name%':entity|upper}) }}
+            {{ '{% if is_granted(\'ROLE_%entity_name%_DELETE\') %}'|replace({'%entity_name%':entity|upper|replace({'\\': '_'})}) }}
             <li>
                 <a href="#" onclick="confirmarUrl('{{ '{{ \'delete_message\'|trans }}' }}', '{{ "{{ path('"~ route_name_prefix ~"_delete', { 'id': entity.id }) }}" }}', '{{ '{{ \'Confirm\'|trans }}' }}')" class="btn btn-icon btn-danger">
                     <i class="icon-remove icon-white"></i>{{ '{{ \'Delete\'|trans }}' }}

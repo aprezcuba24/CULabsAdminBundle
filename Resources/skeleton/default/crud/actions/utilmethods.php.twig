@@ -4,13 +4,13 @@
      *
 {% if 'annotation' == format %}
      * @Route("/changemaxperpage", name="{{ route_name_prefix }}_changemaxperpage")
-     * @Security("has_role('ROLE_{{ entity|upper }}_LIST')")
+     * @Security("has_role('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_LIST')")
 {% endif %}
      */
     public function changeMaxPerPageAction()
     {
 {% if 'annotation' != format %}
-        if (!$this->isGranted('ROLE_{{ entity|upper }}_LIST')) {
+        if (!$this->isGranted('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_LIST')) {
             throw new AccessDeniedException();
         }
 {% endif %}
@@ -25,13 +25,13 @@
      *
 {% if 'annotation' == format %}
      * @Route("/{field}/{order}/short", name="{{ route_name_prefix }}_sort")
-     * @Security("has_role('ROLE_{{ entity|upper }}_LIST')")
+     * @Security("has_role('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_LIST')")
 {% endif %}
      */
     public function sortAction($field, $order)
     {
 {% if 'annotation' != format %}
-        if (!$this->isGranted('ROLE_{{ entity|upper }}_LIST')) {
+        if (!$this->isGranted('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_LIST')) {
             throw new AccessDeniedException();
         }
 {% endif %}
@@ -49,7 +49,7 @@
     {
         $filter_form = $this->getFilterForm();
         $qb = $this->getModel()
-            ->createQueryBuilder('{{ entity }}')
+            ->createQueryBuilder('{{ entity_class }}')
         ;
         $sort = $this->getSort();
         if ($sort) {
@@ -67,7 +67,7 @@
 
     protected function getFilterForm()
     {
-        $filter_form = $this->createForm('{{ entity|lower }}_form_filter', null, [
+        $filter_form = $this->createForm('{{ entity_class|lower }}_form_filter', null, [
             'action' => $this->generateUrl('{{ route_name_prefix }}_filter'),
         ]);
         $this->setFilterInForm($filter_form);

@@ -4,13 +4,13 @@
      *
 {% if 'annotation' == format %}
      * @Route("/{id}/show", name="{{ route_name_prefix }}_show")
-     * @Security("has_role('ROLE_{{ entity|upper }}_SHOW')")
+     * @Security("has_role('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_SHOW')")
 {% endif %}
      */
     public function showAction($id)
     {
 {% if 'annotation' != format %}
-        if (!$this->isGranted('ROLE_{{ entity|upper }}_SHOW')) {
+        if (!$this->isGranted('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_SHOW')) {
             throw new AccessDeniedException();
         }
 {% endif %}

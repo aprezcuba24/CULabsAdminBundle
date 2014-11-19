@@ -4,13 +4,13 @@
      *
 {% if 'annotation' == format %}
      * @Route("", name="{{ route_name_prefix }}")
-     * @Security("has_role('ROLE_{{ entity|upper }}_LIST')")
+     * @Security("has_role('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_LIST')")
 {% endif %}
      */
     public function indexAction()
     {
 {% if 'annotation' != format %}
-        if (!$this->isGranted('ROLE_{{ entity|upper }}_LIST')) {
+        if (!$this->isGranted('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_LIST')) {
             throw new AccessDeniedException();
         }
 {% endif %}
@@ -36,14 +36,14 @@
      *
 {% if 'annotation' == format %}
      * @Route("/filter", name="{{ route_name_prefix }}_filter")
-     * @Security("has_role('ROLE_{{ entity|upper }}_LIST')")
+     * @Security("has_role('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_LIST')")
      * @Method("POST")
 {% endif %}
      */
     public function filterAction(Request $request)
     {
 {% if 'annotation' != format %}
-        if (!$this->isGranted('ROLE_{{ entity|upper }}_LIST')) {
+        if (!$this->isGranted('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_LIST')) {
             throw new AccessDeniedException();
         }
         if ($this->getRequest()->getMethod() == 'POST')

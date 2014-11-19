@@ -24,7 +24,7 @@ class {{ entity_class }}Controller extends ModelController
 {
     protected function getModel()
     {
-        return $this->get('{{ entity|lower }}_model');
+        return $this->get('{{ entity_class|lower }}_model');
     }
     {% if 'index' in actions %}
         {%- include 'actions/index.php.twig' %}

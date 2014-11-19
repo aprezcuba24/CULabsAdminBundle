@@ -3,7 +3,7 @@
 namespace {{ namespace }}\Model{{ entity_namespace ? '\\' ~ entity_namespace : '' }};
 
 use CULabs\AdminBundle\Model\Model;
-use {{ namespace }}\Entity{{ entity_namespace ? '\\' ~ entity_namespace : '' }}\{{ entity }};
+use {{ namespace }}\Entity{{ entity_namespace ? '\\' ~ entity_namespace : '' }}\{{ entity_class }};
 
 class {{ model_class }} extends Model
 {
@@ -12,7 +12,7 @@ class {{ model_class }} extends Model
      */
     protected function getCurrentRepository()
     {
-        return $this->getRepository('\{{ namespace }}\Entity{{ entity_namespace ? '\\' ~ entity_namespace : '' }}\{{ entity }}');
+        return $this->getRepository('\{{ namespace }}\Entity{{ entity_namespace ? '\\' ~ entity_namespace : '' }}\{{ entity_class }}');
     }
 
     /**
