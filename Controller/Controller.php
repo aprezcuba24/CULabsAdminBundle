@@ -18,19 +18,9 @@ class Controller extends BaseController
         return $this->get('request')->isXmlHttpRequest();
     }
 
-    protected function redirectToRoute($route, $parameters = array(), $status = 302)
-    {
-        return $this->redirect($this->generateUrl($route, $parameters), $status);
-    }
-
     protected function redirectJs($url)
     {
         return new Response(sprintf('<script> window.location = "%s"; </script>', $url));
-    }
-
-    protected function isGranted($attributes, $object = null)
-    {
-        return $this->getSecurity()->isGranted($attributes, $object);
     }
 
     protected function getRepository($entityName, $entityManagerName = null)
@@ -100,14 +90,6 @@ class Controller extends BaseController
     protected function getRequestParameter($name, $default = null)
     {
         return $this->get('request')->get($name, $default);
-    }
-
-    protected function addFlash($name, $value)
-    {
-        $this->get('session')->getFlashBag()->add(
-            $name,
-            $value
-        );
     }
 
     protected function sessionName($name)
