@@ -2,10 +2,10 @@
 
 {{ '{% block title_page %}' }}{{ '{{ \'%entity_name% list\'|trans}}'|replace({'%entity_name%':entityClass}) }}{{ '{% endblock %}' }}
 
-{{ '{% block list_id %}' }}{{ entity }}_list{{ '{% endblock %}' }}
+{{ '{% block list_id %}' }}{{ entityClass }}_list{{ '{% endblock %}' }}
 
 {{ '{% block filter_form %}' }}
-<form method="POST" {{ '{{ form_enctype(filter)}}' }}>
+<form method="POST" action="{{ "{{ path('"~ route_name_prefix ~"_filter') }}" }}" {{ '{{ form_enctype(filter)}}' }}>
     <div class="form">
         <div>
             {{ '{% form_theme filter \'@CULabsAdmin/Form/fields.html.twig\' %}' }}

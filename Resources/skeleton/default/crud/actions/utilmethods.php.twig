@@ -53,7 +53,7 @@
         ;
         $sort = $this->getSort();
         if ($sort) {
-            $qb->add('orderBy', sprintf('{{ entity }}.%s %s', $sort['field'], $sort['order']));
+            $qb->add('orderBy', sprintf('{{ entity_class }}.%s %s', $sort['field'], $sort['order']));
         }
         $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filter_form, $qb);
         $pager = $this->get('knp_paginator')->paginate(
