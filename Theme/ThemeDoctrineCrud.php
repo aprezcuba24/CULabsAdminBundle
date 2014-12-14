@@ -65,7 +65,7 @@ class ThemeDoctrineCrud implements ThemeDoctrineCrudInterface
             if (!file_exists($dir_path))
                 throw new InvalidArgumentException(sprintf('%s is no directory', $dir_path));
 
-            $this->formGenerator = new DoctrineFormGenerator($this->filesystem);
+            $this->formGenerator = new DoctrineFormGenerator($this->kernel, $this->filesystem);
             $this->formGenerator->setSkeletonDirs($this->skeletonPath());
         }
 
@@ -84,7 +84,7 @@ class ThemeDoctrineCrud implements ThemeDoctrineCrudInterface
             if (!file_exists($dir_path))
                 throw new InvalidArgumentException(sprintf('%s is no directory', $dir_path));
 
-            $this->modelGenerator = new DoctrineModelGenerator($this->filesystem, $dir_path);
+            $this->modelGenerator = new DoctrineModelGenerator($this->kernel, $this->filesystem, $dir_path);
         }
 
         return $this->modelGenerator;
@@ -102,7 +102,7 @@ class ThemeDoctrineCrud implements ThemeDoctrineCrudInterface
             if (!file_exists($dir_path))
                 throw new InvalidArgumentException(sprintf('%s is no directory', $dir_path));
 
-            $this->filterFormGenerator = new DoctrineFiterGenerator($this->filesystem, $dir_path);
+            $this->filterFormGenerator = new DoctrineFiterGenerator($this->kernel, $this->filesystem, $dir_path);
         }
 
         return $this->filterFormGenerator;

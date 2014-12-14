@@ -12,9 +12,11 @@ class DoctrineFiterGenerator extends Generator
     private $filesystem;
     private $className;
     private $classPath;
+    private $kernel;
 
-    public function __construct(Filesystem $filesystem, $skeletonDir)
+    public function __construct($kernel, Filesystem $filesystem, $skeletonDir)
     {
+        $this->kernel = $kernel;
         $this->filesystem = $filesystem;
         $this->setSkeletonDirs($skeletonDir);
     }
@@ -59,7 +61,7 @@ class DoctrineFiterGenerator extends Generator
             'form_type_name'   => strtolower(str_replace('\\', '_', $bundle->getNamespace()).($parts ? '_' : '').implode('_', $parts).'_'.$this->className),
         ));
 
-        $servicePath = $bundle->getPath().'/Resources/config/services.yml';
+        $servicePath = $this->kernel->getRootDir().'/config/services.yml';
         $content  = file_get_contents($servicePath);
         $content .= "\n".$this->render('service.yml.twig', array(
             'entity_class'     => $entityClass,

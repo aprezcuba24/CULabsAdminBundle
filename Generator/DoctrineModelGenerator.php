@@ -15,10 +15,12 @@ use Symfony\Component\Filesystem\Filesystem;
 class DoctrineModelGenerator extends Generator
 {
     private $filesystem;
+    private $kernel;
 
-    public function __construct(Filesystem $filesystem, $skeletonDir)
+    public function __construct($kernel, Filesystem $filesystem, $skeletonDir)
     {
         $this->filesystem = $filesystem;
+        $this->kernel = $kernel;
         $this->setSkeletonDirs($skeletonDir);
     }
 
@@ -44,7 +46,7 @@ class DoctrineModelGenerator extends Generator
             'entity'           => $entity,
         ));
 
-        $servicePath = $bundle->getPath().'/Resources/config/services.yml';
+        $servicePath = $this->kernel->getRootDir().'/config/services.yml';
         $content  = file_get_contents($servicePath);
         $content .= "\n".$this->render('service.yml.twig', array(
             'entity_class'     => $entityClass,
