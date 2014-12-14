@@ -48,7 +48,8 @@ The <info>doctrine:culabsgenerate:crud</info> command generates a CRUD based on 
 
 The default command only generates the list and show actions.
 
-<info>php app/console doctrine:culabsgenerate:crud --entity=AcmeBlogBundle/Entity/Post --route-prefix=post_admin</info>
+<info>php app/console doctrine:culabsgenerate:crud --entity=AcmeBlogBundle:Post --route-prefix=post_admin</info>
+<info>php app/console doctrine:culabsgenerate:crud --entity=AcmeBlogBundle:Blog/Post --route-prefix=blog_post_admin</info>
 
 Using the --with-write option allows to generate the new, edit and delete actions.
 
