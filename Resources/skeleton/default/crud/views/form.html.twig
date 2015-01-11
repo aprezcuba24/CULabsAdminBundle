@@ -1,4 +1,6 @@
-{{ '{% form_theme form \'@CULabsAdmin/Form/fields.html.twig\' %}' }}
+{{ '{% extends \'@CULabsAdmin/Crud/view.html.twig\' %}' }}
+
+{{ '{% block view_body %}' }}
 <form method="POST" {{ '{{ form_enctype(form)}}' }}>
     {{ "{{ form_widget(form) }}" }}
     <div class="form-actions">
@@ -6,3 +8,4 @@
         <a href="{{ "{{ path('"~ route_name_prefix ~"') }}" }}" class="btn">{{ '{{ \'Cancel\'|trans }}' }}</a>
     </div>
 </form>
+{{ '{% endblock %}' }}

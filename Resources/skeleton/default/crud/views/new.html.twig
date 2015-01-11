@@ -1,4 +1,4 @@
-{{ '{% extends \'@CULabsAdmin/Crud/view.html.twig\' %}' }}
+{{ '{% extends \'/admin/%entity_name%/form.html.twig\' %}'|replace({'%entity_name%':entity|lower|replace({'\\': '/'})}) }}
 
 {{ '{% block title_page %}' }}{{ '{{ \'New %entity_name%\'|trans }}'|replace({'%entity_name%':entityClass}) }}{{ '{% endblock %}' }}
 
@@ -10,10 +10,4 @@
             </a>
         </li>
     </ul>
-{{ '{% endblock %}' }}
-
-{{ '{% block view_body %}' }}
-    {{ '{% include \'/admin/%entity_name%/form.html.twig\' with {
-        \'form\': form,
-    } %}'|replace({'%entity_name%':entity|lower|replace({'\\': '/'}) }) }}
 {{ '{% endblock %}' }}
