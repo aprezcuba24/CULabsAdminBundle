@@ -1,11 +1,22 @@
 {% extends '::backend_base.html.twig' %}
 
+{% block breadcrumb_actions %}
+    <div class="btn-group pull-right">
+        <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" type="button">
+            {{ 'Actions'|trans }}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            {% block actions %}{% endblock %}
+        </ul>
+    </div>
+    {{ parent() }}
+{% endblock %}
+
 {% block content %}
-<div class="view_header">
-    {% block actions %}{% endblock %}
-    <div style="clear: both"></div>
-</div>
-<div class="form-admin thumbnail">
-    {% block view_body %}{% endblock %}
-</div>
+    <div class="block-flat">
+        <div class="content">
+            {% block view_body %}{% endblock %}
+        </div>
+    </div>
 {% endblock %}

@@ -27,6 +27,9 @@
         }
 
         $ids = $request->get('ids');
+        if (!is_array($ids)) {
+            $ids = explode(',', $ids);
+        }
 
         if (!count($ids)) {
             $this->addFlash('error', 'Select a record');
@@ -34,7 +37,14 @@
             return $this->redirectToRoute('{{ route_name_prefix }}');
         }
 
-        $this->$method($ids);
+        if ($request->get('confirm')) {
+            $this->$method($ids);
 
-        return $this->redirectToRoute('{{ route_name_prefix }}');
+            return $this->redirectToRoute('{{ route_name_prefix }}');
+        }
+
+        return $this->render('/admin/{{ entity|lower|replace({'\\': '/'}) }}/batch.html.twig', [
+            'ids'          => join(',', $ids),
+            'batch_action' => $request->get('batch_action'),
+        ]);
     }

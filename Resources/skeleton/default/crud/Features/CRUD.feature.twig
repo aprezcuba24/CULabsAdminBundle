@@ -1,16 +1,13 @@
 Feature: {{ entity_class }}CRUD Functional Test
-#  Background:
-#    Given There are the following "User":
-#    | username |
-#    | admin    |
-#    Given I am logged in as "admin"
+  Background:
+    Given I go to pagomio check "/" and rol "ROLE_ENTERPRISE"
 
   Scenario: Test list when there not entities
     Given I am on "/{{ route_prefix }}"
     Then I should see "there is not record"
 
   Scenario: Test list when there are entities
-    Given There are the following "\{{ namespace }}\Entity\{{ entity }}":
+    Given There are the following "{{ namespace }}\Entity\{{ entity }}":
       | name |
       | test |
     Given I am on "/{{ route_prefix }}"
@@ -21,12 +18,12 @@ Feature: {{ entity_class }}CRUD Functional Test
     Given I am on "/{{ route_prefix }}"
     When I follow "New"
     Then I should be on "/{{ route_prefix }}/new"
-    When I press "Save"
+    When I press "Create"
     Then I should be on "/{{ route_prefix }}/new"
     And I should see "This value should not be blank."
     When I fill in "Name" with "test"
-    And press "Save"
-    Then I should be on "/{{ route_prefix }}/{id}/show" of "name:test" entity "{{ bundle }}:{{ entity }}"
+    And press "Create"
+    Then I should be on "/{{ route_prefix }}/{id}/edit" of "name:test" entity "{{ namespace }}\Entity\{{ entity }}"
 
   Scenario: Test form edit
     Given There are the following "\{{ namespace }}\Entity\{{ entity }}":
@@ -35,10 +32,10 @@ Feature: {{ entity_class }}CRUD Functional Test
     Given I am on "/{{ route_prefix }}"
     Then I should see "test"
     When I follow "edit"
-    Then I should be on "/{{ route_prefix }}/{id}/edit" of "name:test" entity "{{ bundle }}:{{ entity }}"
+    Then I should be on "/{{ route_prefix }}/{id}/edit" of "name:test" entity "{{ namespace }}\Entity\{{ entity }}"
     When I fill in "Name" with "test foo"
-    And press "Save"
-    Then I should be on "/{{ route_prefix }}/{id}/show" of "name:test foo" entity "{{ bundle }}:{{ entity }}"
+    And press "Update"
+    Then I should be on "/{{ route_prefix }}/{id}/edit" of "name:test foo" entity "{{ namespace }}\Entity\{{ entity }}"
 
   Scenario: Test delete entity
     Given There are the following "\{{ namespace }}\Entity\{{ entity }}":
@@ -46,6 +43,7 @@ Feature: {{ entity_class }}CRUD Functional Test
        | test |
     Given I am on "/{{ route_prefix }}"
     Then I should see "test"
-    When I am on "/{{ route_prefix }}/{id}/delete" of "name:test" entity "{{ bundle }}:{{ entity }}"
+    When I am on "/{{ route_prefix }}/{id}/delete" of "name:test" entity "{{ namespace }}\Entity\{{ entity }}"
+    When press "confirm.yes"
     Then I should be on "/{{ route_prefix }}"
     Then I should see "there is not record"

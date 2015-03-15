@@ -1,70 +1,116 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
-    <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>{% block title %}Admin Aplication{% endblock %}</title>
-        {% block stylesheets %}
-	<link rel="stylesheet" href="{{ asset('bundles/culabsadmin/css/backend.css') }}" type="text/css" media="screen" title="default" />
-	<link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.css') }}" type="text/css" media="screen" title="default" />
-	<link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-responsive.css') }}" type="text/css" media="screen" title="default" />
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!DOCTYPE html>
+{% set _content = block('content') %}
+{% set _title = block('title')|default('CULabs Admin') %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="images/icon.png">
+    <title>{{ _title }}</title>
+
+    {% block stylesheets %}
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,400italic,700,800' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Raleway:300,200,100' rel='stylesheet' type='text/css'>
+
+        <!-- Bootstrap core CSS -->
+        <link href="{{ asset('bundles/culabsadmin/js/bootstrap/dist/css/bootstrap.css') }}" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/culabsadmin/js/jquery.gritter/css/jquery.gritter.css') }}" />
+        <link rel="stylesheet" href="{{ asset('bundles/culabsadmin/fonts/font-awesome-4/css/font-awesome.min.css') }}">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
-        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <script src="{{ asset('bundles/culabsadmin/js/html5shiv.js') }}"></script>
+        <script src="{{ asset('bundles/culabsadmin/js/respond.min.js') }}"></script>
         <![endif]-->
-        {% endblock %}
-        {% block javascript_src %}
-        <script src="{{ asset('/bootstrap/js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('/bundles/culabsadmin/js/admin.js') }}"></script>
-        {% endblock %}
-        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body id="{% block body_custom_id %}{% endblock %}">
-        <div class="menu_top navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container-fluid">
-                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="brand" href="{% block title_app_url('#') %}">{% block title_app %}{{ 'Admin'|trans }}{% endblock %}</a>
-                    <div class="nav-collapse collapse">
-                        {% block menu_top %}{% endblock %}
-                        {% block profile_status %}
-                        <ul class="nav pull-right">
-                            <li>
-                                <a href="{% block user_status_url('#') %}">
-                                    <i class="icon-user icon-white"></i>{% block user_name('Usuario...') %}
-                                </a>
-                            </li>
-                            <li class="divider-vertical"></li>
-                            <li>
-                                <a href="{% block url_logout %}{{ path('fos_user_security_logout') }}{% endblock %}">
-                                    <i class="icon-off icon-white"></i>{{ 'Logout'|trans }}
-                                </a>
-                            </li>
-                        </ul>
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/culabsadmin/js/jquery.nanoscroller/nanoscroller.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/culabsadmin/js/jquery.pushmenu/css/jPushMenu.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/culabsadmin/js/jquery.datatables/bootstrap-adapter/css/datatables.css') }}" />
+        <link href="{{ asset('bundles/culabsadmin/css/style.css') }}" rel="stylesheet" />
+
+        <script type="text/javascript" src="{{ asset('bundles/culabsadmin/js/jquery.js') }}"></script>
+    {% endblock %}
+</head>
+
+<body {% block body_custom_id %}{% endblock %}>
+
+<div id="cl-wrapper">
+    <div class="cl-sidebar">
+        <div class="cl-toggle"><i class="fa fa-bars"></i></div>
+        <div class="cl-navblock">
+            <div class="menu-space">
+                <div class="content">
+                    <div class="sidebar-logo">
+                        <div class="logo">
+                            <a href="{% block title_app_url('#') %}"></a>
+                        </div>
+                    </div>
+                    <ul class="cl-vnavigation">
+                        {% block nav_menu %}
+                            {{ knp_menu_render('main', {
+                                'template':'CULabsAdminBundle:Layout:twitter_menu.html.twig',
+                            }) }}
                         {% endblock %}
-                    </div><!--/.nav-collapse -->
+                    </ul>
+                </div>
+            </div>
+            <div class="text-right collapse-button" style="padding:7px 9px;">
+                <button id="sidebar-collapse" class="btn btn-default" style="">
+                    <i class="fa fa-angle-left" style="color:#fff;"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" id="pcont">
+        <div id="head-nav" class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right user-nav">
+                        <li class="dropdown profile_menu">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <span>{% block user_name('Usuario...') %}</span>
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="{% block url_logout %}{{ path('fos_user_security_logout') }}{% endblock %}">{{ 'Logout'|trans }}</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
-        <div class="container-fluid">
-            <div class="page-title">
-                <h1>{% block title_page('Title...') %}</h1>
-                <div class="flash">
-                    {% block flashes %}
-                        {% include "CULabsAdminBundle:Layout:flashes.html.twig" %}
-                    {% endblock %}
+        <div class="cl-mcont">
+            <div class="page-head">
+                {% block notice %}
+                    {% include "CULabsAdminBundle:Layout:flashes.html.twig" %}
+                {% endblock %}
+                <h2>{% block title_page %}{% endblock %}</h2>
+                {% block breadcrumb_actions %}
+                    <ol class="breadcrumb">
+                        {% block breadcrumb %}{% endblock %}
+                    </ol>
+                {% endblock %}
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    {{ _content|raw }}
                 </div>
             </div>
-            <div style="clear: both"></div>
-            {% block content %}{% endblock %}
         </div>
-        <div class="navbar-inner navbar-fixed-bottom footer" style="padding-top: 10px;">
-            {% block footer_content %}
-                <p> <strong>© CULabs</strong> Renier Ricardo Figueredo (aprezcuba24@gmail.com)</p>
-            {% endblock %}
-        </div>
-    </body>
+    </div>
+</div>
+{% block javascript %}
+    <script type="text/javascript" src="{{ asset('bundles/culabsadmin/js/jquery-ui.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/culabsadmin/js/behaviour/core.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/culabsadmin/js/bootstrap/js/tooltip.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/culabsadmin/js/bootstrap/js/popover.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/culabsadmin/js/bootstrap/dist/js/bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/culabsadmin/js/jquery.nanoscroller/jquery.nanoscroller.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/culabsadmin/js/jquery.pushmenu/js/jPushMenu.js') }}"></script>
+    <script src="{{ asset('bundles/culabsadmin/js/admin.js') }}"></script>
+{% endblock %}
+</body>
 </html>

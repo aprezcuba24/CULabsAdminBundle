@@ -25,16 +25,20 @@
 
         {% if item.hasChildren and options.depth is not sameas(0) and item.displayChildren %}
             {% if item.level is sameas(0) %}
-                {% set ulClass = ' nav' %}
+                {% set ulClass = '' %}
             {% else %}
                 {% set ulClass = ' dropdown-menu' %}
             {% endif %}
             {% set listAttributes = listAttributes|default({}) %}
             {% set currentListAttributes = listAttributes|merge({'class': (listAttributes.class|default('') ~ ulClass)|trim}) %}
 
-            <ul{{ knp_menu.attributes(currentListAttributes) }}>
+            {% if item.level is sameas(0) %}
                 {{ block('children') }}
-            </ul>
+            {% else %}
+                <ul{{ knp_menu.attributes(currentListAttributes) }}>
+                    {{ block('children') }}
+                </ul>
+            {% endif %}
         {% endif %}
     {% endif %}
 {% endblock %}
@@ -64,7 +68,7 @@
         {# building the class of the item #}
         {%- set classes = item.attribute('class') is not empty ? [item.attribute('class')] : [] %}
         {%- if matcher.isCurrent(item) %}
-            {%- set classes = classes|merge([options.currentClass]) %}
+            {%- set classes = classes|merge([options.currentClass, 'active']) %}
         {%- elseif matcher.isAncestor(item, options.matchingDepth) %}
             {%- set classes = classes|merge([options.ancestorClass]) %}
         {%- endif %}
@@ -98,7 +102,19 @@
     {% endif %}
 {% endblock %}
 
-{% block linkElement %}{% import _self as knp_menu %}<a href="{{ item.uri }}"{{ knp_menu.attributes(item.linkAttributes) }}>{{ block('label') }}</a>{% endblock %}
+{% block linkElement %}
+    {% import _self as knp_menu %}
+    <a href="{{ item.uri }}"{{ knp_menu.attributes(item.linkAttributes) }}>
+        {% if item.attribute('icon') %}
+            <i class="fa {{ item.attribute('icon') }}"></i>
+        {% else %}
+            <i class="icon-bar-chart"></i>
+        {% endif %}
+        <span class="title">
+            {{ block('label') }}
+        </span>
+    </a>
+{% endblock %}
 
 {% block spanElement %}
     {% import _self as knp_menu %}

@@ -1,0 +1,54 @@
+{{ '{% extends \'@CULabsAdmin/Crud/view.html.twig\' %}' }}
+
+{{ '{% block nav_menu %}' }}
+    {{ "{{ set_route_active('"~ route_name_prefix ~"') }}" }}
+    {{ "{{ parent() }}" }}
+{{ "{% endblock %}" }}
+
+{{ '{% block title_page %}' }}{{ '{{ \'%entity_name% delete\'|trans }}'|replace({'%entity_name%':entityClass}) }}{{ '{% endblock %}' }}
+
+{{ '{% block breadcrumb %}' }}
+    {{ '{% include \'/admin/%entity_name%/breadcrumb.html.twig\' with {
+        \'action\': \'delete\',
+    } %}'|replace({'%entity_name%':entity|lower|replace({'\\': '/'}) }) }}
+{{ '{% endblock %}' }}
+
+{{ '{% block actions %}' }}
+    <li>
+        <a href="{{ "{{ path('"~ route_name_prefix ~"') }}" }}">
+            {{ '{{ \'List\'|trans }}' }}
+        </a>
+    </li>
+    {{ '{% if is_granted(\'ROLE_%entity_name%_EDIT\') %}'|replace({'%entity_name%':entity|upper|replace({'\\': '_'})}) }}
+    <li>
+        <a href="{{ "{{ path('"~ route_name_prefix ~"_edit', { 'id': entity.id }) }}" }}">
+            {{ '{{ \'Edit\'|trans }}' }}
+        </a>
+    </li>
+    {{ '{% endif %}' }}
+    {{ '{% if is_granted(\'ROLE_%entity_name%_NEW\') %}'|replace({'%entity_name%':entity|upper|replace({'\\': '_'})}) }}
+    <li>
+        <a href="{{ "{{ path('"~ route_name_prefix ~"_new') }}" }}">
+            {{ '{{ \'New\'|trans }}' }}
+        </a>
+    </li>
+    {{ '{% endif %}' }}
+{{ '{% endblock %}' }}
+
+{{ '{% block view_body %}' }}
+    <h1>{{ '{{ \'Confirm.delete\'|trans }}' }}</h1>
+    {{ '{{ \'delete_ask\'|trans }}' }}
+    <div class="well well-small form-actions">
+        <form method="POST">
+            <button class="btn btn-danger" type="submit">
+                <i class="fa fa-trash-o"></i>
+                {{ '{{ \'confirm.yes\'|trans }}' }}
+            </button>
+            {{ '{{ \'confirm.or\'|trans }}' }}
+            <a class="btn btn-success" href="{{ "{{ path('"~ route_name_prefix ~"_edit', { 'id': entity.id }) }}" }}">
+                <i class="fa fa-pencil"></i>
+                {{ '{{ \'Edit\'|trans }}' }}
+            </a>
+        </form>
+    </div>
+{{ '{% endblock %}' }}

@@ -1,33 +1,38 @@
 {% extends '::backend_base.html.twig' %}
 
+{% block breadcrumb_actions %}
+    <div class="btn-group pull-right">
+        <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" type="button">
+            {{ 'Actions'|trans }}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            {% block actions %}{% endblock %}
+        </ul>
+    </div>
+    {{ parent() }}
+{% endblock %}
+
 {% block content %}
     <div id="{% block list_id %}list_id{% endblock %}">
-        {% block filter %}
-        <div class="filter_panel table-header thumbnail">
-            <div class="toggle_filter" id="toggle_filter">
+        <div class="block-flat">
+            <div class="header">
+                <div class="actions">
+                    <a class="minimize" href="#">
+                        <i class="fa fa-chevron-down"></i>
+                    </a>
+                </div>
+                <h3>{{ 'Filter'|trans }}</h3>
+            </div>
+            <div class="content">
                 {% block filter_form %}{% endblock %}
             </div>
-            <a class="show-hidde-filter" id="toggle_show-hidde-filter" title="{{ 'Show/Hide Filter'|trans }}">
-                <i class="icon-chevron-up icon-white"></i>
-            </a>
         </div>
-        <div class="actions_list">
-            {% block actions %}{% endblock %}
-            <div class="clearfix"></div>
+        <div class="block-flat">
+            <div class="content">
+                {% block list %}{% endblock %}
+                <div class="clearfix"></div>
+            </div>
         </div>
-        <script type="text/javascript">
-           $( "#toggle_show-hidde-filter" ).click(function() {
-                $( "#toggle_filter" ).toggle( 'blind', {}, 500 );
-                if ($('#toggle_show-hidde-filter i').hasClass('icon-chevron-up')) {
-                    $('#toggle_show-hidde-filter i').removeClass('icon-chevron-up');
-                    $('#toggle_show-hidde-filter i').addClass('icon-chevron-down');
-                } else {
-                    $('#toggle_show-hidde-filter i').removeClass('icon-chevron-down');
-                    $('#toggle_show-hidde-filter i').addClass('icon-chevron-up');
-                }
-            });
-        </script>
-        {% endblock %}
-        {% block list %}{% endblock %}
     </div>
 {% endblock %}

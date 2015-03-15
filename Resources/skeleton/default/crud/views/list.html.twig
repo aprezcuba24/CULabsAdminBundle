@@ -10,7 +10,12 @@
     {%- for field, metadata in fields -%}
         {%- if field == 'id' or field == 'name' %}
 
-    <th>{{ '{{ macros.sort_field(\'%field_label%\'|trans, \'%field%\', sort, \'%update%\', \'%route_name_prefix%_sort\', \'indicator_table_%entity_name%\') }}'|replace({'%field_label%':field|capitalize, '%field%':field, '%update%':'ajax_'~entityClass, '%route_name_prefix%':route_name_prefix, '%entity_name%':entityClass}) }}</th>
+    <th>
+        {{ '{{ macros.sort_field(\'%field_label%\'|trans, \'%field%\', sort, \'%update%\', \'%route_name_prefix%_sort\', \'indicator_table_%field%\') }}'|replace({'%field_label%':field|capitalize, '%field%':field, '%update%':'ajax_'~entityClass, '%route_name_prefix%':route_name_prefix, '%entity_name%':entityClass}) }}
+        <div style="display: inline-block; width: 10px">
+            <img id="{{ 'indicator_table_%field%'|replace({'%field%': field}) }}" style="display: none" src="{{ "{{ asset('/assets/images/loader.gif') }}" }}"/>
+        </div>
+    </th>
         {%- else %}
 
     <th>{{ '{{ \'%field_label%\'|trans }}'|replace({'%field_label%':field|capitalize}) }}</th>
@@ -28,7 +33,7 @@
         {%- for field, metadata in fields %}
             {%- if loop.first and ('show' in actions) %}
 
-        <td><a href="{{ "{{ path('"~ route_name_prefix ~"_show', { 'id': entity.id }) }}" }}">{{ '{{ entity.'~ field|replace({'_': ''}) ~' }}' }}</a></td>
+        <td><a href="{{ "{{ path('"~ route_name_prefix ~"_edit', { 'id': entity.id }) }}" }}">{{ '{{ entity.'~ field|replace({'_': ''}) ~' }}' }}</a></td>
 
             {%- elseif metadata.type in ['date', 'datetime'] %}
 
@@ -42,37 +47,25 @@
 
             {%- if loop.last %}
 
-        <td class="opcions span4">
-            <ul>
+        <td>
+            <div class="btn-group">
                 {% for action in record_actions -%}
-                {%- if action == 'show' -%}
-                {{ '{% if is_granted(\'ROLE_%entity_name%_SHOW\') %}'|replace({'%entity_name%':entity|upper|replace({'\\': '_'})}) }}
-                <li>
-                    <a class="btn btn-info btn-small" title="{{ '{{ \'%action%\'|trans }}'|replace({'%action%':action}) }}" href="{{ "{{ path('"~ route_name_prefix ~"_"~ action ~"', { 'id': entity.id }) }}" }}">
-                        <i class="icon-eye-open icon-white"></i>
+                    {%- if action == 'edit' -%}
+                    {{ '{% if is_granted(\'ROLE_%entity_name%_EDIT\') %}'|replace({'%entity_name%':entity|upper|replace({'\\': '_'})}) }}
+                    <a class="btn edit_link btn-small green" title="{{ '{{ \'%action%\'|trans }}'|replace({'%action%':action}) }}" href="{{ "{{ path('"~ route_name_prefix ~"_"~ action ~"', { 'id': entity.id }) }}" }}">
+                        <i class="fa fa-pencil"></i>
                     </a>
-                </li>
                 {{ '{% endif %}' }}
-                {% elseif action == 'edit' -%}
-                {{ '{% if is_granted(\'ROLE_%entity_name%_EDIT\') %}'|replace({'%entity_name%':entity|upper|replace({'\\': '_'})}) }}
-                <li>
-                    <a class="btn btn-primary btn-small" title="{{ '{{ \'%action%\'|trans }}'|replace({'%action%':action}) }}" href="{{ "{{ path('"~ route_name_prefix ~"_"~ action ~"', { 'id': entity.id }) }}" }}">
-                        <i class="icon-pencil icon-white"></i>
-                    </a>
-                </li>
-                {{ '{% endif %}' }}
-                {% elseif action == 'delete' -%}
+                {%- elseif action == 'delete' -%}
                 {{ '{% if is_granted(\'ROLE_%entity_name%_DELETE\') %}'|replace({'%entity_name%':entity|upper|replace({'\\': '_'})}) }}
-                <li>
-                    <a class="btn btn-danger btn-small" title="{{ '{{ \'delete\'|trans }}' }}" href="#" onclick="confirmarUrl('{{ '{{ \'delete_message\'|trans }}' }}', '{{ "{{ path('"~ route_name_prefix ~"_delete', { 'id': entity.id }) }}" }}', '{{ '{{ \'Confirm\'|trans }}' }}')">
-                        <i class="icon-remove icon-white"></i>
+                    <a class="btn delete_link btn-small btn-danger" title="{{ '{{ \'%action%\'|trans }}'|replace({'%action%':action}) }}" href="{{ "{{ path('"~ route_name_prefix ~"_delete', { 'id': entity.id }) }}" }}">
+                        <i class="fa fa-trash-o"></i>
                     </a>
-                </li>
                 {{ '{% endif %}' }}
                 {%- endif -%}
-                {%- endfor %}
+                {% endfor %}
 
-            </ul>
+            </div>
         </td>
             {%- endif -%}
         {% endfor %}
@@ -82,23 +75,21 @@
 {{ '{% endblock %}' }}
 
 {{ '{% block footer_table %}' }}
-    <div class="batch">
-        {{ '{% if is_granted(\'ROLE_%entity_name%_DELETE\') %}'|replace({'%entity_name%':entity|upper|replace({'\\': '_'})}) }}
-        <select name="batch_action" class="batch_actions">
-            <option value="">{{ '{{\'Select a action\'|trans}}' }}</option>
+    {{ '{% if is_granted(\'ROLE_%entity_name%_DELETE\') %}'|replace({'%entity_name%':entity|upper|replace({'\\': '_'})}) }}
+    <div class="pull-left">
+        <select name="batch_action" class="form-control input-xxsmall">
             <option value="delete">{{ '{{\'Delete\'|trans}}' }}</option>
         </select>
-        <input type="submit" class="btn btn-primary" value="{{ '{{\'Ok\'|trans}}' }}"/>
-        {{ '{% endif %}' }}
-        <div class="loader">
-            <img style="display: none" id="{{ 'indicator_table_%entity_name%'|replace({'%entity_name%': entityClass}) }}" src="{{ '{{ asset(\'bundles/culabsadmin/images/loader.gif\') }}' }}"/>
-        </div>
     </div>
-    {{ '{% include \'@CULabsAdmin/Crud/pager.html.twig\' with {
-        \'pager\':                pager,
-        \'zona\':                 \'ajax_%entity_name%\',
-        \'url\':                  path(\'%route_name_prefix%\'),
-        \'url_changemaxperpage\': path(\'%route_name_prefix%_changemaxperpage\'),
-        \'maxperpage_list\':      [10,20,30,50, 100],
-    } %}'|replace({'%entity_name%': entityClass, '%route_name_prefix%':route_name_prefix }) }}
+    <input type="submit" class="btn btn-small btn-primary pull-left" value="{{ '{{\'Ok\'|trans}}' }}"/>
+    {{ '{% endif %}' }}
+    <div class="pull-right">
+        {{ '{% include \'@CULabsAdmin/Crud/pager.html.twig\' with {
+            \'pager\':                pager,
+            \'zona\':                 \'ajax_%entity_name%\',
+            \'url\':                  path(\'%route_name_prefix%\'),
+            \'url_changemaxperpage\': path(\'%route_name_prefix%_changemaxperpage\'),
+            \'maxperpage_list\':      [10,20,30,50, 100],
+        } %}'|replace({'%entity_name%': entityClass, '%route_name_prefix%':route_name_prefix }) }}
+    </div>
 {{ '{% endblock %}' }}

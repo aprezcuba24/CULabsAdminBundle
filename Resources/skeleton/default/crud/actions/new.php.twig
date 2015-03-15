@@ -23,7 +23,7 @@
             $this->create($entity);
             $this->addFlash('notice', 'The entity is saved.');
 
-            return $this->redirectToRoute('{{ route_name_prefix }}_show', [
+            return $this->redirectToRoute('{{ route_name_prefix }}_edit', [
                 'id' => $entity->getId(),
             ]);
         }

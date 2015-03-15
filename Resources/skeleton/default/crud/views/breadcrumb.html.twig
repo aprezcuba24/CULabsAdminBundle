@@ -1,0 +1,44 @@
+{{ "{% set action = action|default('') %}" }}
+<li>
+    <a href="{{ "{{ path('admin_dashboard') }}" }}">
+        {{ "{{ 'dashboard'|trans }}" }}
+    </a>
+</li>
+<li>
+    <a href="{{ "{{ path('"~ route_name_prefix ~"') }}" }}">
+        {{ '{{ \'%entity_name% list\'|trans }}'|replace({'%entity_name%':entityClass}) }}
+    </a>
+</li>
+{{ "{% if action == 'create' %}" }}
+    <li>
+        <a href="#">
+            {{ "{{ 'create'|trans }}" }}
+        </a>
+    </li>
+{{ "{% endif %}" }}
+{{ "{% if action == 'edit' %}" }}
+    <li>
+        <a href="#">
+            {{ "{{ 'edit'|trans }}" }}
+        </a>
+    </li>
+{{ "{% endif %}" }}
+{{ "{% if action == 'show' %}" }}
+    <li>
+        <a href="#">
+            {{ "{{ 'detail'|trans }}" }}
+        </a>
+    </li>
+{{ "{% endif %}" }}
+{{ "{% if action == 'delete' %}" }}
+    <li>
+        <a href="#">
+            {{ "{{ 'delete'|trans }}" }}
+        </a>
+    </li>
+{{ "{% endif %}" }}
+{{ "{% if action == 'batch' %}" }}
+    <li>
+        &nbsp;
+    </li>
+{{ "{% endif %}" }}

@@ -1,83 +1,10 @@
 {% set pager_data = pager.paginationData %}
-<div class="pagination">
-    {% if pager_data.current == pager_data.first %}
-        <a href="#" class="icon-fast-backward" id="icon-fast-backward_{{ zona }}"></a>
-        <script type="text/javascript">
-            $().ready(function () {
-                $('#icon-fast-backward_{{ zona }}').click(function(e) {
-                    e.preventDefault();
-                });
-            });
-        </script>
-    {% else %}
-        <a href="#" class="icon-fast-backward" id="icon-fast-backward_{{ zona }}"></a>
-        <script type="text/javascript">
-            $().ready(function () {
-                $('#icon-fast-backward_{{ zona }}').click(function(e) {
-                    e.preventDefault();
-                    jQuery.ajax({
-                        type:'GET',
-                        dataType:'html',
-                        data:'page=1',
-                        success: function(data, textStatus){
-                            jQuery('#{{ zona }}').html(data);
-                        },
-                        beforeSend: function(XMLHttpRequest){
-                            jQuery('#indicador_{{ zona }}').show();
-                        },
-                        complete: function(XMLHttpRequest, textStatus){
-                            jQuery('#indicador_{{ zona }}').hide();
-                        },
-                        url:'{{ url }}'
-                    });
-                });
-            });
-        </script>
-    {% endif %}
-
-    {% if pager_data.previous is defined %}
-        <a class="icon-step-backward" href="#" id="icon-step-backward_{{ zona }}"></a>
-        <script type="text/javascript">
-            $().ready(function () {
-                $('#icon-step-backward_{{ zona }}').click(function(e) {
-                    e.preventDefault();
-                    jQuery.ajax({
-                        type:'GET',
-                        dataType:'html',
-                        data:'page={{ pager_data.previous }}',
-                        success:function(data, textStatus){
-                            jQuery('#{{ zona }}').html(data);
-                        },
-                        beforeSend:function(XMLHttpRequest){
-                            jQuery('#indicador_{{ zona }}').show();
-                        },
-                        complete:function(XMLHttpRequest, textStatus){
-                            jQuery('#indicador_{{ zona }}').hide();
-                        },
-                        url:'{{ url }}'
-                    });
-                });
-            });
-        </script>
-    {% else %}
-        <a href="#" class="icon-step-backward" id="icon-step-backward_{{ zona }}"></a>
-        <script type="text/javascript">
-            $().ready(function () {
-                $('#icon-step-backward_{{ zona }}').click(function(e) {
-                    e.preventDefault();
-                });
-            });
-        </script>
-    {% endif %}
-
-    <div class="pager-indicator">
-        <span class="page">{{ pager_data.current }}</span> / <span class="cant">{{ pager_data.pageCount }}</span>
-    </div>
-
-    <select onchange="window.location='{{ url_changemaxperpage }}?cant=' + this.value">
+{{ pager_data.current }} / {{ pager_data.pageCount }} &nbsp;-&nbsp; {{ pager_data.totalCount }} resultados &nbsp;-&nbsp;
+<label>
+    <select onchange="window.location='{{ url_changemaxperpage }}?cant=' + this.value" id="pager_results" class="form-control input-xxsmall" size="1" aria-controls="sample_1">
         {% if maxperpage is defined %}
             {% for item in maxperpage_list %}
-            <option {% if pager_data.numItemsPerPage == item %} selected="selected" {% endif %}>{{ item }}</option>
+                <option {% if pager_data.numItemsPerPage == item %} selected="selected" {% endif %}>{{ item }}</option>
             {% endfor %}
         {% else %}
             <option {% if pager_data.numItemsPerPage == 10 %} selected="selected" {% endif %}>10</option>
@@ -85,78 +12,49 @@
             <option {% if pager_data.numItemsPerPage == 50 %} selected="selected" {% endif %}>50</option>
         {% endif %}
     </select>
-
-    {% if pager_data.next is defined %}
-        <a class="icon-step-forward" href="#" id="icon-step-forward_{{ zona }}"></a>
-        <script type="text/javascript">
-            $().ready(function () {
-                $('#icon-step-forward_{{ zona }}').click(function(e) {
-                    e.preventDefault();
-                    jQuery.ajax({
-                        type:'GET',
-                        dataType:'html',
-                        data:'page={{ pager_data.next }}',
-                        success:function(data, textStatus){
-                            jQuery('#{{ zona }}').html(data);
-                        },
-                        beforeSend:function(XMLHttpRequest){
-                            jQuery('#indicador_{{ zona }}').show();
-                        },
-                        complete:function(XMLHttpRequest, textStatus){
-                            jQuery('#indicador_{{ zona }}').hide();
-                        },
-                        url:'{{ url }}'
-                    });
-                });
-            });
-        </script>
-    {% else %}
-        <a href="#" class="icon-step-forward" id="icon-step-forward_{{ zona }}"></a>
-        <script type="text/javascript">
-            $().ready(function () {
-                $('#icon-step-forward_{{ zona }}').click(function(e) {
-                    e.preventDefault();
-                });
-            });
-        </script>
-    {% endif %}
-
-    {% if pager_data.current != pager_data.pageCount %}
-        <a class="icon-fast-forward" href="#" id="icon-fast-forward_{{ zona }}"></a>
-        <script type="text/javascript">
-            $().ready(function () {
-                $('#icon-fast-forward_{{ zona }}').click(function(e) {
-                    e.preventDefault();
-                    jQuery.ajax({
-                        type:'GET',
-                        dataType:'html',
-                        data:'page={{ pager_data.pageCount }}',
-                        success:function(data, textStatus){
-                            jQuery('#{{ zona }}').html(data);
-                        },
-                        beforeSend:function(XMLHttpRequest){
-                            jQuery('#indicador_{{ zona }}').show();
-                        },
-                        complete:function(XMLHttpRequest, textStatus){
-                            jQuery('#indicador_{{ zona }}').hide();
-                        },
-                        url:'{{ url }}'
-                    });
-                });
-            });
-        </script>
-    {% else %}
-        <a href="#" class="icon-fast-forward" id="icon-fast-forward_{{ zona }}"></a>
-        <script type="text/javascript">
-            $().ready(function () {
-                $('#icon-fast-forward_{{ zona }}').click(function(e) {
-                    e.preventDefault();
-                });
-            });
-        </script>
-    {% endif %}
-
-    <div class="loader">
-        <img style="display: none;" src="{{ asset('bundles/culabsadmin/images/loader.gif') }}" id="indicador_{{ zona }}"/>
+    Por página
+</label>
+{% if pager_data.pageRange > 1 %}
+    <br/>
+    <div class="paginator pull-right">
+        <ul class="pagination">
+            {% if pager_data.current == pager_data.first %}
+                <li class="prev disabled">
+                    <a title="Prev" href="#">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                </li>
+            {% else %}
+                <li class="prev">
+                    <a title="Prev" href="{{ url }}?page=1">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                </li>
+            {% endif %}
+            {% for page in pager_data.pagesInRange %}
+                {% if page != pager_data.current %}
+                    <li>
+                        <a href="{{ url }}?page={{ page }}">{{ page }}</a>
+                    </li>
+                {% else %}
+                    <li class="active">
+                        <span>{{ page }}</span>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            {% if pager_data.current == pager_data.pageCount %}
+                <li class="next disabled">
+                    <a title="Last" href="#">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </li>
+            {% else %}
+                <li class="next">
+                    <a title="Next" href="{{ url }}?page={{ pager_data.pageCount }}">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
     </div>
-</div>
+{% endif %}

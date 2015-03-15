@@ -7,7 +7,7 @@
      * @Security("has_role('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_DELETE')")
 {% endif %}
      */
-    public function deleteAction($id)
+    public function deleteAction($id, Request $request)
     {
 {% if 'annotation' != format %}
         if (!$this->isGranted('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_DELETE')) {
@@ -15,12 +15,18 @@
         }
 {% endif %}
         $entity = $this->findOr404($this->getModel(), $id);
-        try {
-            $this->remove($entity);
-            $this->addFlash('notice', 'The entity is deleted.');
-        } catch (\Exception $e) {
-            $this->addFlash('error', 'The entity is not deleted.');
+        if ($request->isMethod('POST')) {
+            try {
+                $this->remove($entity);
+                $this->addFlash('notice', 'The entity is deleted.');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'The entity is not deleted.');
+            }
+
+            return $this->redirectToRoute('{{ route_name_prefix }}');
         }
 
-        return $this->redirectToRoute('{{ route_name_prefix }}');
+        return $this->render('/admin/{{ entity|lower|replace({'\\': '/'}) }}/delete.html.twig', [
+            'entity' => $entity,
+        ]);
     }
