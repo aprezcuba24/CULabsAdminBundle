@@ -10,6 +10,7 @@
         <parameter key="cu_labs_admin.theme.default.skeleton">CULabsAdminBundle:default</parameter>
         <parameter key="cu_labs_admin.menu.config_builder.class">CULabs\AdminBundle\Menu\MenuConfigBuilder</parameter>
         <parameter key="cu_labs_admin.menu.class">Knp\Menu\MenuItem</parameter>
+        <parameter key="culabs_admin.menu_extenxion.class">CULabs\AdminBundle\Twig\TwigMenuExtension</parameter>
     </parameters>
 
     <services>
@@ -32,6 +33,10 @@
             <argument type="service" id="request"/>
             <argument>%culabs.admin.admin_menu%</argument>
             <tag name="knp_menu.menu" alias="main"/>
+        </service>
+        <service id="culabs_admin.menu_extenxion" class="%culabs_admin.menu_extenxion.class%">
+            <argument type="service" id="cu_labs_admin.menu_config_builder"/>
+            <tag name="twig.extension"/>
         </service>
     </services>
 </container>

@@ -1,33 +1,38 @@
 {{ '{% extends \'@CULabsAdmin/Crud/index.html.twig\' %}' }}
 
+{{ '{% block nav_menu %}' }}
+    {{ "{{ set_route_active('"~ route_name_prefix ~"') }}" }}
+    {{ "{{ parent() }}" }}
+{{ "{% endblock %}" }}
+
 {{ '{% block title_page %}' }}{{ '{{ \'%entity_name% list\'|trans}}'|replace({'%entity_name%':entityClass}) }}{{ '{% endblock %}' }}
 
 {{ '{% block list_id %}' }}{{ entityClass }}_list{{ '{% endblock %}' }}
 
+{{ '{% block breadcrumb %}' }}
+    {{ '{% include \'/admin/%entity_name%/breadcrumb.html.twig\' %}'|replace({'%entity_name%':entity|lower|replace({'\\': '/'}) }) }}
+{{ '{% endblock %}' }}
+
 {{ '{% block filter_form %}' }}
-<form method="POST" action="{{ "{{ path('"~ route_name_prefix ~"_filter') }}" }}" {{ '{{ form_enctype(filter)}}' }}>
-    <div class="form">
-        <div>
-            {{ '{% form_theme filter \'@CULabsAdmin/Form/fields.html.twig\' %}' }}
-            {{ '{{  form_rest(filter) }}' }}
-            <div style="clear: both"></div>
+<form class="form-horizontal" method="POST" action="{{ "{{ path('"~ route_name_prefix ~"_filter') }}" }}" {{ '{{ form_enctype(filter)}}' }}>
+    {{ '{{  form_rest(filter) }}' }}
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <input class="btn default" type="submit" name="action_reset" value="{{ '{{ \'Reset\'|trans }}' }}" />
+            <input class="btn btn-primary" type="submit" name="action_filter" value="{{ '{{ \'Filter\'|trans }}' }}"/>
         </div>
-        <input class="btn btn-primary" type="submit" name="action_filter" value="{{ '{{ \'Filter\'|trans }}' }}"/>
-        <input class="btn" type="submit" name="action_reset" value="{{ '{{ \'Reset\'|trans }}' }}" />
     </div>
 </form>
 {{ '{% endblock %}' }}
 
 {{ '{% block actions %}' }}
-    <ul class="actions">
-        {{ '{% if is_granted(\'ROLE_%entity_name%_NEW\') %}'|replace({'%entity_name%':entity|upper|replace({'\\': '_'})}) }}
+    {{ '{% if is_granted(\'ROLE_%entity_name%_NEW\') %}'|replace({'%entity_name%':entity|upper|replace({'\\': '_'})}) }}
         <li>
-            <a href="{{ "{{ path('"~ route_name_prefix ~"_new') }}" }}" class="btn btn-icon btn-primary">
-                <i class="icon-plus-sign icon-white"></i>{{ '{{ \'New\'|trans }}' }}
+            <a href="{{ "{{ path('"~ route_name_prefix ~"_new') }}" }}">
+                {{ '{{ \'New\'|trans }}' }}
             </a>
         </li>
-        {{ '{% endif %}' }}
-    </ul>
+    {{ '{% endif %}' }}
 {{ '{% endblock %}' }}
 
 {{ '{% block list %}' }}

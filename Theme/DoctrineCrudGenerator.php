@@ -104,6 +104,13 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator implements Doctrin
             $this->generateFormView($dir);
         }
 
+        if (in_array('delete', $this->actions)) {
+            $this->generateDeleteView($dir);
+        }
+
+        $this->generateBatchView($dir);
+        $this->generateBreadcrumbView($dir);
+
         if ($this->test_environment == DoctrineCrudGeneratorInterface::TEST_ENVIRONMENT_BEHAT) {
             $this->generateBehatFeature();
         } else {
@@ -111,6 +118,69 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator implements Doctrin
         }
 
         $this->generateConfiguration();
+    }
+
+    /**
+     * Generates the show.html.twig template in the final bundle.
+     *
+     * @param string $dir The path to the folder that hosts templates in the bundle
+     */
+    protected function generateDeleteView($dir)
+    {
+        $parts = explode('\\', $this->entity);
+        $entityClass = array_pop($parts);
+
+        $this->renderFile('views/delete.html.twig', $dir.'/delete.html.twig', array(
+            'dir'               => $this->skeletonDir,
+            'entity'            => $this->entity,
+            'fields'            => $this->metadata->fieldMappings,
+            'actions'           => $this->actions,
+            'route_prefix'      => $this->routePrefix,
+            'route_name_prefix' => $this->routeNamePrefix,
+            'entityClass'       => $entityClass,
+        ));
+    }
+
+    /**
+     * Generates the show.html.twig template in the final bundle.
+     *
+     * @param string $dir The path to the folder that hosts templates in the bundle
+     */
+    protected function generateBatchView($dir)
+    {
+        $parts = explode('\\', $this->entity);
+        $entityClass = array_pop($parts);
+
+        $this->renderFile('views/batch.html.twig', $dir.'/batch.html.twig', array(
+            'dir'               => $this->skeletonDir,
+            'entity'            => $this->entity,
+            'fields'            => $this->metadata->fieldMappings,
+            'actions'           => $this->actions,
+            'route_prefix'      => $this->routePrefix,
+            'route_name_prefix' => $this->routeNamePrefix,
+            'entityClass'       => $entityClass,
+        ));
+    }
+
+    /**
+     * Generates the show.html.twig template in the final bundle.
+     *
+     * @param string $dir The path to the folder that hosts templates in the bundle
+     */
+    protected function generateBreadcrumbView($dir)
+    {
+        $parts = explode('\\', $this->entity);
+        $entityClass = array_pop($parts);
+
+        $this->renderFile('views/breadcrumb.html.twig', $dir.'/breadcrumb.html.twig', array(
+            'dir'               => $this->skeletonDir,
+            'entity'            => $this->entity,
+            'fields'            => $this->metadata->fieldMappings,
+            'actions'           => $this->actions,
+            'route_prefix'      => $this->routePrefix,
+            'route_name_prefix' => $this->routeNamePrefix,
+            'entityClass'       => $entityClass,
+        ));
     }
 
     /**

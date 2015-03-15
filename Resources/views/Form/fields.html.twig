@@ -1,27 +1,32 @@
-{% block form_start %}
-    {% spaceless %}
-        {% set method = method|upper %}
-        {% if method in ["GET", "POST"] %}
-            {% set form_method = method %}
-        {% else %}
-            {% set form_method = "POST" %}
-        {% endif %}
-        <form class="form-horizontal" name="{{ form.vars.name }}" method="{{ form_method|lower }}" action="{{ action }}"{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %}>
-        {% if form_method != method %}
-            <input type="hidden" name="_method" value="{{ method }}" />
-        {% endif %}
-    {% endspaceless %}
-{% endblock form_start %}
-
 {% block form_row %}
-<div class="control-group">
-    {{ form_label(form) }}
-    <div class="controls">
-        {{ form_errors(form) }}
-        {{ form_widget(form) }}
+    <div class="form-group">
+        <span class="col-md-3" style="text-align: right">
+            {{ form_label(form) }}
+        </span>
+        <div class="col-md-9">
+            {{ form_errors(form) }}
+            {{ form_widget(form) }}
+        </div>
     </div>
-</div>
 {% endblock form_row %}
+
+{% block widget_attributes -%}
+    id="{{ id }}" name="{{ full_name }}"
+    {%- if read_only %} readonly="readonly"{% endif -%}
+    {%- if disabled %} disabled="disabled"{% endif -%}
+    {%- if required %} required="required"{% endif -%}
+    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' form-control')|trim}) %}
+    {%- for attrname, attrvalue in attr -%}
+        {{- " " -}}
+        {%- if attrname in ['placeholder', 'title'] -%}
+            {{- attrname }}="{{ attrvalue|trans({}, translation_domain) }}"
+        {%- elseif attrvalue is sameas(true) -%}
+            {{- attrname }}="{{ attrname }}"
+        {%- elseif attrvalue is not sameas(false) -%}
+            {{- attrname }}="{{ attrvalue }}"
+        {%- endif -%}
+    {%- endfor -%}
+{%- endblock widget_attributes %}
 
 {% block form_label %}
 {% spaceless %}

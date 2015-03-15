@@ -17,6 +17,7 @@ class MenuConfigBuilder
     protected $router;
     protected $event_dispatcher;
     protected $security_context;
+    protected $route_active;
 
     /**
      * @param FactoryInterface                                            $factory
@@ -70,10 +71,11 @@ class MenuConfigBuilder
         return $menu;
     }
 
-    /**$
+    /**
      * @param ItemInterface $menu
-     * @param Array         $menu_config
-     * @param string        $request_uri
+     * @param array $menu_config
+     * @param $request_uri
+     * @return bool
      */
     protected function doMenu(ItemInterface $menu, Array $menu_config, $request_uri)
     {
@@ -94,9 +96,14 @@ class MenuConfigBuilder
                 $path  = $this->router->generate($item['route']);
                 $child->setUri($path);
 
-                if ($request_uri == $path) {
+                if ($item['route'] == $this->route_active) {
+                    $child->setCurrent(true);
+                } elseif ($request_uri == $path && !$this->route_active) {
                     $child->setCurrent(true);
                 }
+            }
+            if (isset($item['icon'])) {
+                $child->setAttribute('icon', $item['icon']);
             }
 
             $this->event_dispatcher->dispatch(MenuEvent::CONFIGURE, new MenuEvent($this->factory, $child));
@@ -114,6 +121,11 @@ class MenuConfigBuilder
         }
 
         return $has_items;
+    }
+
+    public function setRouteActive($route_active)
+    {
+        $this->route_active = $route_active;
     }
 
     /**
