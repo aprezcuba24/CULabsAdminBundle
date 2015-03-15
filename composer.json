@@ -17,9 +17,8 @@
         "doctrine/orm": "~2.2,>=2.2.3",
         "twig/extensions": "~1.0",
         "knplabs/knp-paginator-bundle": "2.4.*@dev",
-        "lexik/form-filter-bundle": "2.0.*",
-        "knplabs/knp-menu": "2.0.*@dev",
-        "knplabs/knp-menu-bundle": "2.0.*@dev"
+        "knplabs/knp-menu-bundle": "2.0.*@dev",
+        "lexik/form-filter-bundle": "3.*@dev"
     },
     "suggest": {
         "behat/symfony2-extension": "For test",
