@@ -4,7 +4,6 @@
     "description": "Easy admin generator for symfony2",
     "keywords": ["symfony2-bundle", "admin", "generator"],
     "license": "MIT",
-    "version": "master",
     "authors": [
         {
             "name": "Renier Ricardo Figueredo",
