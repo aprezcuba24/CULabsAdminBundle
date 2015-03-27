@@ -20,7 +20,7 @@ Instlación
 ```
 Actulizar los vendors
 ```
-php /home/util/composer.phar update --prefer-dist
+php composer.phar update --prefer-dist
 ```
 Adicionar los bundles en ``AppKernel``
 ```php
