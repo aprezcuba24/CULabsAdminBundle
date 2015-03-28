@@ -111,6 +111,11 @@
     <script type="text/javascript" src="{{ asset('bundles/culabsadmin/js/jquery.nanoscroller/jquery.nanoscroller.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/culabsadmin/js/jquery.pushmenu/js/jPushMenu.js') }}"></script>
     <script src="{{ asset('bundles/culabsadmin/js/admin.js') }}"></script>
+    <script type="text/javascript">
+        $(function (){
+            confirmModal.init();
+        });
+    </script>
 {% endblock %}
 </body>
 </html>

@@ -1,3 +1,4 @@
+'use strict';
 var convertLinkAjax = function (){
     return {
         init: function (links){
@@ -56,10 +57,17 @@ function redirect(url)
 }
 
 var confirmModal = function (){
-    'use strict';
+    var links_visited = [];
+
     return {
-        init: function (){
-            var url_confirms   = '[data-toggle=url-confirm]';
+        init: function (force){
+            force = force||false;
+            if (force) {
+                links_visited = [];
+            }
+
+            console.log(force);
+            var url_confirms = '[data-toggle=url-confirm]';
             $(url_confirms).each(function (i, item){
                 var title = $(item).data('header');
                 if (!title) {
@@ -67,6 +75,10 @@ var confirmModal = function (){
                 }
                 var body = $(item).data('body');
                 var url = $(item).attr('href');
+                if (typeof links_visited[url] != 'undefined') {
+                    return;
+                }
+                links_visited[url] = true;
                 $(item).attr('url', '#');
                 $(item).click(function (e){
                     e.preventDefault();
