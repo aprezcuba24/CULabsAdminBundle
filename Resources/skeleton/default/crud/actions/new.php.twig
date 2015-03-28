@@ -15,9 +15,7 @@
         }
 {% endif %}
         $entity = $this->getModel()->createEntity();
-        $form   = $this->createForm('{{ entity_class|lower }}_form', $entity, [
-            'action' => $this->generateUrl('{{ route_name_prefix }}_new'),
-        ]);
+        $form   = $this->createForm('{{ entity_class|lower }}_form', $entity);
         $form->handleRequest($request);
         if ($form->isValid()) {
             $this->create($entity);

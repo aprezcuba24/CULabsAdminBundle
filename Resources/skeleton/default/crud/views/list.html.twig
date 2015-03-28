@@ -13,7 +13,7 @@
     <th>
         {{ '{{ macros.sort_field(\'%field_label%\'|trans, \'%field%\', sort, \'%update%\', \'%route_name_prefix%_sort\', \'indicator_table_%field%\') }}'|replace({'%field_label%':field|capitalize, '%field%':field, '%update%':'ajax_'~entityClass, '%route_name_prefix%':route_name_prefix, '%entity_name%':entityClass}) }}
         <div style="display: inline-block; width: 10px">
-            <img id="{{ 'indicator_table_%field%'|replace({'%field%': field}) }}" style="display: none" src="{{ "{{ asset('/assets/images/loader.gif') }}" }}"/>
+            <img id="{{ 'indicator_table_%field%'|replace({'%field%': field}) }}" style="display: none" src="{{ "{{ asset('/bundles/culabsadmin/images/loader.gif') }}" }}"/>
         </div>
     </th>
         {%- else %}
@@ -56,9 +56,9 @@
                         <i class="fa fa-pencil"></i>
                     </a>
                 {{ '{% endif %}' }}
-                {%- elseif action == 'delete' -%}
+                {% elseif action == 'delete' -%}
                 {{ '{% if is_granted(\'ROLE_%entity_name%_DELETE\') %}'|replace({'%entity_name%':entity|upper|replace({'\\': '_'})}) }}
-                    <a class="btn delete_link btn-small btn-danger" title="{{ '{{ \'%action%\'|trans }}'|replace({'%action%':action}) }}" href="{{ "{{ path('"~ route_name_prefix ~"_delete', { 'id': entity.id }) }}" }}">
+                    <a class="btn delete_link btn-small btn-danger" data-header="{{ "{{ 'Confirm'|trans }}" }}" data-toggle="url-confirm" data-body="{{ "{{ 'delete_message'|trans }}" }}" title="{{ "{{ 'delete'|trans }}" }}" href="{{ "{{ path('"~ route_name_prefix ~"_delete', { 'id': entity.id }) }}" }}">
                         <i class="fa fa-trash-o"></i>
                     </a>
                 {{ '{% endif %}' }}
@@ -86,10 +86,15 @@
     <div class="pull-right">
         {{ '{% include \'@CULabsAdmin/Crud/pager.html.twig\' with {
             \'pager\':                pager,
-            \'zona\':                 \'ajax_%entity_name%\',
+            \'zone\':                \'#ajax_%entity_name%\',
             \'url\':                  path(\'%route_name_prefix%\'),
             \'url_changemaxperpage\': path(\'%route_name_prefix%_changemaxperpage\'),
             \'maxperpage_list\':      [10,20,30,50, 100],
         } %}'|replace({'%entity_name%': entityClass, '%route_name_prefix%':route_name_prefix }) }}
     </div>
+    <script type="text/javascript">
+        $(function (){
+            confirmModal.init();
+        });
+    </script>
 {{ '{% endblock %}' }}

@@ -16,7 +16,7 @@
                         {{ '{{ \'Update\'|trans }}' }}
                     </button>
                 {{ '{% if is_granted(\'ROLE_%entity_name%_DELETE\') %}'|replace({'%entity_name%':entity|upper|replace({'\\': '_'})}) }}
-                    <a class="btn btn-danger" href="{{ "{{ path('"~ route_name_prefix ~"_delete', { 'id': entity.id }) }}" }}">
+                    <a class="btn btn-danger" data-header="{{ "{{ 'Confirm'|trans }}" }}" data-toggle="url-confirm" data-body="{{ "{{ 'delete_message'|trans }}" }}" title="{{ "{{ 'delete'|trans }}" }}" href="{{ "{{ path('"~ route_name_prefix ~"_delete', { 'id': entity.id }) }}" }}">
                         {{ '{{ \'Delete\'|trans }}' }}
                     </a>
                 {{ '{% endif %}' }}

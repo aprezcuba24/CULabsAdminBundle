@@ -17,16 +17,18 @@
 {% if pager_data.pageRange > 1 %}
     <br/>
     <div class="paginator pull-right">
+        {% set indicator_id = random() %}
+        <img class="loader pull-left" style="display: none;" src="{{ asset('/bundles/culabsadmin/images/loader.gif') }}" id="indicator_id"/>
         <ul class="pagination">
             {% if pager_data.current == pager_data.first %}
                 <li class="prev disabled">
-                    <a title="Prev" href="#">
+                    <span>
                         <i class="fa fa-angle-left"></i>
-                    </a>
+                    </span>
                 </li>
             {% else %}
                 <li class="prev">
-                    <a title="Prev" href="{{ url }}?page=1">
+                    <a title="Prev" href="{{ url }}?page=1" data-ajax-zone-update="{{ zone }}" data-ajax-indicator="#indicator_id">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 </li>
@@ -34,7 +36,9 @@
             {% for page in pager_data.pagesInRange %}
                 {% if page != pager_data.current %}
                     <li>
-                        <a href="{{ url }}?page={{ page }}">{{ page }}</a>
+                        <a href="{{ url }}?page={{ page }}" data-ajax-zone-update="{{ zone }}" data-ajax-indicator="#indicator_id">
+                            {{ page }}
+                        </a>
                     </li>
                 {% else %}
                     <li class="active">
@@ -44,13 +48,13 @@
             {% endfor %}
             {% if pager_data.current == pager_data.pageCount %}
                 <li class="next disabled">
-                    <a title="Last" href="#">
+                    <span title="Last">
                         <i class="fa fa-angle-right"></i>
-                    </a>
+                    </span>
                 </li>
             {% else %}
                 <li class="next">
-                    <a title="Next" href="{{ url }}?page={{ pager_data.pageCount }}">
+                    <a title="Next" href="{{ url }}?page={{ pager_data.pageCount }}" data-ajax-zone-update="{{ zone }}" data-ajax-indicator="#indicator_id">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 </li>
@@ -58,3 +62,8 @@
         </ul>
     </div>
 {% endif %}
+<script type="text/javascript">
+    $(function (){
+        convertLinkAjax.init('.paginator a');
+    });
+</script>

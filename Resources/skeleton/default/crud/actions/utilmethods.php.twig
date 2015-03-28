@@ -67,9 +67,7 @@
 
     protected function getFilterForm()
     {
-        $filter_form = $this->createForm('{{ entity_class|lower }}_form_filter', null, [
-            'action' => $this->generateUrl('{{ route_name_prefix }}_filter'),
-        ]);
+        $filter_form = $this->createForm('{{ entity_class|lower }}_form_filter', null);
         $this->setFilterInForm($filter_form);
 
         return $filter_form;

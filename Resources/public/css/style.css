@@ -7604,3 +7604,8 @@ ul.timeline li > .date {
     display: none;
   }
 }
+
+.paginator .loader {
+    display: inline-block;
+    margin: 24px 10px 0 0;
+}

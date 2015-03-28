@@ -15,18 +15,12 @@
         }
 {% endif %}
         $entity = $this->findOr404($this->getModel(), $id);
-        if ($request->isMethod('POST')) {
-            try {
-                $this->remove($entity);
-                $this->addFlash('notice', 'The entity is deleted.');
-            } catch (\Exception $e) {
-                $this->addFlash('error', 'The entity is not deleted.');
-            }
-
-            return $this->redirectToRoute('{{ route_name_prefix }}');
+        try {
+            $this->remove($entity);
+            $this->addFlash('notice', 'The entity is deleted.');
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'The entity is not deleted.');
         }
 
-        return $this->render('/admin/{{ entity|lower|replace({'\\': '/'}) }}/delete.html.twig', [
-            'entity' => $entity,
-        ]);
+        return $this->redirectToRoute('{{ route_name_prefix }}');
     }

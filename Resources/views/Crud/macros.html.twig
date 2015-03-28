@@ -4,7 +4,7 @@
     {% endif %}
     {% if sort.field is defined and sort.field == field %}
         <a href="#" id="{{ update~field }}">
-            {{ label }}<i class="{% if sort.order == 'ASC'%}icon-chevron-down{% else %}icon-chevron-up{% endif %}"></i>
+            {{ label }}<i style="margin-left: 3px; display: inline-block" class="fa fa-lg {% if sort.order == 'ASC'%}fa-sort-asc{% else %}fa-sort-desc{% endif %}"></i>
         </a>
         <script type="text/javascript">
             $().ready(function () {
@@ -28,7 +28,10 @@
             });
         </script>
     {% else %}
-        <a href="#" id="{{ update~field }}" onclick="">{{ label }}</a>
+        <a href="#" id="{{ update~field }}" onclick="">
+            {{ label }}
+            <i style="margin-left: 3px; display: inline-block" class="fa fa-sort fa-lg"></i>
+        </a>
         <script type="text/javascript">
             $().ready(function () {
                 $('#{{ update~field }}').click(function(e) {
