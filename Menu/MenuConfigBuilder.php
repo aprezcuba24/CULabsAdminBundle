@@ -9,6 +9,7 @@ use Knp\Menu\MenuItem;
 use Knp\Menu\ItemInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use CULabs\AdminBundle\Event\MenuEvent;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 class MenuConfigBuilder
@@ -16,21 +17,21 @@ class MenuConfigBuilder
     protected $factory;
     protected $router;
     protected $event_dispatcher;
-    protected $security_context;
+    protected $authorizationChecker;
     protected $route_active;
 
     /**
-     * @param FactoryInterface                                            $factory
-     * @param \Symfony\Component\Routing\RouterInterface                  $router
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $event_dispatcher
-     * @param \Symfony\Component\Security\Core\SecurityContextInterface   $security_context
+     * @param FactoryInterface $factory
+     * @param RouterInterface $router
+     * @param EventDispatcherInterface $event_dispatcher
+     * @param AuthorizationCheckerInterface $authorizationChecker
      */
-    public function __construct(FactoryInterface $factory, RouterInterface $router, EventDispatcherInterface $event_dispatcher, SecurityContextInterface $security_context)
+    public function __construct(FactoryInterface $factory, RouterInterface $router, EventDispatcherInterface $event_dispatcher, AuthorizationCheckerInterface $authorizationChecker)
     {
-        $this->factory          = $factory;
-        $this->router           = $router;
-        $this->event_dispatcher = $event_dispatcher;
-        $this->security_context = $security_context;
+        $this->factory              = $factory;
+        $this->router               = $router;
+        $this->event_dispatcher     = $event_dispatcher;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
@@ -41,7 +42,7 @@ class MenuConfigBuilder
      */
     public function getMenu(Request $request, Array $menu_config, Array $options = array())
     {
-        if (isset($menu_config['roles']) && !$this->security_context->isGranted($menu_config['roles'])) {
+        if (isset($menu_config['roles']) && !$this->authorizationChecker->isGranted($menu_config['roles'])) {
             return;
         }
 
@@ -82,7 +83,7 @@ class MenuConfigBuilder
         $has_items = false;
         foreach ($menu_config as $key => $item) {
 
-            if (isset($item['roles']) && !$this->security_context->isGranted($item['roles'])) {
+            if (isset($item['roles']) && !$this->authorizationChecker->isGranted($item['roles'])) {
                 continue;
             }
 
