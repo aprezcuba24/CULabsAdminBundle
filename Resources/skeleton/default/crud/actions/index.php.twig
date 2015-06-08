@@ -6,6 +6,8 @@
      * @Route("", name="{{ route_name_prefix }}")
      * @Security("has_role('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_LIST')")
 {% endif %}
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction()
     {
@@ -39,6 +41,9 @@
      * @Security("has_role('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_LIST')")
      * @Method("POST")
 {% endif %}
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function filterAction(Request $request)
     {

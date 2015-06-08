@@ -12,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 {% endif -%}
+use {{ namespace }}\Entity{{ entity_namespace ? '\\' ~ entity_namespace : '' }}\{{ entity_class }};
 
 /**
  * {{ entity }} controller.
@@ -22,6 +23,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  */
 class {{ entity_class }}Controller extends ModelController
 {
+    /**
+     * @return \AppBundle\Model\Product\ProductModel
+     */
     protected function getModel()
     {
         return $this->get('{{ entity_class|lower }}_model');

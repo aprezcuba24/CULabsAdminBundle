@@ -6,6 +6,9 @@
      * @Route("/batch", name="{{ route_name_prefix }}_batch")
      * @Security("has_role('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_DELETE')")
 {% endif %}
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function batchAction(Request $request)
     {

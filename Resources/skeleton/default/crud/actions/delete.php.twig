@@ -6,15 +6,17 @@
      * @Route("/{id}/delete", name="{{ route_name_prefix }}_delete")
      * @Security("has_role('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_DELETE')")
 {% endif %}
+     *
+     * @param {{ entity_class }} $entity
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteAction($id, Request $request)
+    public function deleteAction({{ entity_class }} $entity)
     {
 {% if 'annotation' != format %}
         if (!$this->isGranted('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_DELETE')) {
             throw new AccessDeniedException();
         }
 {% endif %}
-        $entity = $this->findOr404($this->getModel(), $id);
         try {
             $this->remove($entity);
             $this->addFlash('notice', 'The entity is deleted.');

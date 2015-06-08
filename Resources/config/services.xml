@@ -29,6 +29,14 @@
             <argument type="service" id="event_dispatcher"/>
             <argument type="service" id="security.authorization_checker"/>
         </service>
+
+        <service class="%cu_labs_admin.menu.class%" scope="request">
+            <factory service="cu_labs_admin.menu_config_builder" method="getMenu"/>
+            <argument type="service" id="request"/>
+            <argument>%culabs.admin.admin_menu%</argument>
+            <tag name="knp_menu.menu" alias="backend_menu"/>
+        </service>
+
         <service id="culabs_admin.menu_extenxion" class="%culabs_admin.menu_extenxion.class%">
             <argument type="service" id="cu_labs_admin.menu_config_builder"/>
             <tag name="twig.extension"/>

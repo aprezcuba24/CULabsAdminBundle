@@ -6,8 +6,11 @@
      * @Route("/{id}/show", name="{{ route_name_prefix }}_show")
      * @Security("has_role('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_SHOW')")
 {% endif %}
+     *
+     * @param {{ entity_class }} $entity
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showAction($id)
+    public function showAction({{ entity_class }} $entity)
     {
 {% if 'annotation' != format %}
         if (!$this->isGranted('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_SHOW')) {
@@ -15,6 +18,6 @@
         }
 {% endif %}
         return $this->render('/admin/{{ entity|lower|replace({'\\': '/'}) }}/show.html.twig', [
-            'entity' => $this->findOr404($this->getModel(), $id),
+            'entity' => $entity,
         ]);
     }
