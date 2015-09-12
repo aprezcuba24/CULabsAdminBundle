@@ -90,10 +90,6 @@ abstract class Model
 
     public function __call($name, $arguments)
     {
-        if (!method_exists($this->getCurrentRepository(), $name)) {
-            throw new \BadFunctionCallException(sprintf('Method "%s" not exists', $name));
-        }
-
         return call_user_func_array(array($this->getCurrentRepository(), $name), $arguments);
     }
 
