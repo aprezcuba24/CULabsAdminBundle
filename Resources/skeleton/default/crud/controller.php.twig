@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 {% endif -%}
 use {{ namespace }}\Entity{{ entity_namespace ? '\\' ~ entity_namespace : '' }}\{{ entity_class }};
+use {{ namespace }}\Model{{ entity_namespace ? '\\' ~ entity_namespace : '' }}\{{ entity_class }}Model;
 
 /**
  * {{ entity }} controller.
@@ -24,15 +25,15 @@ use {{ namespace }}\Entity{{ entity_namespace ? '\\' ~ entity_namespace : '' }}\
 class {{ entity_class }}Controller extends ModelController
 {
     /**
-     * @return \AppBundle\Model\Product\ProductModel
+     * @return {{ entity_class }}Model
      */
     protected function getModel()
     {
         return $this->get('{{ entity_class|lower }}_model');
-    }
-    {% if 'index' in actions %}
-        {%- include 'actions/index.php.twig' %}
-    {%- endif %}
+}
+{% if 'index' in actions %}
+    {%- include 'actions/index.php.twig' %}
+{%- endif %}
 
     {%- if 'show' in actions %}
         {%- include 'actions/show.php.twig' %}
