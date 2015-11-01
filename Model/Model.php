@@ -43,6 +43,15 @@ abstract class Model
      */
     public abstract function createEntity();
 
+    public function save($entity, $flush = true)
+    {
+        if ($entity->getId()) {
+            $this->update($entity, $flush);
+        } else {
+            $this->create($entity, $flush);
+        }
+    }
+
     /**
      * @param $entity Object
      * @param bool $flush
