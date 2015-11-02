@@ -32,7 +32,8 @@ class CRUDController extends BaseController
     {
         $filters = $this->getFilters();
         foreach ($form->all() as $child) {
-            if ($child->getConfig()->getType()->getInnerType()->getName() == 'filter_entity' && isset($filters[$child->getName()])) {
+            $childType = $child->getConfig()->getType()->getInnerType()->getName();
+            if (isset($filters[$child->getName()]) && in_array($childType, ['filter_entity', 'entity'])) {
                 $name = $child->getName();
                 $class = $child->getConfig()->getOption('class');
                 $entity = $this->getRepository($class)->find($filters[$name]);
