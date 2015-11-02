@@ -32,15 +32,25 @@ class CRUDController extends BaseController
     {
         $filters = $this->getFilters();
         foreach ($form->all() as $child) {
-            $childType = $child->getConfig()->getType()->getInnerType()->getName();
-            if (isset($filters[$child->getName()]) && in_array($childType, ['filter_entity', 'entity'])) {
-                $name = $child->getName();
-                $class = $child->getConfig()->getOption('class');
-                $entity = $this->getRepository($class)->find($filters[$name]);
-                $filters[$name] = $entity;
+            $name = $child->getName();
+            if (isset($filters[$name])) {
+                if ($value = $this->prepareFilterValue($child, $filters[$name])) {
+                    $filters[$name] = $value;
+                }
             }
         }
         $form->setData($filters);
+    }
+
+    protected function prepareFilterValue(Form $form, $value)
+    {
+        $childType = $form->getConfig()->getType()->getInnerType()->getName();
+        if (in_array($childType, ['filter_entity', 'entity'])) {
+            $class = $form->getConfig()->getOption('class');
+            $entity = $this->getRepository($class)->find($value);
+
+            return $entity;
+        }
     }
 
     protected function getSort()
