@@ -62,7 +62,7 @@ abstract class Model
         $this->entity_manager->persist($entity);
 
         if ($flush) {
-            $this->entity_manager->flush($entity);
+            $this->entity_manager->flush();
             $this->throwEvent('post_create_'.$this->getType($entity), $entity);
         }
     }
@@ -77,7 +77,7 @@ abstract class Model
         $this->entity_manager->persist($entity);
 
         if ($flush) {
-            $this->entity_manager->flush($entity);
+            $this->entity_manager->flush();
             $this->throwEvent('post_update_'.$this->getType($entity), $entity);
         }
     }
@@ -92,7 +92,7 @@ abstract class Model
         $this->entity_manager->remove($entity);
 
         if ($flush) {
-            $this->entity_manager->flush($entity);
+            $this->entity_manager->flush();
             $this->throwEvent('post_remove_'.$this->getType($entity), $entity);
         }
     }
