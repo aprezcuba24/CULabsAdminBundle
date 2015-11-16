@@ -1,0 +1,5 @@
+pager.page: Page
+pager.of: of
+pager.view: View
+pager.records: records
+pager.total_row: 'Found %total% records'

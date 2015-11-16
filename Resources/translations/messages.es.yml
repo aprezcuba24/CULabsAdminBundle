@@ -31,3 +31,9 @@ menu:
   List: Listado
   New: Nuevo
 ## Fin Menu
+
+pager.page: Página
+pager.of: de
+pager.view: Ver
+pager.records: registros
+pager.total_row: 'Encontrados %total% registros'
