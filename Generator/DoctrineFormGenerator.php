@@ -22,9 +22,9 @@ class DoctrineFormGenerator extends BaseDoctrineFormGenerator
         $this->kernel = $kernel;
     }
 
-    public function generate(BundleInterface $bundle, $entity, ClassMetadataInfo $metadata)
+    public function generate(BundleInterface $bundle, $entity, ClassMetadataInfo $metadata, $forceOverwrite = false)
     {
-        parent::generate($bundle, $entity, $metadata);
+        parent::generate($bundle, $entity, $metadata, $forceOverwrite);
 
         $parts       = explode('\\', $entity);
         $entityClass = array_pop($parts);
