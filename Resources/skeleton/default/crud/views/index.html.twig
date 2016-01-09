@@ -14,16 +14,21 @@
 {{ '{% endblock %}' }}
 
 {{ '{% block filter_form %}' }}
-<form class="form-horizontal" method="POST" action="{{ "{{ path('"~ route_name_prefix ~"_filter') }}" }}" {{ '{{ form_enctype(filter)}}' }}>
-    {{ '{{  form_rest(filter) }}' }}
+{{ "{% set filter_button = block('filter_button') %}" }}
+{{ '{{ form_start(filter) }}' }}
+    {{ '{{ form_widget(filter) }}' }}
+    {{ "{{ filter_button|raw }}" }}
+{{ '{{ form_end(filter) }}' }}
+{{ '{% endblock %}' }}
+
+{{ "{% block filter_button %}" }}
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <input class="btn default" type="submit" name="action_reset" value="{{ '{{ \'Reset\'|trans }}' }}" />
-            <input class="btn btn-primary" type="submit" name="action_filter" value="{{ '{{ \'Filter\'|trans }}' }}"/>
+            {{ "{{ form_widget(filter.reset, {'attr': {'class': 'btn default'}}) }}" }}
+            {{ "{{ form_widget(filter.filter, {'attr': {'class': 'btn btn-primary'}}) }}" }}
         </div>
     </div>
-</form>
-{{ '{% endblock %}' }}
+{{ "{% endblock %}" }}
 
 {{ '{% block actions %}' }}
     {{ '{% if is_granted(\'ROLE_%entity_name%_NEW\') %}'|replace({'%entity_name%':entity|upper|replace({'\\': '_'})}) }}

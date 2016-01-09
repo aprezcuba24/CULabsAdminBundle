@@ -4,15 +4,16 @@ namespace {{ namespace }}\Model{{ entity_namespace ? '\\' ~ entity_namespace : '
 
 use CULabs\AdminBundle\Model\Model;
 use {{ namespace }}\Entity{{ entity_namespace ? '\\' ~ entity_namespace : '' }}\{{ entity_class }};
+use {{ namespace }}\Repository{{ entity_namespace ? '\\' ~ entity_namespace : '' }}\{{ entity_class }}Repository;
 
 class {{ model_class }} extends Model
 {
     /**
-     * @inheritdoc
+     * @return {{ entity_class }}Repository
      */
     protected function getCurrentRepository()
     {
-        return $this->getRepository('\{{ namespace }}\Entity{{ entity_namespace ? '\\' ~ entity_namespace : '' }}\{{ entity_class }}');
+        return $this->getRepository({{ entity_class }}::class);
     }
 
     /**

@@ -13,23 +13,6 @@ abstract class ModelController extends CRUDController
 {
     protected abstract function getModel();
 
-    protected function findOr404($entity, $criterias = array())
-    {
-        if (!($entity instanceof Model)) {
-            return parent::findOr404($entity, $criterias);
-        }
-        $model = $entity;
-
-        $findMethod = is_scalar($criterias) ? 'find' : 'findOneBy';
-
-        $result = $model->$findMethod($criterias);
-        if (!$result) {
-            throw $this->createNotFoundException();
-        }
-
-        return $result;
-    }
-
     /**
      * @param $entity Object
      * @param bool $flush

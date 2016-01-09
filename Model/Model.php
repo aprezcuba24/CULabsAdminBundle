@@ -1,27 +1,37 @@
 <?php
 
 /**
- * @autor: Renier Ricardo Figueredo
+ * @author: Renier Ricardo Figueredo
  * @mail: aprezcuba24@gmail.com
  */
 
 namespace CULabs\AdminBundle\Model;
 
 use CULabs\AdminBundle\Event\EntityEvent;
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 abstract class Model
 {
+    /**
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     */
+    protected $container;
     protected $entity_manager;
-    protected $event_dispatcher;
 
     /**
-     * @param EntityManagerInterface $entity_manager
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      */
-    public function __construct(EntityManagerInterface $entity_manager)
+    public function __construct(ContainerInterface $container)
     {
-        $this->entity_manager = $entity_manager;
+        $this->container        = $container;
+        $this->entity_manager   = $this->get('doctrine.orm.entity_manager');
+        $this->event_dispatcher = $this->get('event_dispatcher');
+    }
+
+    protected function get($id)
+    {
+        return $this->container->get($id);
     }
 
     /**

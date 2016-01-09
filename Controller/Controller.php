@@ -2,7 +2,6 @@
 
 namespace CULabs\AdminBundle\Controller;
 
-use Doctrine\Common\Persistence\ObjectRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -13,11 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Controller extends BaseController
 {
-    protected function isXmlHttpRequest()
-    {
-        return $this->get('request')->isXmlHttpRequest();
-    }
-
     protected function redirectJs($url)
     {
         return new Response(sprintf('<script> window.location = "%s"; </script>', $url));
@@ -56,40 +50,9 @@ class Controller extends BaseController
         return $this->getDoctrine()->getManager($name);
     }
 
-    protected function findOr404($entity, $criterias = array())
-    {
-        $result = null;
-        $findMethod = is_scalar($criterias) ? 'find' : 'findOneBy';
-
-        if (is_object($entity) && $entity instanceof ObjectRepository) {
-            $result = $entity->$findMethod($criterias);
-        } elseif (is_object($entity) && $this->getManager()->contains($entity)) {
-            $result = $this->getManager()->refresh($entity);
-        } elseif (is_string($entity)) {
-            $repository = $this->getRepository($entity);
-            $result = $repository->$findMethod($criterias);
-        }
-
-        if (null !== $result){
-            return $result;
-        }
-
-        throw $this->createNotFoundException('Resource not found');
-    }
-
-    protected function getSecurity()
-    {
-        return $this->get('security.context');
-    }
-
     protected function getParameter($name)
     {
         return $this->container->getParameter($name);
-    }
-
-    protected function getRequestParameter($name, $default = null)
-    {
-        return $this->get('request')->get($name, $default);
     }
 
     protected function sessionName($name)

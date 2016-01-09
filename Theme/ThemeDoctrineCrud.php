@@ -11,6 +11,7 @@
 
 namespace CULabs\AdminBundle\Theme;
 
+use CULabs\AdminBundle\Generator\DoctrineFilterGenerator;
 use CULabs\AdminBundle\Generator\DoctrineFormGenerator;
 use CULabs\AdminBundle\Generator\DoctrineModelGenerator;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
@@ -102,7 +103,8 @@ class ThemeDoctrineCrud implements ThemeDoctrineCrudInterface
             if (!file_exists($dir_path))
                 throw new InvalidArgumentException(sprintf('%s is no directory', $dir_path));
 
-            $this->filterFormGenerator = new DoctrineFiterGenerator($this->kernel, $this->filesystem, $dir_path);
+            $this->filterFormGenerator = new DoctrineFilterGenerator($this->kernel, $this->filesystem);
+            $this->filterFormGenerator->setSkeletonDirs($this->skeletonPath());
         }
 
         return $this->filterFormGenerator;

@@ -2,4 +2,4 @@
     {{ entity_class|lower }}_form:
         class: {{ namespace }}\Form{{ entity_namespace ? '\\' ~ entity_namespace : '' }}\{{ form_class }}
         tags:
-            - { name: form.type, alias: {{ entity_class|lower }}_form }
+            - { name: form.type }

@@ -11,6 +11,7 @@
 
 namespace CULabs\AdminBundle\Command;
 
+use CULabs\AdminBundle\Generator\DoctrineFilterGenerator;
 use CULabs\AdminBundle\Generator\DoctrineModelGenerator;
 use CULabs\AdminBundle\Theme\DoctrineCrudGeneratorInterface;
 use Sensio\Bundle\GeneratorBundle\Command\GenerateDoctrineCommand;
@@ -106,7 +107,7 @@ EOT
         parent::execute($input, $output);
     }
 
-    public function setFilterFormGenerator(DoctrineFiterGenerator $filterFormGenerator)
+    public function setFilterFormGenerator(DoctrineFilterGenerator $filterFormGenerator)
     {
         $this->filterFormGenerator = $filterFormGenerator;
     }

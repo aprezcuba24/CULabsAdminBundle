@@ -81,4 +81,18 @@ class CRUDController extends BaseController
     {
         $this->setSession('maxperpage', $maxperpage);
     }
+
+    /**
+     * @param $field
+     * @param $order
+     */
+    public function sortAction($field, $order)
+    {
+        $this->setPage(1);
+        $this->setSort([
+            'field' => $field,
+            'order' => $order,
+            'next'  => $order == 'ASC'? 'DESC': 'ASC',
+        ]);
+    }
 }

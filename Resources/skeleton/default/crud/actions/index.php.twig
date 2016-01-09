@@ -7,70 +7,49 @@
      * @Security("has_role('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_LIST')")
 {% endif %}
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return \Symfony\Component\Form\Form|\Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
 {% if 'annotation' != format %}
         if (!$this->isGranted('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_LIST')) {
             throw new AccessDeniedException();
         }
 {% endif %}
-        $this->setPage($this->getRequestParameter('page', $this->getPage()));
+        $this->setPage($request->get('page', $this->getPage()));
         $pager = $this->getPager();
-        if ($this->isXmlHttpRequest()) {
-            return $this->render('/admin/{{ entity|lower|replace({'\\': '/'}) }}/list.html.twig', [
-                'pager' => $pager,
-                'sort'  => $this->getSort(),
-            ]);
+        $filter = $this->processFilter($request);
+        if ($filter instanceof Response) {
+            return $filter;
         }
-        $filter_form = $this->getFilterForm();
+        $template = $request->isXmlHttpRequest()? '/admin/{{ entity|lower|replace({'\\': '/'}) }}/list.html.twig': '/admin/{{ entity|lower|replace({'\\': '/'}) }}/index.html.twig';
 
-        return $this->render('/admin/{{ entity|lower|replace({'\\': '/'}) }}/index.html.twig', [
+        return $this->render($template, [
             'pager'  => $pager,
-            'filter' => $filter_form->createView(),
+            'filter' => $filter->createView(),
             'sort'   => $this->getSort(),
         ]);
     }
 
     /**
-     * Filter {{ entity }} entities.
-     *
-{% if 'annotation' == format %}
-     * @Route("/filter", name="{{ route_name_prefix }}_filter")
-     * @Security("has_role('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_LIST')")
-     * @Method("POST")
-{% endif %}
-     *
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return \Symfony\Component\Form\Form|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function filterAction(Request $request)
+    protected function processFilter(Request $request)
     {
-{% if 'annotation' != format %}
-        if (!$this->isGranted('ROLE_{{ entity|upper|replace({'\\': '_'}) }}_LIST')) {
-            throw new AccessDeniedException();
-        }
-        if ($this->getRequest()->getMethod() == 'POST')
-            throw $this->createNotFoundException();
-{% endif %}
-        if ($request->get('action_reset')) {
-            $this->setFilters([]);
-
-            return $this->redirectToRoute('{{ route_name_prefix }}');
-        }
-        $filter_form = $this->getFilterForm();
-        $filter_form->handleRequest($request);
-        if ($filter_form->isValid()) {
+        $filter = $this->getFilterForm();
+        $filter->handleRequest($request);
+        if ($filter->isSubmitted() && $filter->isValid()) {
             $this->setPage(1);
-            $this->setFilters($filter_form->getData());
+            $data = $filter->getData();
+            if ($filter->get('reset')->isClicked()) {
+                $data = [];
+            }
+            $this->setFilters($data);
 
             return $this->redirectToRoute('{{ route_name_prefix }}');
         }
 
-        return $this->render('/admin/{{ entity|lower|replace({'\\': '/'}) }}/index.html.twig', [
-            'filter' => $filter_form->createView(),
-            'pager'  => $this->getPager(),
-            'sort'   => $this->getSort(),
-        ]);
+        return $filter;
     }

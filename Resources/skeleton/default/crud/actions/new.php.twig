@@ -18,7 +18,7 @@
         }
 {% endif %}
         $entity = $this->getModel()->createEntity();
-        $form   = $this->createForm('{{ entity_class|lower }}_form', $entity);
+        $form   = $this->createForm({{ entity_class}}Type::class, $entity);
         $form->handleRequest($request);
         if ($form->isValid()) {
             $this->create($entity);
