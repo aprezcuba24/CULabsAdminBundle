@@ -1,18 +1,16 @@
 <?php
 
-namespace {{ namespace }}\Tests\Controller{{ entity_namespace ? '\\' ~ entity_namespace : '' }};
+namespace {{ namespace }}\Tests\Controller\Admin{{ entity_namespace ? '\\' ~ entity_namespace : '' }};
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use AppBundle\Tests\WebTestCase;
+use AppBundle\Entity\User\User;
+use {{ namespace }}\Entity{{ entity_namespace ? '\\' ~ entity_namespace : '' }}\{{ entity_class }};
 
 class {{ entity_class }}CRUDControllerTest extends WebTestCase
 {
-    /*
-
 {%- if 'new' in actions %}
     {%- include 'tests/others/full_scenario.php.twig' -%}
 {%- else %}
     {%- include 'tests/others/short_scenario.php.twig' -%}
 {%- endif %}
-
-    */
 }

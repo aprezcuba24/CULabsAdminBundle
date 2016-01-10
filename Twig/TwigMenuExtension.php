@@ -1,6 +1,6 @@
 <?php
 /**
- * @autor: Renier Ricardo Figueredo
+ * @author: Renier Ricardo Figueredo
  * @mail: aprezcuba24@gmail.com
  */
 

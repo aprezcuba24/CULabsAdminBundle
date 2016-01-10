@@ -37,7 +37,6 @@ class GenerateDoctrineCrudCommand extends \Sensio\Bundle\GeneratorBundle\Command
                 new InputOption('entity', '', InputOption::VALUE_REQUIRED, 'The entity class name to initialize (shortcut notation)'),
                 new InputOption('bundle', '', InputOption::VALUE_OPTIONAL, 'Bundle where generate the CRUD', 'AppBundle'),
                 new InputOption('route-prefix', '', InputOption::VALUE_REQUIRED, 'The route prefix'),
-                new InputOption('test-environment', '', InputOption::VALUE_OPTIONAL, 'Test environment, behat or phpunit', 'behat'),
                 new InputOption('theme', '', InputOption::VALUE_OPTIONAL, 'The Theme name', 'default'),
                 new InputOption('with-write', '', InputOption::VALUE_NONE, 'Whether or not to generate create, new and delete actions'),
                 new InputOption('format', '', InputOption::VALUE_REQUIRED, 'Use the format for configuration files (php, xml, yml, or annotation)', 'annotation'),
@@ -84,7 +83,6 @@ EOT
         if (!($generator instanceof DoctrineCrudGeneratorInterface)) {
             throw new \InvalidArgumentException('The generator must implements DoctrineCrudGeneratorInterface');
         }
-        $generator->testEnvironment(strtoupper($input->getOption('test-environment')));
         $this->setGenerator($generator);
 
         $this->setFormGenerator($theme_collection->getTheme($input->getOption('theme'))->getFormGenerator());
@@ -148,10 +146,7 @@ EOT
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         parent::interact($input, $output);
-
         $dialog = $this->getQuestionHelper();
-
-        $theme = $input->getOption('theme');
         $output->writeln(array(
             '',
             'Determine the theme to use for the generated CRUD.',
@@ -160,16 +155,6 @@ EOT
         $question = new Question($dialog->getQuestion('Select the theme', 'default'), 'default');
         $theme = $dialog->ask($input, $output, $question);
         $input->setOption('theme', $theme);
-
-        $test_environment = $input->getOption('test-environment');
-        $output->writeln(array(
-            '',
-            'Determine the test environment to use for CRUD.',
-            '',
-        ));
-        $question = new Question($dialog->getQuestion('Select the test environment', 'behat'), 'behat');
-        $test_environment = $dialog->ask($input, $output, $question);
-        $input->setOption('test-environment', $test_environment);
     }
 
     protected function getSkeletonPath($dir)

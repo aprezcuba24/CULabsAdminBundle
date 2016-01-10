@@ -18,9 +18,9 @@
         "lexik/form-filter-bundle": "4.*@dev"
     },
     "suggest": {
-        "behat/symfony2-extension": "For test",
-        "behat/mink-extension": "For test",
-        "behat/mink-browserkit-driver": "For test",
+        "culabs/testing-bundle": "For test",
+        "polishsymfonycommunity/symfony-mocker-container": "For test",
+        "phpunit/phpunit": "For test",
         "doctrine/data-fixtures": "For test"
     },
     "autoload": {

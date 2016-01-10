@@ -1,43 +1,49 @@
 
+    protected $user;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function prepareTest()
+    {
+        $this->purgeDatabase();
+        $this->user = $this->makeEntity(User::class, [
+            'username' => 'user',
+        ]);
+    }
+
     public function testCompleteScenario()
     {
-        // Create a new client to browse the application
-        $client = static::createClient();
+        $this
+            ->logIn($this->user)
+            ->go('/{{ route_prefix }}')
+            ->isOk()
+            ->see('there is not record')
 
-        // Create a new entry in the database
-        $crawler = $client->request('GET', '/{{ route_prefix }}/new');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        // Fill in the form and submit it
-        $form = $crawler->selectButton('Save')->form(array(
-            '{{ form_type_name }}[name]'  => 'Test',
-            // ... other fields to fill
-        ));
+            ->click('New')
+            ->isOk()
+            ->submit('Create', [
+                '{{ entity_class|lower }}[name]' => '{{ entity_class|lower }} test',
+            ])
+            ->isRedirect()
+            ->see('The entity is saved.')
+        ;
+        $entity = $this->findEntity({{ entity_class }}::class, [
+            'name' => '{{ entity_class|lower }} test',
+        ]);
+        $this
+            ->itOn(sprintf('/{{ route_prefix }}/%s/edit', $entity->getId()))
+            ->submit('Update', [
+                '{{ entity_class|lower }}[name]' => '{{ entity_class|lower }} test update',
+            ])
+            ->isRedirect()
+            ->see('The entity is saved.')
+            ->itOn(sprintf('/{{ route_prefix }}/%s/edit', $entity->getId()))
 
-        $client->submit($form);
-        $crawler = $client->followRedirect();
-
-        // Check data in the show view
-        $this->assertTrue($crawler->filter('td:contains("Test")')->count() > 0);
-
-        // Edit the entity
-        $crawler = $client->click($crawler->selectLink('Edit')->link());
-
-        $form = $crawler->selectButton('Save')->form(array(
-            '{{ form_type_name }}[name]'  => 'Foo',
-            // ... other fields to fill
-        ));
-
-        $client->submit($form);
-        $crawler = $client->followRedirect();
-
-        // Check the element contains an attribute with value equals "Foo"
-        $this->assertTrue($crawler->filter('td:contains("Foo")')->count() > 0);
-
-        // Delete the entity
-        $entity = $client->getContainer()->get('doctrine')->getManager()->getRepository('{{ bundle }}:{{ entity }}')->findOneByName('Foo');
-        $crawler = $client->request('GET', sprintf('/{{ route_prefix }}/%s/delete', $entity->getId()));
-        $crawler = $client->followRedirect();
-
-        // Check the entity has been delete on the list
-        $this->assertNotRegExp('/Foo/', $client->getResponse()->getContent());
+            ->click('List')
+            ->isOk()
+            ->itOn('/{{ route_prefix }}')
+            ->see('{{ entity_class|lower }} test update')
+            ->notSee('there is not record')
+        ;
     }

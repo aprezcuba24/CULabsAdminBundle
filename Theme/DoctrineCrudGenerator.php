@@ -31,7 +31,6 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator implements Doctrin
     protected $metadata;
     protected $format;
     protected $actions;
-    protected $test_environment;
     protected $kernel;
 
     /**
@@ -106,11 +105,7 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator implements Doctrin
 
         $this->generateBreadcrumbView($dir);
 
-        if ($this->test_environment == DoctrineCrudGeneratorInterface::TEST_ENVIRONMENT_BEHAT) {
-            $this->generateBehatFeature();
-        } else {
-            $this->generateTestClass();
-        }
+        $this->generateTestClass();
 
         $this->generateConfiguration();
     }
@@ -219,25 +214,6 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator implements Doctrin
         ));
     }
 
-    protected function generateBehatFeature()
-    {
-        $parts = explode('\\', $this->entity);
-        $entityClass = array_pop($parts);
-        $entityNamespace = implode('\\', $parts);
-
-        $dir    = $this->bundle->getPath() .'/Features';
-        $target = $dir .'/'. str_replace('\\', '/', $entityNamespace).'/'. $entityClass .'CRUD.feature';
-
-        $this->renderFile('Features/CRUD.feature.twig', $target, array(
-            'route_prefix'      => $this->routePrefix,
-            'fields'            => $this->metadata->fieldMappings,
-            'entity_class'      => $entityClass,
-            'namespace'         => $this->bundle->getNamespace(),
-            'entity'            => $this->entity,
-            'bundle'            => $this->bundle->getName(),
-        ));
-    }
-
     /**
      * Generates the functional test class only.
      *
@@ -248,7 +224,7 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator implements Doctrin
         $entityClass = array_pop($parts);
         $entityNamespace = implode('\\', $parts);
 
-        $dir    = $this->bundle->getPath() .'/Tests/Controller';
+        $dir    = $this->bundle->getPath() .'/Tests/Controller/Admin';
         $target = $dir .'/'. str_replace('\\', '/', $entityNamespace).'/'. $entityClass .'CRUDControllerTest.php';
 
         $formClassName = $entityClass.'Type';
@@ -394,19 +370,5 @@ class DoctrineCrudGenerator extends BaseDoctrineCrudGenerator implements Doctrin
         return array_filter($this->actions, function($item) {
             return in_array($item, array('show', 'edit', 'delete'));
         });
-    }
-
-    public function testEnvironment($test_environment)
-    {
-        $test_environments = array(
-            DoctrineCrudGeneratorInterface::TEST_ENVIRONMENT_BEHAT,
-            DoctrineCrudGeneratorInterface::TEST_ENVIRONMENT_PHPUNIT
-        );
-
-        if (!in_array($test_environment, $test_environments)) {
-            throw new \InvalidArgumentException('test_environment must be ', json_encode($test_environments));
-        }
-
-        $this->test_environment = $test_environment;
     }
 }

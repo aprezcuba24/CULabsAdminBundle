@@ -14,7 +14,7 @@ Instlación
 ```json
 {
     "require": {
-        "culabs/admin-bundle": "2.6.*@dev"
+        "culabs/admin-bundle": "2.8.*@dev"
     }
 }
 ```
@@ -105,6 +105,42 @@ parameters:
       product:
         route: admin_product
         icon:  fa-gear
+```
+Crear una clase base para las pruebas con la siguiente, Donde se tenga un factory para crar usuarios.
+```php
+namespace AppBundle\Tests;
+
+use CULabs\TestingBundle\Testing\WebTestCase as BaseWebTestCase;
+use CULabs\TestingBundle\Testing\FormTrait;
+use CULabs\TestingBundle\Testing\SecurityTrait;
+use CULabs\TestingBundle\Testing\AssertionsTrait;
+use CULabs\TestingBundle\Testing\DatabaseTrait;
+use CULabs\TestingBundle\Testing\NavigateTrait;
+use Faker\Factory;
+use AppBundle\Entity\User\User;
+
+class WebTestCase extends BaseWebTestCase
+{
+	use NavigateTrait, AssertionsTrait, DatabaseTrait, SecurityTrait, FormTrait;
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function prepareFactories()
+	{
+		$this->factoryEntity(User::class, function ($data){
+			$faker = Factory::create();
+
+			return array_merge([
+				'name' => $faker->name,
+				'username' => uniqid(),
+				'email' => $faker->email,
+				'PlainPassword' => uniqid(),
+				'role' => ['ROLE_SUPER_ADMIN'],
+			], $data);
+		});
+	}
+}
 ```
 Configurar la seguridad para acceder a las acciones en ``security.yml``
 ```yaml
